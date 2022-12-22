@@ -34,3 +34,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# storybook demo files
+/stories/assets
+/stories/button.css
+/stories/Button.stories.tsx
+/stories/Button.tsx
+/stories/header.css
+/stories/Header.stories.tsx
+/stories/Header.tsx
+/stories/Introduction.stories.mdx
+/stories/page.css
+/stories/Page.stories.tsx
+/stories/Page.tsx
+

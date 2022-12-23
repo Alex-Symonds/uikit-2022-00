@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import IconPlusSvg from './IconPlus';
 import IconReloadSvg from './IconReload';
 import { css, ThemeProvider } from 'styled-components'
-import { cssVariables } from './Theme';
+import { PALETTE, FONT } from './Theme';
 import { isBlank } from './utils';
 
 
@@ -88,19 +88,6 @@ interface ButtonThemeProps{
 
 
 // || styled-components: themes, selector, components
-Button.defaultProps = {
-    theme: {
-        mainColor: 'var(--colorWhite)',
-        mainBackground: 'var(--colorPrimary)',
-        mainBorder: 'transparent',
-    
-        hoverBackground: 'var(--colorHover)',
-        activeBackground: 'var(--colorActive)',
-
-        disabledBackground: 'var(--colorDisabled)'
-    }
-}
-
 enum ButtonTheme{
     primary = "primary",
     primaryWhite = "primaryWhite",
@@ -111,83 +98,102 @@ enum ButtonTheme{
     flatWhite = "flatWhite",
 }
 
+Button.defaultProps = {
+    theme: {
+        mainColor: PALETTE.white,
+        mainBackground: PALETTE.primary,
+        mainBorder: 'transparent',
+    
+        hoverBackground: PALETTE.hover,
+        activeBackground: PALETTE.active,
+
+        disabledBackground: PALETTE.disabled
+    }
+}
+
 const PrimaryTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorWhite)',
-    mainBackground: 'var(--colorPrimary)',
+    mainColor: PALETTE.white,
+    mainBackground: PALETTE.primary,
     mainBorder: 'transparent',
 
-    hoverBackground: 'var(--colorHover)',
-    activeBackground: 'var(--colorActive)',
+    hoverBackground: PALETTE.hover,
+    activeBackground: PALETTE.active,
 
-    disabledBackground: 'var(--colorDisabled)'
+    disabledBackground: PALETTE.disabled
 };
 
 const PrimaryWhiteTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorPrimary)',
-    mainBackground: 'var(--colorWhite)',
+    mainColor: PALETTE.primary,
+    mainBackground: PALETTE.white,
     mainBorder: 'transparent',
 
-    hoverBackground: 'var(--colorWhiteStrong)',
+    hoverBackground: PALETTE.whiteStrong,
 
-    disabledBackground: 'var(--colorWhiteMedium)'
+    disabledBackground: PALETTE.whiteMedium
 }
 
 const SecondaryTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorPrimary)',
+    mainColor: PALETTE.primary,
     mainBackground: 'transparent',
-    mainBorder: 'var(--colorPrimary)',
+    mainBorder: PALETTE.primary,
 
-    hoverBackground: 'var(--colorPrimaryFaint)',
-    activeBackground: 'var(--colorPrimaryMedium)',
+    hoverBackground: PALETTE.primaryFaint,
+    activeBackground: PALETTE.primaryMedium,
 
-    disabledBorder: 'var(--colorPrimaryStrong)',
-    disabledColor: 'var(--colorPrimaryStrong)'
+    disabledBorder: PALETTE.primaryStrong,
+    disabledColor: PALETTE.primaryStrong
 }
 
 const SecondaryWhiteTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorWhite)',
+    mainColor: PALETTE.white,
     mainBackground: 'transparent',
-    mainBorder: 'var(--colorWhite)',
+    mainBorder: PALETTE.white,
 
-    hoverBackground: 'var(--colorWhiteExtraFaint)',
-    activeBackground: 'var(--colorWhiteFaint)',
+    hoverBackground: PALETTE.whiteExtraFaint,
+    activeBackground: PALETTE.whiteFaint,
 
-    disabledBorder: 'var(--colorWhiteMedium)',
-    disabledColor: 'var(--colorWhiteMedium)'
+    disabledBorder: PALETTE.whiteMedium,
+    disabledColor: PALETTE.whiteMedium
 }
 
 const SecondaryDarkTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorBlack)',
+    mainColor: PALETTE.black,
     mainBackground: 'transparent',
-    mainBorder: 'var(--colorBlack)',
+    mainBorder: PALETTE.black,
 
-    hoverBackground: 'var(--colorBlackFaint)',
-    activeBackground: 'var(--colorBlackMedium)',
+    hoverBackground: PALETTE.blackFaint,
+    activeBackground: PALETTE.blackMedium,
 
-    disabledBorder: 'var(--colorBlackHeavy)',
-    disabledColor: 'var(--colorBlackHeavy)'
+    disabledBorder: PALETTE.blackHeavy,
+    disabledColor: PALETTE.blackHeavy
 }
 
 const FlatTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorPrimary)',
+    mainColor: PALETTE.primary,
     mainBackground: 'transparent',
     mainBorder: 'transparent',
 
-    hoverBackground: 'var(--colorPrimaryFaint)',
-    activeBackground: 'var(--colorPrimaryMedium)',
+    hoverBackground: PALETTE.primaryFaint,
+    activeBackground: PALETTE.primaryMedium,
 
-    disabledColor: 'var(--colorPrimaryStrong)'
+    disabledColor: PALETTE.primaryStrong
 }
 
 const FlatWhiteTheme : ButtonThemeProps = {
-    mainColor: 'var(--colorWhite)',
+    mainColor: PALETTE.white,
     mainBackground: 'transparent',
     mainBorder: 'transparent',
 
-    hoverBackground: 'var(--colorWhiteExtraFaint)',
-    activeBackground: 'var(--colorWhiteFaint)',
+    hoverBackground: PALETTE.whiteExtraFaint,
+    activeBackground: PALETTE.whiteFaint,
 
-    disabledColor: 'var(--colorWhiteMedium)'
+    disabledColor: PALETTE.whiteMedium
+}
+
+
+function getTheme(color : ButtonColor, type : ButtonType) : ButtonThemeProps{
+    const themeEnum = getThemeEnum(color, type);
+    return themePicker(themeEnum);
 }
 
 
@@ -232,7 +238,7 @@ function getThemeEnum(color : ButtonColor, type : ButtonType) : ButtonTheme{
     }
 }
 
-const getTheme = (style : ButtonTheme) : ButtonThemeProps => {
+const themePicker = (style : ButtonTheme) : ButtonThemeProps => {
     switch(style){
         case ButtonTheme.primary:
             return PrimaryTheme;
@@ -273,19 +279,18 @@ const buttonResetCss = css`
 
 
 const StyledButton = styled.button`
-    ${ cssVariables }
     ${ buttonResetCss }
 
     align-items: center;
     background: ${ props => props.theme.mainBackground }; 
-    border-radius: ${ (props : StyledButtonProps) => props.circle ? "9999px" :  "0.25rem"};
+    border-radius: ${ (props : StyledButtonProps) => props.circle ? "9999px" :  "0.25rem" };
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
     box-sizing: border-box;
     color: ${ props => props.theme.mainColor };
     display: flex;
-    font-family: var(--fontMain);
+    font-family: ${ FONT.main };
     justify-content: center;
-    padding: ${ (props : StyledButtonProps) => props.labelExists ? "0.625rem 1.25rem" : "0.625rem"};
+    padding: ${ (props : StyledButtonProps) => props.labelExists ? "0.625rem 1.25rem" : "0.625rem" };
     width: ${ (props : StyledButtonProps) => props.width ? props.width : "auto" };
 
     &:active {
@@ -317,10 +322,8 @@ const StyledSpan = styled.span<Pick<ButtonPropsInternal, "icon">>`
 export function Button({circle, color, disabled, icon, label, loader, onClick, type, width} : ButtonPropsInternal){
 
     const labelExists : boolean = !isBlank(label);
-    const themeEnum = getThemeEnum(color, type);
-    const theme : ButtonThemeProps = getTheme(themeEnum);
+    const theme = getTheme(color, type);
     const iconColor : string = disabled && ("disabledColor" in theme) && typeof theme.disabledColor === "string" ? theme.disabledColor : theme.mainColor;
-
 
     if(loader){
         return  <ThemeProvider theme = { theme }>

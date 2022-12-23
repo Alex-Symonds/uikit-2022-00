@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider } from 'styled-components';
-import { cssVariables } from './Theme';
+import { PALETTE, EFFECT } from './Theme';
 import { isBlank } from './utils';
 import Paragraph from './Paragraph';
 
@@ -26,25 +26,25 @@ interface BadgeTheme{
 }
 
 const PrimaryTheme : BadgeTheme = {
-    background: 'var(--colorPrimary)',
-    borderColor: 'var(--colorPrimary)',
-    color: 'var(--colorWhite)',
+    background: PALETTE.primary,
+    borderColor: PALETTE.primary,
+    color: PALETTE.white,
     shadow: 'none' 
 }
 
 const SecondaryTheme : BadgeTheme = {
     background: 'transparent',
-    borderColor: 'var(--colorPrimary)',
-    color: 'var(--colorPrimary)',
+    borderColor: PALETTE.primary,
+    color: PALETTE.primary,
     shadow: 'none',
     filter: 'drop-shadow(0 4px 4px rgba(51,51,51,0.04)) drop-shadow(0 4px 16px rgba(51,51,51,0.08))'
 }
 
 const WhiteTheme : BadgeTheme = {
-    background: 'white',
-    borderColor: 'var(--colorGreyL)',
-    color: 'var(--colorPrimary)',
-    shadow: 'var(--shadow)'
+    background: PALETTE.white,
+    borderColor: PALETTE.grayL,
+    color: PALETTE.primary,
+    shadow: EFFECT.shadow
 }
 
 function getTheme(type : BadgeType | undefined){
@@ -64,7 +64,6 @@ function getTheme(type : BadgeType | undefined){
 const StyledBadge = styled.div.attrs(props => ({
     filter: props.theme.filter || "none"
 }))`
-    ${cssVariables}
     background: ${props => props.theme.background};
     border: 1px solid ${props => props.theme.borderColor};
     border-radius: 6.25rem;
@@ -99,5 +98,4 @@ export default function Badge({text, type} : BadgeProps){
                     </StyledBadgeText>
                 </StyledBadge>
     </ThemeProvider>
-
 }

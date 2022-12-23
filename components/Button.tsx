@@ -291,7 +291,7 @@ const StyledButton = styled.button`
     font-family: ${ FONT.main };
     justify-content: center;
     padding: ${ (props : StyledButtonProps) => props.labelExists ? "0.625rem 1.25rem" : "0.625rem" };
-    width: ${ (props : StyledButtonProps) => props.width || "auto" };
+    width: ${ (props : StyledButtonProps) => props.width ? props.width : "auto" };
 
     &:active {
         background: ${ props => props.theme.activeBackground ? props.theme.activeBackground : props.theme.mainBackground };

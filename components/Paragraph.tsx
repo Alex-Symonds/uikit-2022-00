@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
-import { cssVariables } from './Theme';
+import { PALETTE, FONT } from './Theme';
 
 interface ParagraphProps{
     color?: string,
@@ -55,13 +55,12 @@ interface StyledParagraphProps{
 }
 
 const StyledParagraph = styled.p.attrs((props : StyledParagraphProps) => ({
-    color: props.color || 'var(--colorBlack)',
+    color: props.color || PALETTE.black,
     fontWeight: props.fontWeight === "default" ? "400" : props.fontWeight
 }))`
-    ${ cssVariables };
     ${ resetP }
     color: ${ props => props.color };
-    font-family: var(--fontMain);
+    font-family: ${ FONT.main };
     font-size: ${ props => props.theme.fontSize };
     font-weight: ${ props => props.fontWeight };
     line-height: ${ props => props.theme.lineHeight };

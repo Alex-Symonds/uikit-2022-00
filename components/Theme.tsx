@@ -36,7 +36,9 @@ export const cssVariables = css`
     --colorCode: #428BF9;
 
     --fontHeading: Montserrat, Tahoma, sans-serif;
-    --fontParagraphs: Roboto, Arial, Helvetica, sans-serif;
+    --fontMain: Roboto, Arial, Helvetica, sans-serif;
+
+    --shadow: 0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 4px 16px 0 rgba(51, 51, 51, 0.08);
 `;
 
 /*

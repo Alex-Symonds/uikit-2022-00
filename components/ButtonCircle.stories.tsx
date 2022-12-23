@@ -2,7 +2,6 @@ import React from 'react';
 import ButtonCircle from './ButtonCircle';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ButtonColor, ButtonType } from './Button';
-//import { ButtonStyles } from './Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

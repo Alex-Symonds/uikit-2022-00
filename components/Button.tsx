@@ -13,34 +13,10 @@ import IconPlusSvg from './IconPlus';
 import IconReloadSvg from './IconReload';
 import { css, ThemeProvider } from 'styled-components'
 import { cssVariables } from './Theme';
+import { isBlank } from './utils';
 
 
 // || Non-Default Exports
-// export enum ButtonStyles{
-//     primary = "primary",
-//     primaryWhite = "primaryWhite",
-//     secondary = "secondary",
-//     secondaryWhite = "secondaryWhite",
-//     secondaryDark = "secondaryDark",
-//     flat = "flat",
-//     flatWhite = "flatWhite",
-// }
-
-// export interface ButtonIconProps{
-//     disabled: boolean,
-//     loader: boolean,
-//     style: ButtonStyles,
-//     onClick?: () => void;
-// }
-
-// export interface ButtonLabelProps{
-//     disabled: boolean,
-//     loader: boolean,
-//     style: ButtonStyles,
-//     label: string,
-//     onClick?: () => void;
-// }
-
 export enum ButtonType{
     primary = "primary",
     secondary = "secondary",
@@ -51,16 +27,6 @@ export enum ButtonColor{
     color = "color",
     white = "white",
     dark = "dark"
-}
-
-enum ButtonTheme{
-    primary = "primary",
-    primaryWhite = "primaryWhite",
-    secondary = "secondary",
-    secondaryWhite = "secondaryWhite",
-    secondaryDark = "secondaryDark",
-    flat = "flat",
-    flatWhite = "flatWhite",
 }
 
 export interface ButtonIconProps{
@@ -91,17 +57,6 @@ export function setLabel(label : any) : string{
 
 
 // || Interfaces
-// interface ButtonPropsInternal{
-//     circle?: boolean,
-//     disabled: boolean,
-//     icon?: boolean,
-//     label?: string,
-//     loader: boolean,
-//     style: ButtonStyles,
-//     width: string,
-//     onClick?: () => void;
-// }
-
 interface ButtonPropsInternal{
     circle?: boolean,
     color: ButtonColor,
@@ -144,6 +99,16 @@ Button.defaultProps = {
 
         disabledBackground: 'var(--colorDisabled)'
     }
+}
+
+enum ButtonTheme{
+    primary = "primary",
+    primaryWhite = "primaryWhite",
+    secondary = "secondary",
+    secondaryWhite = "secondaryWhite",
+    secondaryDark = "secondaryDark",
+    flat = "flat",
+    flatWhite = "flatWhite",
 }
 
 const PrimaryTheme : ButtonThemeProps = {
@@ -226,6 +191,47 @@ const FlatWhiteTheme : ButtonThemeProps = {
 }
 
 
+function getThemeEnum(color : ButtonColor, type : ButtonType) : ButtonTheme{
+
+    // In the absence of a "true" dark theme, return the darkest of the available themes.
+    if(color === ButtonColor.dark){
+        switch(type){
+            case ButtonType.primary:
+                return ButtonTheme.primary;
+
+            case ButtonType.flat:
+                return ButtonTheme.flat;
+
+            default:
+                return ButtonTheme.secondaryDark;
+        }
+    }
+
+    if(color === ButtonColor.white){
+        switch(type){
+            case ButtonType.primary:
+                return ButtonTheme.primaryWhite;
+
+            case ButtonType.flat:
+                return ButtonTheme.flatWhite;
+
+            default:
+                return ButtonTheme.secondaryWhite;
+        }
+    }
+
+    switch(type){
+        case ButtonType.primary:
+            return ButtonTheme.primary;
+           
+        case ButtonType.flat:
+            return ButtonTheme.flat;
+
+        default:
+            return ButtonTheme.secondary;
+    }
+}
+
 const getTheme = (style : ButtonTheme) : ButtonThemeProps => {
     switch(style){
         case ButtonTheme.primary:
@@ -277,7 +283,7 @@ const StyledButton = styled.button`
     box-sizing: border-box;
     color: ${ props => props.theme.mainColor };
     display: flex;
-    font-family: var(--fontParagraphs);
+    font-family: var(--fontMain);
     justify-content: center;
     padding: ${ (props : StyledButtonProps) => props.labelExists ? "0.625rem 1.25rem" : "0.625rem"};
     width: ${ (props : StyledButtonProps) => props.width ? props.width : "auto" };
@@ -308,84 +314,9 @@ const StyledSpan = styled.span<Pick<ButtonPropsInternal, "icon">>`
 
 
 // || export default Button
-// export function Button({circle, disabled, icon, label, loader, onClick, style, width} : ButtonPropsInternal){
-
-//     const labelExists : boolean = label !== '' && label !== undefined && label !== null;
-//     const theme : ThemeProps = getTheme(style);
-//     const iconColor : string = disabled && ("disabledColor" in theme) && typeof theme.disabledColor === "string" ? theme.disabledColor : theme.mainColor;
-
-//     if(loader){
-//         return  <ThemeProvider theme = { theme }>
-//                     <StyledButton   circle = { circle } labelExists = { labelExists } width = { width }
-//                                     disabled = { disabled } onClick = { onClick }>
-//                         <IconReloadSvg 
-//                             color = { iconColor }
-//                             size = { 24 }
-//                         />
-//                     </StyledButton>
-//                 </ThemeProvider>
-//     }
-
-//     return  <ThemeProvider theme = { theme }>
-//                 <StyledButton   circle = { circle } labelExists = { labelExists }
-//                                 disabled = { disabled } onClick = { onClick }>
-//                     {icon &&
-//                         <IconPlusSvg color = { iconColor } />
-//                     }
-//                     {labelExists &&
-//                         <StyledSpan icon={icon}>
-//                             {label}
-//                         </StyledSpan>                      
-//                     }
-//                 </StyledButton>
-//             </ThemeProvider>
-// }
-
-function getThemeEnum(color : ButtonColor, type : ButtonType) : ButtonTheme{
-
-    // There is no "dark" theme for Primary or Flat, only color or white.
-    // Color is darker than white.
-    if(color === ButtonColor.dark){
-        switch(type){
-            case ButtonType.primary:
-                return ButtonTheme.primary;
-
-            case ButtonType.flat:
-                return ButtonTheme.flat;
-
-            default:
-                return ButtonTheme.secondaryDark;
-        }
-    }
-
-    if(color === ButtonColor.white){
-        switch(type){
-            case ButtonType.primary:
-                return ButtonTheme.primaryWhite;
-
-            case ButtonType.flat:
-                return ButtonTheme.flatWhite;
-
-            default:
-                return ButtonTheme.secondaryWhite;
-        }
-    }
-
-    switch(type){
-        case ButtonType.primary:
-            return ButtonTheme.primary;
-           
-        case ButtonType.flat:
-            return ButtonTheme.flat;
-
-        default:
-            return ButtonTheme.secondary;
-    }
-}
-
 export function Button({circle, color, disabled, icon, label, loader, onClick, type, width} : ButtonPropsInternal){
 
-    const labelExists : boolean = label !== '' && label !== undefined && label !== null;
+    const labelExists : boolean = !isBlank(label);
     const themeEnum = getThemeEnum(color, type);
     const theme : ButtonThemeProps = getTheme(themeEnum);
     const iconColor : string = disabled && ("disabledColor" in theme) && typeof theme.disabledColor === "string" ? theme.disabledColor : theme.mainColor;

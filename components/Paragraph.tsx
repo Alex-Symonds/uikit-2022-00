@@ -10,7 +10,7 @@ interface ParagraphProps{
 }
 
 const p1Theme = {
-    fontSize: "1.5rem",
+    fontSize: "1.25rem",
     lineHeight: "1.75rem",
     boldWeight: "700"
 }
@@ -60,7 +60,7 @@ const StyledParagraph = styled.p.attrs((props : StyledParagraphProps) => ({
 }))`
     ${ cssVariables };
     ${ resetP }
-    color: ${ props => props.color  };
+    color: ${ props => props.color };
     font-family: var(--fontMain);
     font-size: ${ props => props.theme.fontSize };
     font-weight: ${ props => props.fontWeight };

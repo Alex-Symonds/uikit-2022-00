@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
-import { PALETTE, FONT } from './Theme';
+import { PALETTE, p1, p2, p3 } from './Theme';
 
 interface ParagraphProps{
     color?: string,
@@ -10,20 +10,14 @@ interface ParagraphProps{
 }
 
 const p1Theme = {
-    fontSize: "1.25rem",
-    lineHeight: "1.75rem",
     boldWeight: "700"
 }
 
 const p2Theme = {
-    fontSize: "1rem",
-    lineHeight: "1.5rem",
     boldWeight: "500"
 }
 
 const p3Theme = {
-    fontSize: "0.8125rem",
-    lineHeight: "1.25rem",
     boldWeight: "700"
 }
 
@@ -51,31 +45,43 @@ const resetP = css`
 
 interface StyledParagraphProps{
     color?: string,
-    fontWeight: string
+    bold: boolean,
+    pSize: number
 }
 
-const StyledParagraph = styled.p.attrs((props : StyledParagraphProps) => ({
-    color: props.color || PALETTE.black,
-    fontWeight: props.fontWeight === "default" ? "400" : props.fontWeight
-}))`
+const StyledParagraph = styled.p`
     ${ resetP }
-    color: ${ props => props.color };
-    font-family: ${ FONT.main };
-    font-size: ${ props => props.theme.fontSize };
-    font-weight: ${ props => props.fontWeight };
-    line-height: ${ props => props.theme.lineHeight };
+
+    ${
+        (props : StyledParagraphProps) => {
+            switch(props.pSize){
+                case 1:
+                    return p1;
+                case 3:
+                    return p3;
+                default:
+                    return p2;
+            }
+        }
+    }
+
+    color: ${ props => props.color || PALETTE.black };
+    font-weight: ${ (props : any) => props.bold ? props.theme.fontWeight : "400" };
     width: fit-content;
 `;
+
 
 export default function Paragraph({color, size, bold, children} : ParagraphProps){
     const theme = themePicker(size);
     return <ThemeProvider theme={theme}>
             <StyledParagraph    color = {color}
-                                fontWeight = { bold ? theme.boldWeight : "default" } >
+                                bold = { bold || false } 
+                                pSize = { size || 2 }>
                 {children}
             </StyledParagraph>
         </ThemeProvider>
 }
+
 
 
 

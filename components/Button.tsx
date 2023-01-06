@@ -331,7 +331,7 @@ export function Button({circle, color, disabled, icon, label, loader, onClick, t
                                     disabled = { disabled } onClick = { onClick }>
                         <IconReloadSvg 
                             color = { iconColor }
-                            size = { 24 }
+                            size = { ICON_SIZES.medium }
                         />
                     </StyledButton>
                 </ThemeProvider>

@@ -1,12 +1,13 @@
 import React from 'react';
+import {ICON_SIZES} from './Theme';
 
 interface IconPlusSvgProps{
     color: string,
-    size?: number
+    size?: ICON_SIZES.small | ICON_SIZES.medium
 }
 
 export default function IconPlusSvg({ color, size } : IconPlusSvgProps){
-    size = size ? size : 24;
+    size = size ?? ICON_SIZES.medium;
     
     return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path   fill-rule="evenodd"

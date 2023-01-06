@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import IconPlusSvg from './IconPlus';
 import IconReloadSvg from './IconReload';
 import { css, ThemeProvider } from 'styled-components'
-import { PALETTE, FONT } from './Theme';
+import { PALETTE, FONT, LAYOUT, ICON_SIZES } from './Theme';
 import { isBlank } from './utils';
 
 
@@ -283,7 +283,7 @@ const StyledButton = styled.button`
 
     align-items: center;
     background: ${ props => props.theme.mainBackground }; 
-    border-radius: ${ (props : StyledButtonProps) => props.circle ? "9999px" :  "0.25rem" };
+    border-radius: ${ (props : StyledButtonProps) => props.circle ? "9999px" :  LAYOUT.borderRadius };
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
     box-sizing: border-box;
     color: ${ props => props.theme.mainColor };
@@ -341,7 +341,7 @@ export function Button({circle, color, disabled, icon, label, loader, onClick, t
                 <StyledButton   circle = { circle } labelExists = { labelExists }
                                 disabled = { disabled } onClick = { onClick }>
                     {icon &&
-                        <IconPlusSvg color = { iconColor } />
+                        <IconPlusSvg color = { iconColor } size = {ICON_SIZES.medium} />
                     }
                     {labelExists &&
                         <StyledSpan icon={icon}>

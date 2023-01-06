@@ -5,6 +5,36 @@ import CheckIcon from './IconCheck';
 import MinusIcon from './IconMinus';
 
 
+const StyledLabel = styled.label<Pick<CheckboxProps, "disabled" | "error">>`
+    font-family: ${ FONT.main };
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    align-items: center;
+
+    display: grid;
+    grid-template-columns: 1.5rem auto;
+    gap: 0.75rem;
+
+    position: relative;
+
+    color: ${ props => {
+        if(props.disabled && !props.error){
+            return PALETTE.blackHeavy
+        }
+        else if(props.error){
+            return PALETTE.red;
+        }
+        return "inherit"
+    }};
+
+    & svg {
+        position: absolute;
+        top: calc(.75rem - 8px);
+        left: calc(.75rem - 8px);
+    }
+`;
+
 const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
     appearance: none;
     background-color: #fff;
@@ -86,36 +116,6 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
 
 `;
 
-const StyledLabel = styled.label<Pick<CheckboxProps, "disabled" | "error">>`
-    font-family: ${ FONT.main };
-    font-size: 1rem;
-    line-height: 1.5rem;
-
-    align-items: center;
-
-    display: grid;
-    grid-template-columns: 1.5rem auto;
-    gap: 0.75rem;
-
-    position: relative;
-
-    color: ${ props => {
-        if(props.disabled && !props.error){
-            return PALETTE.blackHeavy
-        }
-        else if(props.error){
-            return PALETTE.red;
-        }
-        return "inherit"
-    }};
-
-    & svg {
-        position: absolute;
-        top: calc(.75rem - 8px);
-        left: calc(.75rem - 8px);
-    }
-`;
-
 
 interface CheckboxProps{
     checked: boolean,
@@ -131,7 +131,7 @@ interface CheckboxProps{
 
 export default function Checkbox({checked, disabled, error, onChange, id, indeterminate, name, text, value} : CheckboxProps){
 
-    // Since styled-components doesn't appear to understand "indeterminate={indeterminate}"
+    // styled-components doesn't appear to understand "indeterminate={indeterminate}", so adjust it this way instead
     const checkboxRef = React.useRef<HTMLInputElement>(null);
     React.useEffect(() => {
         if(checkboxRef.current === null){
@@ -145,7 +145,7 @@ export default function Checkbox({checked, disabled, error, onChange, id, indete
             <StyledCheckbox checked={checked} ref={checkboxRef} type="checkbox" disabled={disabled} id={id} name={name} value={value} error={error} onChange={onChange}/>
             {text}
             {
-                checked && !indeterminate 
+                !indeterminate && checked
                 && <CheckIcon color={ PALETTE.white } size={ ICON_SIZES.small } />
             }
             {

@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import IconPlusSvg from './IconPlus';
 import IconReloadSvg from './IconReload';
 import { css, ThemeProvider } from 'styled-components'
-import { PALETTE, FONT, LAYOUT } from './Theme';
+import { PALETTE, FONT, LAYOUT, ICON_SIZES } from './Theme';
 import { isBlank } from './utils';
 
 
@@ -341,7 +341,7 @@ export function Button({circle, color, disabled, icon, label, loader, onClick, t
                 <StyledButton   circle = { circle } labelExists = { labelExists }
                                 disabled = { disabled } onClick = { onClick }>
                     {icon &&
-                        <IconPlusSvg color = { iconColor } />
+                        <IconPlusSvg color = { iconColor } size = {ICON_SIZES.medium} />
                     }
                     {labelExists &&
                         <StyledSpan icon={icon}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { ICON_SIZES } from './Theme';
 
-
 interface IconMinusSvgProps{
     color: string
 }
+
 
 export default function IconMinus({color} : IconMinusSvgProps){
 

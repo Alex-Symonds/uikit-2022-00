@@ -1,30 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import { isIndexSignatureDeclaration } from 'typescript';
 import {SHADOW, PALETTE, LAYOUT} from './Theme';
 
-const StyledContextMenu = styled.div<Coords>`
-    position: absolute;
-    top: ${props => props.y}px;
-    left: ${props => props.x}px;
-
-    width: 15.25rem;
-    padding: 0.25rem 0 0.35rem;
-    box-sizing: border-box;
-    background: ${PALETTE.white};
-    overflow: hidden;
-    border-radius: ${LAYOUT.borderRadius};
-    box-shadow: ${ SHADOW.contextMenu }
-`;
-
-interface ContextMenuProps{
-    parentRef: React.RefObject<HTMLElement>,
-    children?: React.ReactNode
-}
 
 interface Coords{
     x: number,
     y: number
+}
+const StyledContextMenu = styled.div<Coords>`
+    background: ${PALETTE.white};
+    border-radius: ${LAYOUT.borderRadius};
+    box-shadow: ${ SHADOW.contextMenu };
+    box-sizing: border-box;
+    left: ${props => props.x}px;
+    overflow: hidden;
+    padding: 0.25rem 0 0.35rem;
+    position: fixed;
+    top: ${props => props.y}px;
+    width: 15.25rem;
+`;
+
+
+interface ContextMenuProps{
+    parentRef: React.RefObject<HTMLElement>,
+    children?: React.ReactNode
 }
 
 export default function ContextMenu({ parentRef, children } : ContextMenuProps){
@@ -51,7 +50,7 @@ export default function ContextMenu({ parentRef, children } : ContextMenuProps){
         }
 
         const closeMenu = (e : MouseEvent) => {
-            // Prevent the menu from closing when the user toggles an option
+            // Prevent the menu from closing prematurely when the user toggles an option
             if(contextMenuRef.current !== null && e.composedPath().includes(contextMenuRef.current)){
                 return;
             }

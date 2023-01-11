@@ -9,6 +9,7 @@ export default {
     component: ContextMenuUl,
   } as ComponentMeta<typeof ContextMenuUl>;
 
+
 const Template: ComponentStory<typeof ContextMenuUl> = args => {
     const [isRussia, setIsRussia] = React.useState(false);
     const [isUSA, setIsUSA] = React.useState(true);
@@ -50,16 +51,8 @@ const Template: ComponentStory<typeof ContextMenuUl> = args => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-    listItems: [
-        { display: "Russia", handleClick: () => console.log("Clicked Russia") },
-        { display: "USA", handleClick: () => console.log("Clicked USA"), selected: true },
-        { display: "Germany", handleClick: () => console.log("Clicked Germany") }
-    ]
-}
 
 export const Headed = Template.bind({});
 Headed.args = {
-    ...Default.args,
     heading: "Country"
 }

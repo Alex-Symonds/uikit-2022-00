@@ -10,17 +10,27 @@ export default {
   } as ComponentMeta<typeof ContextMenu>;
 
 
-// Custom context menu requires an event listener on its parent to listen for right click.
-// 
+/* 
+    The custom context menu is designed to be restricted to the space inside a specified parent element 
+    (leaving the rest of the page to the normal context menu).
+    Therefore the story needs a parent wrapper and that wrapper needs a size, so there's an area to click within.
+*/ 
 import styled from 'styled-components';
 const StyledContainer = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: 50vw;
+    height: 10vh;
+    background: yellow;
+    padding: 1rem;
+    box-sizing: border-box;
 `;
+const displaySentence = "Right click in the yellow area to open context menu";
+
 
 const Template: ComponentStory<typeof ContextMenu> = args => {
+    // For the functioning of the right click context menu
     const containerRef = React.useRef<HTMLDivElement>(null);
 
+    // Some state, allowing the options to be selected and deselected
     const [isRussia, setIsRussia] = React.useState(false);
     const [isUSA, setIsUSA] = React.useState(true);
     const [isGermany, setIsGermany] = React.useState(false);
@@ -42,7 +52,7 @@ const Template: ComponentStory<typeof ContextMenu> = args => {
     }
 
     return <StyledContainer ref={containerRef}>
-                <p>Right click to open context menu.</p>
+                <p>{displaySentence}</p>
                 <ContextMenu    parentRef = {containerRef}>
                     <ContextUl 
                         listItems = {[
@@ -94,7 +104,7 @@ const TemplateMultiply: ComponentStory<typeof ContextMenu> = args => {
     }
 
     return <StyledContainer ref={containerRef}>
-                <p>Right click to open context menu</p>
+                <p>{displaySentence}</p>
                 <ContextMenu    parentRef = {containerRef}>
                     <ContextUl
                         heading = "Time"

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {PALETTE, SHADOW, LAYOUT, p3} from './Theme';
+import {PALETTE, p3} from './Theme';
 import {resetCss} from './utils';
 import ContextMenuLi, {MenuItemProps} from './ContextMenuLi';
 

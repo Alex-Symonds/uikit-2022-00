@@ -11,11 +11,7 @@ export default {
 
 
 /* 
-<<<<<<< HEAD
     The operation of the custom context menu is restricted to the space inside a specified parent element 
-=======
-    The custom context menu is designed to be restricted to the space inside a specified parent element 
->>>>>>> ed0a87d6dcbd56b007e12becba5d75008757b33a
     (leaving the rest of the page to the normal context menu).
     Therefore the story needs a parent wrapper and that wrapper needs a size, so there's an area to click within.
 */ 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider } from 'styled-components';
-import { PALETTE, EFFECT } from './Theme';
+import { PALETTE, SHADOW } from './Theme';
 import { isBlank } from './utils';
 import Paragraph from './Paragraph';
 
@@ -44,7 +44,7 @@ const WhiteTheme : BadgeTheme = {
     background: PALETTE.white,
     borderColor: PALETTE.grayL,
     color: PALETTE.primary,
-    shadow: EFFECT.shadow
+    shadow: SHADOW.default
 }
 
 function getTheme(type : BadgeType | undefined){

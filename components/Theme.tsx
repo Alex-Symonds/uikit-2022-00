@@ -1,4 +1,5 @@
 
+import { url } from 'inspector';
 import { css } from 'styled-components';
 
 
@@ -46,8 +47,9 @@ export const enum FONT{
     heading = "Montserrat, Tahoma, sans-serif"
 }
 
-export const enum EFFECT{
-    shadow = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 4px 16px 0 rgba(51, 51, 51, 0.08)"
+export const enum SHADOW{
+    default = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 4px 16px 0 rgba(51, 51, 51, 0.08)",
+    contextMenu = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 14px 24px 0 rgba(51, 51, 51, 0.12)",
 }
 
 export const enum LAYOUT{
@@ -61,6 +63,9 @@ export const enum ICON_SIZES{
     extraLarge = "56px"
 }
 
+export const enum CURSOR_PATH{
+    hand = "/cursorHand.svg"
+}
 
 
 export const p1 = css`

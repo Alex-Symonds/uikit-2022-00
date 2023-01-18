@@ -31,16 +31,16 @@ export enum ButtonColor{
 
 export interface ButtonIconProps{
     color: ButtonColor,
-    disabled: boolean,
-    loader: boolean,
+    disabled?: boolean,
+    loader?: boolean,
     type: ButtonType,
     onClick?: () => void;
 }
 
 export interface ButtonLabelProps{
     color: ButtonColor,
-    disabled: boolean,
-    loader: boolean,
+    disabled?: boolean,
+    loader?: boolean,
     type: ButtonType,
     label: string,
     onClick?: () => void;

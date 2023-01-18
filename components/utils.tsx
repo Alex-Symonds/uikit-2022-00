@@ -17,3 +17,14 @@ export const resetCss = css`
     font-family: inherit;
     vertical-align: baseline;
 `;
+
+
+type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
+
+export function debounce(func : CallbackFunctionVariadicAnyReturn, timeout = 300){
+    let timer : ReturnType<typeof setTimeout>;
+    return function(this : any, ...args : any[]){
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+}

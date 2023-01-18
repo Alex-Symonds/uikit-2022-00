@@ -6,9 +6,9 @@ export default function ButtonLabelIcon({color, disabled, label, loader, onClick
 
     return <Button icon 
                 color = {color}
-                disabled = {disabled}
+                disabled = {disabled === undefined ? false : disabled}
                 label = {setLabel(label)}
-                loader = {loader}
+                loader = {loader === undefined ? false : loader}
                 onClick = {onClick}
                 type = {type}
                 width = {loaderWidth}

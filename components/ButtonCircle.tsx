@@ -6,8 +6,8 @@ export default function ButtonCircle({color, disabled, loader, onClick, type} : 
 
     return <Button circle icon
                 color = {color}
-                disabled = {disabled}
-                loader = {loader}
+                disabled = {disabled === undefined ? false : disabled}
+                loader = {loader === undefined ? false : loader}
                 onClick = {onClick}
                 type = {type}
                 width = {loaderWidth}

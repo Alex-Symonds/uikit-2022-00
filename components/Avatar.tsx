@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PALETTE } from './Theme';
+import Container from './CircleAroundIcon';
 
 export const enum AvatarOptions{
     sunglasses = "sunglasses",
@@ -79,16 +80,16 @@ function getUnicodeAndLabel(emoji : AvatarOptions | undefined){
     }
 }
 
-const StyledDiv = styled.div`
-    border-radius: 50%;
-    background: ${ PALETTE.grayL };
-    height: 3.25rem;
-    width: 3.25rem;
+// const StyledDiv = styled.div`
+//     border-radius: 50%;
+//     background: ${ PALETTE.grayL };
+//     height: 3.25rem;
+//     width: 3.25rem;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+// `;
 
 const StyledAvatarEmoji = styled.span`
     line-height: 1.875rem;
@@ -104,9 +105,9 @@ interface AvatarProps{
 
 export default function Avatar({ emoji } : AvatarProps){
     const data = getUnicodeAndLabel(emoji);
-    return  <StyledDiv>
+    return  <Container color={PALETTE.grayL} size="3.25rem">
                 <StyledAvatarEmoji role="img" aria-label={data.label} >
                     {String.fromCodePoint(data.unicode)}
                 </StyledAvatarEmoji>
-            </StyledDiv>
+            </Container>
 }

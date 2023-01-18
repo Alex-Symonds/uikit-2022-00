@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {PALETTE, p3} from './Theme';
+import {PALETTE, TYPOGRAPHY} from './Theme';
 import {resetCss} from './utils';
 import ContextMenuLi, {MenuItemProps} from './ContextMenuLi';
 
@@ -16,7 +16,7 @@ const StyledMenuUl = styled.ul`
 
 const StyledMenuHeading = styled.h1`
     ${resetCss}
-    ${ p3 }
+    ${ TYPOGRAPHY.p3 }
     background: ${PALETTE.grayM};
     padding: 0.6rem 0.75rem 0.65rem 1rem;
 `;

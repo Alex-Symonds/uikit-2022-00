@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {PALETTE, ICON_SIZES, p2} from './Theme';
+import {PALETTE, ICON_SIZES, TYPOGRAPHY} from './Theme';
 import CheckIcon from './IconCheck';
 import customCursorImg from '../public/cursorHand.svg';
 
 const StyledMenuLi = styled.li`
-    ${ p2 }
+    ${ TYPOGRAPHY.p2 }
 
     background: ${PALETTE.white};
     box-sizing: border-box;

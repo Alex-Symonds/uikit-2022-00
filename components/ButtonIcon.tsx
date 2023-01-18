@@ -6,8 +6,8 @@ export default function ButtonIcon({color, disabled, loader, onClick, type} : Bu
 
     return <Button icon
                 color = {color}
-                disabled = {disabled}
-                loader = {loader}
+                disabled = {disabled === undefined ? false : disabled}
+                loader = {loader === undefined ? false : loader}
                 onClick = {onClick}
                 type = {type}
                 width = {loaderWidth}

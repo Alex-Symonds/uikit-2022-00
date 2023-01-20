@@ -34,6 +34,7 @@ export const enum PALETTE{
     red = "#DB524E",
     redSuper = "#C7302B",
     green = "#27AE60",
+    greenMedium = "rgba(39, 174, 96, .12)",
 
     code = "#428BF9",
 }
@@ -64,25 +65,6 @@ export const enum ICON_SIZES{
 export const enum CURSOR_PATH{
     hand = "/cursorHand.svg"
 }
-
-
-export const p1 = css`
-    font-family: ${ FONT.main };
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-`;
-
-export const p2 = css`
-    font-family: ${ FONT.main };
-    font-size: 1rem;
-    line-height: 1.5rem;
-`;
-
-export const p3 = css`
-    font-family: ${ FONT.main };
-    font-size: 0.8125rem;
-    line-height: 1.25rem;
-`;
 
 export const TYPOGRAPHY = {
     h1: css`

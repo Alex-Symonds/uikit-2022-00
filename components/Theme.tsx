@@ -26,6 +26,7 @@ export const enum PALETTE{
     black = "#111",
     blackFaint = "rgba(17, 17, 17, .04)",
     blackMedium = "rgba(17, 17, 17, .12)",
+    blackA24 = "rgba(17, 17, 17, .24)",
     blackStrong = "rgba(17, 17, 17, .48)",
     blackHeavy = "rgba(17, 17, 17, .56)",
 
@@ -35,7 +36,9 @@ export const enum PALETTE{
     redSuper = "#C7302B",
     green = "#27AE60",
     greenMedium = "rgba(39, 174, 96, .12)",
+    greenPale = "#CBECD9",
 
+    autofill = "#FFF5C0",
     code = "#428BF9",
 }
 
@@ -49,6 +52,10 @@ export const enum SHADOW{
     default = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 4px 16px 0 rgba(51, 51, 51, 0.08)",
     contextMenu = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 14px 24px 0 rgba(51, 51, 51, 0.12)",
     hoverFile = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 4px 24px 0 rgba(51, 51, 51, 0.24)",
+    hover = "0 4px 4px 0 rgba(51, 51, 51, 0.04), 0 4px 56px 0 rgba(51, 51, 51, 0.16)",
+    inputError = "0 4px 4px 0 rgba(255, 195, 195, 0.04), 0 4px 40px 0 rgba(255, 195, 195, 0.24)",
+    inputErrorSmall = "0 4px 4px 0 rgba(255, 195, 195, 0.04), 0 4px 12px 0 rgba(255, 195, 195, 0.24)",
+    inputSuccess = "0 4px 4px 0 rgba(39, 174, 96, 0.04), 0 4px 40px 0 rgba(39, 174, 96, 0.24)",
 }
 
 export const enum LAYOUT{

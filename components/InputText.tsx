@@ -44,27 +44,6 @@ const StyledFloatingLabel = styled(StyledLabel)`
     }
 `;
 
-// const StyledFloatingLabel = styled.label<{disabled : boolean}>`
-//     ${resetCss}
-//     ${TYPOGRAPHY.p2}
-//     color: ${ props => props.disabled ? PALETTE.blackMedium : PALETTE.blackStrong};
-//     height: 1.25rem;
-//     left: 1rem;
-// 	pointer-events: none;
-//     position: absolute;
-//     text-align: center;
-//     top: calc(50% - (1.25rem / 2));
-//     transition: 0.2s ease all;
-
-//     ${StyledTextInput}:focus ~ & ,
-//     ${StyledTextInput}:not(:placeholder-shown) ~ &{
-//         ${TYPOGRAPHY.p3}
-//         left: 1rem;
-//         opacity: 1;
-//         top: 0.375rem;
-//     }
-// `;
-
 const StyledIconContainer = styled.div`
     pointer-events: none;
     position: absolute;

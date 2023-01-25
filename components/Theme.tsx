@@ -44,6 +44,7 @@ export const enum PALETTE{
 
 export const enum FONT{
     main = "Roboto, Arial, Helvetica, sans-serif",
+    mainMedium = "RobotoMedium, Arial, Helvetica, sans-serif",
     headingBold = "MontserratBold, Tahoma, sans-serif",
     headingBlack = "MontserratBlack, Tahoma, sans-serif"
 }
@@ -127,5 +128,26 @@ export const TYPOGRAPHY = {
         font-family: ${ FONT.main };
         font-size: 0.8125rem;
         line-height: 1.25rem;
+    `,
+
+    p1Bold: css`
+        font-family: ${ FONT.main };
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        font-weight: 700;
+    `,
+
+    p2Bold: css`
+        font-family: ${ FONT.mainMedium };
+        font-size: 1rem;
+        line-height: 1.5rem;
+        font-weight: 500;
+    `,
+
+    p3Bold: css`
+        font-family: ${ FONT.main };
+        font-size: 0.8125rem;
+        line-height: 1.25rem;
+        font-weight: 700;
     `,
 }

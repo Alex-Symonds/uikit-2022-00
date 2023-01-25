@@ -1,8 +1,6 @@
 import React from 'react';
-import Input from './Input';
+import Input from './InputText';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
-
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

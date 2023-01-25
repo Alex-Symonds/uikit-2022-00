@@ -18,6 +18,19 @@ export const resetCss = css`
     vertical-align: baseline;
 `;
 
+export const visuallyHidden = css`
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+`;
+
+export function convertRemToPixels(rem : number){
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
 
 type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
 

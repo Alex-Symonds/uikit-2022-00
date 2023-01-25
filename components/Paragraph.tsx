@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
-import { PALETTE, p1, p2, p3 } from './Theme';
+import { PALETTE, TYPOGRAPHY } from './Theme';
 
 interface ParagraphProps{
     color?: string,
@@ -56,11 +56,11 @@ const StyledParagraph = styled.p`
         (props : StyledParagraphProps) => {
             switch(props.pSize){
                 case 1:
-                    return p1;
+                    return TYPOGRAPHY.p1;
                 case 3:
-                    return p3;
+                    return TYPOGRAPHY.p3;
                 default:
-                    return p2;
+                    return TYPOGRAPHY.p2;
             }
         }
     }

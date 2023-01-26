@@ -134,8 +134,6 @@ function TagContainer({disabled, readOnly, tags, removeTag} : Pick<I_InputTagsPr
             "expand width to fit children" behaviour.
         */
 
-        console.log("Called");
-
         if( tags === undefined 
             || tagContainerRef === null 
             || tagContainerRef.current === null){
@@ -144,8 +142,6 @@ function TagContainer({disabled, readOnly, tags, removeTag} : Pick<I_InputTagsPr
 
         const width : number = tagContainerRef.current.clientWidth;
         const scrollWidth : number = tagContainerRef.current.scrollWidth;
-
-        console.log(`width === ${width}, scrollWidth === ${scrollWidth}`);
 
         if(scrollWidth > width){
             setOverflowingTags(true);

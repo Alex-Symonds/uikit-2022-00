@@ -24,13 +24,12 @@ const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean
     gap: ${TAG_CONTAINER_GAP};
     max-width: ${props => props.readOnly ? "100%" : TAG_CONTAINER_MAX_WIDTH};
 
-    overflow-y: hidden;
-
     ${ props => {
         if(props.hasOverflow){
             return css`
                 min-width: ${props.readOnly ? "100%" : TAG_CONTAINER_MAX_WIDTH};
                 overflow-x: auto;
+                overflow-y: hidden;
 
                 // Firefox doesn't support the webkit prefixed properties, but does support these two
                 scrollbar-color: ${PALETTE.blackStrong} ${PALETTE.blackMedium};
@@ -55,6 +54,8 @@ const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean
         } 
     }}
 `;
+
+
 
 const StyledTagInput = styled.input.attrs({ type: "text" })`
     ${resetCss}

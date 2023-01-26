@@ -13,6 +13,7 @@ export const enum PALETTE{
     white = "#FFFFFF",
     whiteExtraFaint = "rgba(255, 255, 255, .12)",
     whiteFaint = "rgba(255, 255, 255, .16)",
+    whiteA24 = "rgba(255, 255, 255, .24)",
     whiteMedium = "rgba(255, 255, 255, .56)",
     whiteStrong = "rgba(255, 255, 255, .88)",
 

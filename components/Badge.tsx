@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider } from 'styled-components';
-import { PALETTE, SHADOW } from './Theme';
-import { isBlank } from './utils';
+import { PALETTE, SHADOW, TYPOGRAPHY } from './Theme';
+import { isBlank, resetCss } from './utils';
 import Paragraph from './Paragraph';
 
 
@@ -74,12 +74,15 @@ const StyledBadge = styled.div.attrs(props => ({
     font-family: var(--fontMain);
     max-width: 15rem;
     overflow: hidden;
+    padding: 0.0625rem calc(0.5rem - 1px) 0.0625rem;
     white-space: nowrap;
     width: fit-content;
-    padding: 0.1rem calc(0.5rem - 1px) 0.1rem;
 `;
 
-const StyledBadgeText = styled(Paragraph)`
+const StyledBadgeText = styled.p`
+    ${resetCss}
+    ${TYPOGRAPHY.p3Bold}
+    color: ${props => props.theme.color};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -93,7 +96,7 @@ export default function Badge({text, type} : BadgeProps){
     const theme = getTheme(type);
     return <ThemeProvider theme = {theme}>
                 <StyledBadge>
-                    <StyledBadgeText bold color={theme.color} size={3}>
+                    <StyledBadgeText color={theme.color}>
                         {text}
                     </StyledBadgeText>
                 </StyledBadge>

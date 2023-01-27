@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {PALETTE, ICON_SIZES, TYPOGRAPHY} from './Theme';
-import CheckIcon from './IconCheck';
+import {PALETTE, TYPOGRAPHY} from './Theme';
 import customCursorImg from '../public/cursorHand.svg';
+import Icon from './Icons';
+import { IconMediumId } from './IconsMedium';
 
 const StyledMenuLi = styled.li`
     ${ TYPOGRAPHY.p2 }
@@ -12,6 +13,10 @@ const StyledMenuLi = styled.li`
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0.75rem 0.5rem 1rem;
+
+    svg path{
+        fill: ${PALETTE.black};
+    }
 
     &:hover{
         cursor: url(${customCursorImg}), auto;
@@ -29,7 +34,7 @@ export default function MenuLi({ display, selected, handleClick } : MenuItemProp
         <StyledMenuLi onClick={ () => handleClick() }>
             {display}
             {selected &&
-                <CheckIcon color={PALETTE.black} size={ICON_SIZES.medium}/>
+                <Icon idMedium={IconMediumId.check} />
             }
         </StyledMenuLi>
     )

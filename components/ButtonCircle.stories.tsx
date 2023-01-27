@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonCircle from './ButtonCircle';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ButtonColor, ButtonType } from './Button';
+import { ButtonColorMode, ButtonType } from './Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -9,7 +9,7 @@ export default {
     component: ButtonCircle,
     args: {
       type: ButtonType.primary,
-      color: ButtonColor.color
+      colorMode: ButtonColorMode.color
     },
   } as ComponentMeta<typeof ButtonCircle>;
 

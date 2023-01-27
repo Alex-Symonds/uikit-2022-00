@@ -9,11 +9,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import IconPlusSvg from './IconPlus';
-import IconReloadSvg from './IconReload';
 import { css, ThemeProvider } from 'styled-components'
-import { PALETTE, FONT, LAYOUT, ICON_SIZES } from './Theme';
+import { PALETTE, FONT, LAYOUT } from './Theme';
 import { isBlank } from './utils';
+import Icon, {IconProps} from './Icons';
+import { IconMediumId } from './IconsMedium';
 
 
 // || Non-Default Exports
@@ -23,27 +23,20 @@ export enum ButtonType{
     flat = "flat"
 }
 
-export enum ButtonColor{
+export enum ButtonColorMode{
     color = "color",
     white = "white",
     dark = "dark"
 }
 
-export interface ButtonIconProps{
-    color: ButtonColor,
+export interface I_ButtonProps{
+    colorMode: ButtonColorMode,
     disabled?: boolean,
+    icon?: IconProps,
+    label?: string,
     loader?: boolean,
     type: ButtonType,
-    onClick?: () => void;
-}
-
-export interface ButtonLabelProps{
-    color: ButtonColor,
-    disabled?: boolean,
-    loader?: boolean,
-    type: ButtonType,
-    label: string,
-    onClick?: () => void;
+    onClick: () => void,
 }
 
 export function setLabel(label : any) : string{
@@ -55,24 +48,23 @@ export function setLabel(label : any) : string{
     return labelExists ? label : 'Кнопка';
 }
 
+export function getDefaultIcon(){
+    return {
+        idMedium: IconMediumId.plus
+    }
+}
+
 
 // || Interfaces
-interface ButtonPropsInternal{
+interface I_ButtonPropsInternal extends I_ButtonProps{
     circle?: boolean,
-    color: ButtonColor,
-    disabled: boolean,
-    icon?: boolean,
-    label?: string,
-    loader: boolean,
-    type: ButtonType,
     width: string,
-    onClick?: () => void;
 }
 
 interface StyledButtonProps{
     circle?: boolean,
     labelExists?: boolean,
-    width?: string
+    width?: string,
 }
 
 interface ButtonThemeProps{
@@ -191,16 +183,16 @@ const FlatWhiteTheme : ButtonThemeProps = {
 }
 
 
-function getTheme(color : ButtonColor, type : ButtonType) : ButtonThemeProps{
+function getTheme(color : ButtonColorMode, type : ButtonType) : ButtonThemeProps{
     const themeEnum = getThemeEnum(color, type);
     return themePicker(themeEnum);
 }
 
 
-function getThemeEnum(color : ButtonColor, type : ButtonType) : ButtonTheme{
+function getThemeEnum(color : ButtonColorMode, type : ButtonType) : ButtonTheme{
 
     // In the absence of a "true" dark theme, return the darkest of the available themes.
-    if(color === ButtonColor.dark){
+    if(color === ButtonColorMode.dark){
         switch(type){
             case ButtonType.primary:
                 return ButtonTheme.primary;
@@ -213,7 +205,7 @@ function getThemeEnum(color : ButtonColor, type : ButtonType) : ButtonTheme{
         }
     }
 
-    if(color === ButtonColor.white){
+    if(color === ButtonColorMode.white){
         switch(type){
             case ButtonType.primary:
                 return ButtonTheme.primaryWhite;
@@ -278,20 +270,31 @@ const buttonResetCss = css`
 `;
 
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<StyledButtonProps>`
     ${ buttonResetCss }
 
     align-items: center;
     background: ${ props => props.theme.mainBackground }; 
-    border-radius: ${ (props : StyledButtonProps) => props.circle ? "9999px" :  LAYOUT.borderRadius };
+    border-radius: ${ props  => props.circle ? "9999px" :  LAYOUT.borderRadius };
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
     box-sizing: border-box;
     color: ${ props => props.theme.mainColor };
     display: flex;
     font-family: ${ FONT.main };
     justify-content: center;
-    padding: ${ (props : StyledButtonProps) => props.labelExists ? "0.625rem 1.25rem" : "0.625rem" };
-    width: ${ (props : StyledButtonProps) => props.width ? props.width : "auto" };
+    padding: ${ props  => props.labelExists ? "0.625rem 1.25rem" : "0.625rem" };
+    width: ${ props => props.width ? props.width : "auto" };
+
+    gap: 0.28rem;
+
+    svg {
+        height: 1.5rem;
+        width: 1.5rem;
+
+        path{
+            fill: ${props => props.disabled && props.theme.disabledColor ? props.theme.disabledColor : props.theme.mainColor };
+        }
+    }
 
     &:active {
         background: ${ props => props.theme.activeBackground ? props.theme.activeBackground : props.theme.mainBackground };
@@ -313,40 +316,32 @@ const StyledButton = styled.button`
 `;
 
 
-const StyledSpan = styled.span<Pick<ButtonPropsInternal, "icon">>`
-    padding-left: ${ props => props.icon ? "0.28rem" : "0"};
-`;
+
 
 
 // || export default Button
-export function Button({circle, color, disabled, icon, label, loader, onClick, type, width} : ButtonPropsInternal){
+export function Button({circle, colorMode, disabled, icon, label, loader, onClick, type, width} : I_ButtonPropsInternal){
 
-    const labelExists : boolean = !isBlank(label);
-    const theme = getTheme(color, type);
-    const iconColor : string = disabled && ("disabledColor" in theme) && typeof theme.disabledColor === "string" ? theme.disabledColor : theme.mainColor;
+    const labelExists : boolean = !isBlank(label) && loader !== true;
+    const theme = getTheme(colorMode, type);
 
     if(loader){
-        return  <ThemeProvider theme = { theme }>
-                    <StyledButton   circle = { circle } labelExists = { labelExists } width = { width }
-                                    disabled = { disabled } onClick = { onClick }>
-                        <IconReloadSvg 
-                            color = { iconColor }
-                            size = { ICON_SIZES.medium }
-                        />
-                    </StyledButton>
-                </ThemeProvider>
+        icon = {
+            idMedium: IconMediumId.loader
+        };
+    }
+    else if(icon === undefined && label === undefined){
+        icon = getDefaultIcon();
     }
 
     return  <ThemeProvider theme = { theme }>
-                <StyledButton   circle = { circle } labelExists = { labelExists }
-                                disabled = { disabled } onClick = { onClick }>
-                    {icon &&
-                        <IconPlusSvg color = { iconColor } size = {ICON_SIZES.medium} />
+                <StyledButton   circle = { circle } labelExists = { labelExists } width = { loader ? width : undefined }
+                                disabled = { disabled } onClick = { onClick } >
+                    {icon !== undefined &&
+                        <Icon {...icon} />
                     }
                     {labelExists &&
-                        <StyledSpan icon={icon}>
-                            {label}
-                        </StyledSpan>                      
+                        label
                     }
                 </StyledButton>
             </ThemeProvider>

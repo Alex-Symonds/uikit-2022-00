@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from './Theme';
 import {resetCss} from './utils';
-import CheckIcon from './IconCheck';
 import InputContainer, {StyledLabel} from './InputContainer';
+import Icon from './Icons';
+import { IconMediumId } from './IconsMedium';
 
 const StyledTextInput = styled.input.attrs({ type: "text" })`
     ${resetCss}
@@ -49,18 +50,22 @@ const StyledIconContainer = styled.div`
     position: absolute;
     top: calc(50% - (24px / 2) + 1px);
     right: 0.8rem;
+
+    svg fill{
+        color: ${PALETTE.green};
+    }
 `;
 
 interface I_InputProps{
     description? : string,
-    disabled : boolean,
+    disabled? : boolean,
     errorMsg? : string,
     id : string,
-    isSuccess : boolean,
+    isSuccess? : boolean,
     label : string,
     name : string,
     placeholder?: string,
-    readOnly : boolean,
+    readOnly? : boolean,
     value? : string,
     handleChange: (e : React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -73,15 +78,15 @@ export default function InputText({description, disabled, errorMsg, isSuccess, n
         return <ReadOnly label={label} value={value}/>
     }
 
-    return  <InputContainer description={description} disabled={disabled} errorMsg={errorMsg} isSuccess={!isError && isSuccess} readOnly={false}>
+    return  <InputContainer description={description} disabled={disabled ?? false} errorMsg={errorMsg} isSuccess={!isError && (isSuccess ?? false) } readOnly={false}>
                 <StyledTextInput id={id} name={name} onChange={(e) => handleChange(e)} value={value} placeholder={placeholder} disabled={disabled}/>
-                <StyledFloatingLabel htmlFor={id} disabled={disabled}>
+                <StyledFloatingLabel htmlFor={id} disabled={disabled ?? false}>
                     {label}
                 </StyledFloatingLabel>
                 {
                     isSuccess &&
                     <StyledIconContainer>
-                        <CheckIcon color={PALETTE.green}/>
+                        <Icon idMedium={IconMediumId.check} />
                     </StyledIconContainer>
                 }
             </InputContainer>

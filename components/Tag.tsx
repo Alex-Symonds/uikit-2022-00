@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from './Theme';
-import CloseIcon from './IconClose';
 import {resetCss} from './utils';
+import Icon from './Icons';
+import { IconSmallId } from './IconsSmall';
 
 const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : Boolean }>`
     align-items: center;
@@ -16,6 +17,10 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
     gap: 0.275rem;
     padding: 0.0625rem 0.45rem;
     width: fit-content;
+
+    svg path{
+        fill: ${props => props.theme.close};
+    }
 
     ${
         props => {
@@ -111,13 +116,13 @@ export default function InputTags({color, disabled, showIcon, size, text, handle
                     {
                         showIcon === true && handleClick !== undefined &&
                             <StyledButton onClick={handleClick} >
-                                <CloseIcon color={theme.close} size={ICON_SIZES.small} />
+                                <Icon idSmall={IconSmallId.close} />
                             </StyledButton>
                     }
                     {
                         showIcon === true && handleClick === undefined &&
                             <StyledButton as="div" >
-                                <CloseIcon color={theme.close} size={ICON_SIZES.small} />
+                                <Icon idSmall={IconSmallId.close} />
                             </StyledButton>
                     }
                 </StyledTag>

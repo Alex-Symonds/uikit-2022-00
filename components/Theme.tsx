@@ -34,10 +34,13 @@ export const enum PALETTE{
     redGirl = "#F9E3E3",
     redBoy = "#F9E3E3",
     red = "#DB524E",
+    redA12 = "rgba(219, 82, 78, .12)",
     redSuper = "#C7302B",
     green = "#27AE60",
     greenMedium = "rgba(39, 174, 96, .12)",
     greenPale = "#CBECD9",
+    star = "#FFD912",
+    starA12 = "rgba(255, 217, 18, .12)",
 
     autofill = "#FFF5C0",
     code = "#428BF9",

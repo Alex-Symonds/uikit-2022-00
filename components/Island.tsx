@@ -3,10 +3,11 @@ import styled, { ThemeProvider } from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from './Theme';
 import Badge, {BadgeType} from './Badge';
 import { resetCss } from './utils';
-import Button from './ButtonLabel';
-import { ButtonColor, ButtonType } from './Button';
+import ButtonLabel from './ButtonLabel';
+import { ButtonColorMode, ButtonType } from './Button';
 import SubjectIcon, {Subject} from './IconMediumSubject';
-import IconM, {IconMediumId} from './IconsMedium';
+import Icon from './Icons';
+import { IconMediumId } from './IconsMedium';
 
 const StyledIsland = styled.div`
     background: ${PALETTE.primary};
@@ -187,7 +188,7 @@ export default function Island({progress, subject, text, heading, description, b
                 <StyledHead>{heading}</StyledHead>
                 <StyledDescription>{description}</StyledDescription>
                 <StyledButtonContainer>
-                    <Button color={ButtonColor.white}
+                    <ButtonLabel colorMode={ButtonColorMode.white}
                             disabled={false}
                             label={ buttonLabel}
                             onClick={onClick}
@@ -195,11 +196,11 @@ export default function Island({progress, subject, text, heading, description, b
                     />
                 </StyledButtonContainer>
                 <StyledReqStudent>
-                    <IconM id={IconMediumId.student} />
+                    <Icon idMedium={IconMediumId.student} />
                     {studentReq}
                 </StyledReqStudent>
                 <StyledReqPen>
-                    <IconM id={IconMediumId.pen} />
+                    <Icon idMedium={IconMediumId.pen} />
                     {penReq}
                 </StyledReqPen>
             </StyledLayout>

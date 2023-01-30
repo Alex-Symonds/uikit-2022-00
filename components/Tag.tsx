@@ -4,6 +4,7 @@ import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from './Theme';
 import {resetCss} from './utils';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
+import customCursorImg from '../public/cursorHand.svg';
 
 const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : Boolean }>`
     align-items: center;
@@ -38,8 +39,12 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
                     &:hover{
                         background: ${ props => props.theme.hoverBackground };
 
-                        svg path{
-                            fill: ${ props => props.theme.hoverClose };
+                        svg {
+                            cursor: url(${customCursorImg}), auto;
+
+                            path{
+                                fill: ${ props => props.theme.hoverClose };
+                            }
                         }
                     }
                 `;

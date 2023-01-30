@@ -23,6 +23,7 @@ export const enum PALETTE{
     grayK = "#6B6B6B",
     graySMedium = "rgba(212, 212, 212, .48)",
     graySHeavier = "rgba(212, 212, 212, .56)",
+    grayTabBorder = "rgb(134, 134, 134)",
 
     black = "#111",
     blackFaint = "rgba(17, 17, 17, .04)",

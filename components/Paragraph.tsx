@@ -34,14 +34,6 @@ const themePicker = (size : number | undefined) : any => {
     }
 }
 
-const resetP = css`
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-`;
 
 interface StyledParagraphProps{
     color?: string,
@@ -50,8 +42,6 @@ interface StyledParagraphProps{
 }
 
 const StyledParagraph = styled.p`
-    ${ resetP }
-
     ${
         (props : StyledParagraphProps) => {
             switch(props.pSize){

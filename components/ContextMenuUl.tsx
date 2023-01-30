@@ -3,15 +3,6 @@ import styled, {css} from 'styled-components';
 import {PALETTE, TYPOGRAPHY} from './Theme';
 import ContextMenuLi, {MenuItemProps} from './ContextMenuLi';
 
-const resetUl = css`
-    list-style: none;
-    padding: 0;
-    margin: 0;
-`;
-
-const StyledMenuUl = styled.ul`
-    ${resetUl}
-`;
 
 const StyledMenuHeading = styled.h1`
     ${ TYPOGRAPHY.p3 }
@@ -34,7 +25,7 @@ export default function MenuList({ heading, listItems } : MenuListProps ){
                 }
                 {
                     listItems.length > 0 &&
-                    <StyledMenuUl>
+                    <ul>
                         {
                             listItems.map((data, index) => {
                                 return <ContextMenuLi   key = {index}
@@ -44,7 +35,7 @@ export default function MenuList({ heading, listItems } : MenuListProps ){
                                         />
                             })
                         }
-                    </StyledMenuUl>
+                    </ul>
                 }
             </>
 }

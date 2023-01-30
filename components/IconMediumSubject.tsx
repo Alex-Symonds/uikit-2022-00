@@ -1,5 +1,6 @@
 import React from 'react';
-import IconMedium, {IconMediumId} from './IconsMedium';
+import Icon from './Icons';
+import {IconMediumId} from './IconsMedium';
 
 export enum Subject{
     mathematics,
@@ -26,7 +27,7 @@ interface IconSubjectProps{
 
 export default function IconSubject({subject} : IconSubjectProps){
     const id : IconMediumId = getIconMediumId(subject);
-    return <IconMedium id={id} />
+    return <Icon idMedium={id} />
 }
 
 function getIconMediumId(subject : Subject){

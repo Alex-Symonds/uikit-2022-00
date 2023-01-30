@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonLabelIcon from './ButtonLabelIcon';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ButtonColor, ButtonType } from './Button';
+import { ButtonColorMode, ButtonType } from './Button';
 
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -10,7 +10,7 @@ export default {
     component: ButtonLabelIcon,
     args: {
       type: ButtonType.primary,
-      color: ButtonColor.color
+      colorMode: ButtonColorMode.color
     },
   } as ComponentMeta<typeof ButtonLabelIcon>;
 
@@ -43,16 +43,15 @@ Loading.args = {
   loader: true
 }
 
-
 export const PrimaryWhite = Template.bind({});
 PrimaryWhite.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.primary
 }
 
 export const PrimaryWhiteHover = Template.bind({});
 PrimaryWhiteHover.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.primary
 }
 PrimaryWhiteHover.parameters = {
@@ -61,7 +60,7 @@ PrimaryWhiteHover.parameters = {
 
 export const PrimaryWhiteActive = Template.bind({});
 PrimaryWhiteActive.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.primary
 }
 PrimaryWhiteActive.parameters = {
@@ -70,7 +69,7 @@ PrimaryWhiteActive.parameters = {
 
 export const PrimaryWhiteFocus = Template.bind({});
 PrimaryWhiteFocus.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.primary
 }
 PrimaryWhiteFocus.parameters = {
@@ -79,7 +78,7 @@ PrimaryWhiteFocus.parameters = {
 
 export const PrimaryWhiteDisabled = Template.bind({});
 PrimaryWhiteDisabled.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.primary,
   disabled: true
 };
@@ -87,13 +86,13 @@ PrimaryWhiteDisabled.args = {
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.secondary
 }
 
 export const SecondaryHover = Template.bind({});
 SecondaryHover.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.secondary
 }
 SecondaryHover.parameters = {
@@ -102,7 +101,7 @@ SecondaryHover.parameters = {
 
 export const SecondaryActive = Template.bind({});
 SecondaryActive.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.secondary
 }
 SecondaryActive.parameters = {
@@ -111,7 +110,7 @@ SecondaryActive.parameters = {
 
 export const SecondaryFocus = Template.bind({});
 SecondaryFocus.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.secondary
 }
 SecondaryFocus.parameters = {
@@ -120,7 +119,7 @@ SecondaryFocus.parameters = {
 
 export const SecondaryDisabled = Template.bind({});
 SecondaryDisabled.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.secondary,
   disabled: true
 };
@@ -128,13 +127,13 @@ SecondaryDisabled.args = {
 
 export const SecondaryWhite = Template.bind({});
 SecondaryWhite.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.secondary
 }
 
 export const SecondaryWhiteHover = Template.bind({});
 SecondaryWhiteHover.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.secondary
 }
 SecondaryWhiteHover.parameters = {
@@ -143,7 +142,7 @@ SecondaryWhiteHover.parameters = {
 
 export const SecondaryWhiteActive = Template.bind({});
 SecondaryWhiteActive.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.secondary
 }
 SecondaryWhiteActive.parameters = {
@@ -152,7 +151,7 @@ SecondaryWhiteActive.parameters = {
 
 export const SecondaryWhiteFocus = Template.bind({});
 SecondaryWhiteFocus.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.secondary
 }
 SecondaryWhiteFocus.parameters = {
@@ -161,7 +160,7 @@ SecondaryWhiteFocus.parameters = {
 
 export const SecondaryWhiteDisabled = Template.bind({});
 SecondaryWhiteDisabled.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.secondary,
   disabled: true
 };
@@ -169,13 +168,13 @@ SecondaryWhiteDisabled.args = {
 
 export const SecondaryDark = Template.bind({});
 SecondaryDark.args = {
-  color: ButtonColor.dark,
+  colorMode: ButtonColorMode.dark,
   type: ButtonType.secondary
 }
 
 export const SecondaryDarkHover = Template.bind({});
 SecondaryDarkHover.args = {
-  color: ButtonColor.dark,
+  colorMode: ButtonColorMode.dark,
   type: ButtonType.secondary
 }
 SecondaryDarkHover.parameters = {
@@ -184,7 +183,7 @@ SecondaryDarkHover.parameters = {
 
 export const SecondaryDarkActive = Template.bind({});
 SecondaryDarkActive.args = {
-  color: ButtonColor.dark,
+  colorMode: ButtonColorMode.dark,
   type: ButtonType.secondary
 }
 SecondaryDarkActive.parameters = {
@@ -193,7 +192,7 @@ SecondaryDarkActive.parameters = {
 
 export const SecondaryDarkFocus = Template.bind({});
 SecondaryDarkFocus.args = {
-  color: ButtonColor.dark,
+  colorMode: ButtonColorMode.dark,
   type: ButtonType.secondary
 }
 SecondaryDarkFocus.parameters = {
@@ -202,7 +201,7 @@ SecondaryDarkFocus.parameters = {
 
 export const SecondaryDarkDisabled = Template.bind({});
 SecondaryDarkDisabled.args = {
-  color: ButtonColor.dark,
+  colorMode: ButtonColorMode.dark,
   type: ButtonType.secondary,
   disabled: true
 };
@@ -211,13 +210,13 @@ SecondaryDarkDisabled.args = {
 
 export const Flat = Template.bind({});
 Flat.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.flat
 }
 
 export const FlatHover = Template.bind({});
 FlatHover.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.flat
 }
 FlatHover.parameters = {
@@ -226,7 +225,7 @@ FlatHover.parameters = {
 
 export const FlatActive = Template.bind({});
 FlatActive.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.flat
 }
 FlatActive.parameters = {
@@ -235,7 +234,7 @@ FlatActive.parameters = {
 
 export const FlatFocus = Template.bind({});
 FlatFocus.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.flat
 }
 FlatFocus.parameters = {
@@ -244,7 +243,7 @@ FlatFocus.parameters = {
 
 export const FlatDisabled = Template.bind({});
 FlatDisabled.args = {
-  color: ButtonColor.color,
+  colorMode: ButtonColorMode.color,
   type: ButtonType.flat,
   disabled: true
 };
@@ -253,13 +252,13 @@ FlatDisabled.args = {
 
 export const FlatWhite = Template.bind({});
 FlatWhite.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.flat
 }
 
 export const FlatWhiteHover = Template.bind({});
 FlatWhiteHover.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.flat
 }
 FlatWhiteHover.parameters = {
@@ -268,7 +267,7 @@ FlatWhiteHover.parameters = {
 
 export const FlatWhiteActive = Template.bind({});
 FlatWhiteActive.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.flat
 }
 FlatWhiteActive.parameters = {
@@ -277,7 +276,7 @@ FlatWhiteActive.parameters = {
 
 export const FlatWhiteFocus = Template.bind({});
 FlatWhiteFocus.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.flat
 }
 FlatWhiteFocus.parameters = {
@@ -286,7 +285,7 @@ FlatWhiteFocus.parameters = {
 
 export const FlatWhiteDisabled = Template.bind({});
 FlatWhiteDisabled.args = {
-  color: ButtonColor.white,
+  colorMode: ButtonColorMode.white,
   type: ButtonType.flat,
   disabled: true
 };

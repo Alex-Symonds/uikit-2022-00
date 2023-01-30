@@ -4,10 +4,12 @@ import {resetCss} from './utils';
 
 const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, isSuccess : boolean, readOnly : boolean}>`
     border-radius: ${LAYOUT.borderRadius};
+    box-sizing: border-box;
     height: 3.5rem;
     overflow: hidden;
     position: relative;
     width: 30.125rem;
+    max-width: 100%;
 
     ${ props => {
         if(props.isError){

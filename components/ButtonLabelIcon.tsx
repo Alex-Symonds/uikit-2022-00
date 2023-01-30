@@ -1,12 +1,14 @@
 import React from 'react';
-import {ButtonLabelProps, Button, setLabel} from './Button';
+import {I_ButtonProps, Button, setLabel, getDefaultIcon} from './Button';
 
-export default function ButtonLabelIcon({color, disabled, label, loader, onClick, type} : ButtonLabelProps){
+export default function ButtonLabelIcon({colorMode, disabled, icon, label, loader, onClick, type} : I_ButtonProps){
     const loaderWidth = "7.75rem";
+    icon = icon ?? getDefaultIcon();
 
-    return <Button icon 
-                color = {color}
+    return <Button
+                colorMode = {colorMode}
                 disabled = {disabled === undefined ? false : disabled}
+                icon = {icon}
                 label = {setLabel(label)}
                 loader = {loader === undefined ? false : loader}
                 onClick = {onClick}

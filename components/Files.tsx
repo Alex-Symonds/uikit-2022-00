@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import {LAYOUT, PALETTE, SHADOW, TYPOGRAPHY} from './Theme';
 import {resetCss} from './utils';
 import CircleAroundIcon from './CircleAroundIcon';
-import FileIcon from './IconFile';
 import Avatar, {AvatarOptions} from './Avatar';
+import Icon from './Icons';
+import { IconMediumId } from './IconsMedium';
+
 
 
 // TODO: get the user to pass in props for file types and sizes, then use for validation and
@@ -62,11 +64,15 @@ const StyledIconContainer = styled.div`
     width: 100%;
 `;
 
-const StyledIconOffsetWrapper = styled.div`
+const StyledFileIconCircleWrapper = styled.div`
     left: 0.25rem;
     pointer-events: none;
     position: relative;
     top: -0.125rem;
+
+    svg path{
+        fill: ${PALETTE.primary};
+    }
 `;
 
 const StyledLabelFile = styled.label`
@@ -99,6 +105,10 @@ const StyledLayoutActiveDrag = styled.div`
 
     svg{
         pointer-events: none;
+
+        path{
+            fill: ${PALETTE.white};
+        }
     }
 `;
 
@@ -317,7 +327,7 @@ export function DropZone({setDrag, handleDrop} : DropZoneProps){
     return  <StyledLayoutActiveDrag   onDrop={ dropped } 
                                 onDragOver={e => enableDropping(e)} 
                                 onDragLeave={e => dragEnds(e)} >
-                <FileIcon color={PALETTE.white} />
+                <Icon idMedium={IconMediumId.file} />
             </StyledLayoutActiveDrag>
 }
 
@@ -371,11 +381,11 @@ function Finished({fileInfo} : Pick<I_FileUploaderProps, "fileInfo">){
                 }
 
                 <StyledIconContainer>
-                    <StyledIconOffsetWrapper>
+                    <StyledFileIconCircleWrapper>
                         <CircleAroundIcon color={PALETTE.grayL} size={"3.5rem"}>
-                            <FileIcon color={PALETTE.primary}/>
+                            <Icon idMedium={IconMediumId.file} />
                         </CircleAroundIcon>
-                    </StyledIconOffsetWrapper>
+                    </StyledFileIconCircleWrapper>
                 </StyledIconContainer>
 
             </StyledLayout>

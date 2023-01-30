@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, ICON_SIZES, TYPOGRAPHY, SHADOW } from './Theme';
+import { PALETTE, TYPOGRAPHY, SHADOW } from './Theme';
 import CircleContainer from './CircleAroundIcon';
-import CheckIcon from './IconCheck';
-import CloseIcon from './IconClose';
-import InfoIcon from './IconInfo';
 import {resetCss} from './utils';
 import Button from './ButtonLabel';
-import {ButtonType, ButtonColor} from './Button';
-
+import {ButtonType, ButtonColorMode} from './Button';
+import Icon from './Icons';
+import { IconMediumId } from './IconsMedium';
 
 const BREAKPOINT_MOBILE = "425px";
 
@@ -53,8 +51,12 @@ const StyledHeading = styled.h3`
     font-weight: bold;
 `;
 
-const StyledIconContainer = styled.div`
+const StyledIconContainer = styled.div<{fillColor : PALETTE}>`
     grid-area: icon;
+
+    svg path{
+        fill: ${props => props.fillColor}
+    }
 `;
 
 const StyledNotification = styled.div`
@@ -139,12 +141,12 @@ export default function Notification({type, heading, description, buttonActions}
 
 function Buttons({clickClose, clickHelp} : ButtonActionsType){
     return  <StyledButtonsContainer>
-                <Button     color={ButtonColor.color}
+                <Button     colorMode={ButtonColorMode.color}
                             type={ButtonType.secondary}
                             label={"Close"}
                             onClick={clickClose}
                 />
-                <Button     color={ButtonColor.color} 
+                <Button     colorMode={ButtonColorMode.color} 
                             type={ButtonType.flat}
                             label={"Help"}
                             onClick={clickHelp}
@@ -154,37 +156,41 @@ function Buttons({clickClose, clickHelp} : ButtonActionsType){
 
 function NotificationIcon({type} : Pick<I_NotificationProps, "type">){
     const settings = getIconSettings(type);
-    return  <StyledIconContainer>
+    return  <StyledIconContainer fillColor = {settings.fillColor} >
                 <CircleContainer color={ settings.background } size="3.5rem">
-                    { settings.icon }
+                    <Icon idMedium={settings.iconId} />
                 </CircleContainer>
             </StyledIconContainer>
 }
 
-function getIconSettings(type : NotificationType) : { background : PALETTE, icon : React.ReactNode }{
+function getIconSettings(type : NotificationType) : { background : PALETTE, fillColor: PALETTE, iconId: IconMediumId }{
     switch(type){
         case NotificationType.success:
             return {
                 background: PALETTE.greenMedium,
-                icon: <CheckIcon color={PALETTE.green} size={ICON_SIZES.medium} />
+                fillColor: PALETTE.green,
+                iconId: IconMediumId.check,
             }
         
         case NotificationType.error:
             return {
                 background: PALETTE.redGirl,
-                icon: <CloseIcon color={PALETTE.red} size={ICON_SIZES.medium} />
+                fillColor: PALETTE.red,
+                iconId: IconMediumId.close,
             }
         
         case NotificationType.info:
             return {
                 background: PALETTE.disabled,
-                icon: <InfoIcon color={PALETTE.primary} />
+                fillColor: PALETTE.primary,
+                iconId: IconMediumId.info,
             }
         
         default:
             return {
                 background: PALETTE.disabled,
-                icon: <InfoIcon color={PALETTE.primary} />
+                fillColor: PALETTE.primary,
+                iconId: IconMediumId.info,
             }
     }
 }

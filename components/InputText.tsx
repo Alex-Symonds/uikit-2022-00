@@ -22,11 +22,7 @@ const StyledTextInput = styled.input.attrs({ type: "text" })`
         background: transparent;
         color: ${PALETTE.blackA24};
     }
-
-    &:focus-visible{
-        outline: none;
-    }
-
+    
     &:-webkit-autofill,
     &:-webkit-autofill:hover, 
     &:-webkit-autofill:focus {

@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from './Theme';
 import Badge, {BadgeType} from './Badge';
-import { resetCss } from './utils';
 import ButtonLabel from './ButtonLabel';
 import { ButtonColorMode, ButtonType } from './Button';
 import SubjectIcon, {Subject} from './IconMediumSubject';
@@ -52,7 +51,6 @@ const StyledProgressBar = styled.div<Pick<I_IslandProps, "progress">>`
 `;
 
 const StyledProgressText = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p3};
     color: ${PALETTE.white};
 `;
@@ -74,7 +72,6 @@ const StyledSubjectContainer = styled.div`
 `;
 
 const StyledLayout = styled.div`
-    box-sizing: border-box;
     display: grid;
     gap: ${props => props.theme.layoutGap};
     grid-template-areas: 
@@ -90,14 +87,12 @@ const StyledLayout = styled.div`
 `;
 
 const StyledHead = styled.h6`
-    ${resetCss}
     ${TYPOGRAPHY.h6}
     color: ${PALETTE.white};
     grid-area: heading;
 `;
 
 const StyledDescription = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
     color: ${PALETTE.whiteStrong};
     grid-area: desc;

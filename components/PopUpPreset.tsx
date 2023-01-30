@@ -6,7 +6,6 @@ import { PALETTE, TYPOGRAPHY } from './Theme';
 import ButtonLabel from './ButtonLabel';
 import { ButtonColorMode, ButtonType } from './Button';
 import CircleAroundIcon from './CircleAroundIcon';
-import {resetCss} from './utils';
 
 export const enum PopUpPresetMode{
     success = "success",
@@ -81,13 +80,11 @@ const StyledLayout = styled.div`
 `;  
 
 const StyledHeading = styled.h4`
-    ${resetCss}
     ${TYPOGRAPHY.h4}
     padding-top: .8rem;
 `;
 
 const StyledDescription = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
 `;
 

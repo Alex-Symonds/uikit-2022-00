@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY, SHADOW } from './Theme';
 import CircleContainer from './CircleAroundIcon';
-import {resetCss} from './utils';
 import Button from './ButtonLabel';
 import {ButtonType, ButtonColorMode} from './Button';
 import Icon from './Icons';
@@ -18,7 +17,6 @@ const StyledLayout = styled.div<{hasAll : boolean}>`
         "text icon"
         "buttons buttons";
     gap: ${props => props.hasAll ? "1.25rem" : "0"};
-    box-sizing: border-box;
 
     @media (max-width: ${BREAKPOINT_MOBILE}) {
         display: grid;
@@ -39,14 +37,12 @@ const StyledButtonsContainer = styled.div`
 `;
 
 const StyledDescription = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
     align-items: center;
     display: flex;
 `;
 
 const StyledHeading = styled.h3`
-    ${resetCss}
     ${TYPOGRAPHY.p1}
     font-weight: bold;
 `;
@@ -62,14 +58,13 @@ const StyledIconContainer = styled.div<{fillColor : PALETTE}>`
 const StyledNotification = styled.div`
     background: white;
     border-radius: 0.5rem;
+    box-shadow: ${SHADOW.default};
+    left: 0.4375rem;
+    max-width: calc(100vw - (0.4375rem * 2));
     padding: 1.25rem;
     position: fixed;
     top: 0.4375rem;
-    left: 0.4375rem;
-    box-shadow: ${SHADOW.default};
-    box-sizing: border-box;
     width: 24.625rem;
-    max-width: calc(100vw - (0.4375rem * 2));
     z-index: 999;
 
     @media (max-width: ${BREAKPOINT_MOBILE}){

@@ -3,14 +3,13 @@ import styled, {css} from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from './Theme';
 import Tag, {TagColor, TagSize} from './Tag';
 import InputContainer, {StyledLabel} from './InputContainer';
-import { visuallyHidden, resetCss } from './utils';
+import { visuallyHidden } from './utils';
 
 const INPUT_MIN_WIDTH = "3rem";
 const TAG_CONTAINER_GAP = "0.25rem";
 const TAG_CONTAINER_MAX_WIDTH = `calc(100% - ${INPUT_MIN_WIDTH} - ${TAG_CONTAINER_GAP})`;
 
 const StyledLayout = styled.div`
-    box-sizing: border-box;
     display: flex;
     gap: 0.2rem;
     padding: 0.9rem;
@@ -19,7 +18,6 @@ const StyledLayout = styled.div`
 
 const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean}>`
     align-items: center;
-    box-sizing: border-box;
     display: flex;
     gap: ${TAG_CONTAINER_GAP};
     max-width: ${props => props.readOnly ? "100%" : TAG_CONTAINER_MAX_WIDTH};
@@ -58,13 +56,12 @@ const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean
 
 
 const StyledTagInput = styled.input.attrs({ type: "text" })`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
 
     background: transparent;
-    box-sizing: border-box;
     height: 1.75rem;
     min-width: ${INPUT_MIN_WIDTH};
+    outline: none;
     width: 100%;
 
     &::placeholder{

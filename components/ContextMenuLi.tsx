@@ -9,7 +9,6 @@ const StyledMenuLi = styled.li`
     ${ TYPOGRAPHY.p2 }
 
     background: ${PALETTE.white};
-    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0.75rem 0.5rem 1rem;

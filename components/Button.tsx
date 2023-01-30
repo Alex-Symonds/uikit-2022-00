@@ -259,25 +259,11 @@ const themePicker = (style : ButtonTheme) : ButtonThemeProps => {
 };
 
 
-const buttonResetCss = css`
-    font-size: 1rem;
-    line-height: 1.5rem;
-    margin: 0;
-    overflow: visible;
-    text-transform: none;
-    -webkit-appearance: button;
-    border: none;
-`;
-
-
 const StyledButton = styled.button<StyledButtonProps>`
-    ${ buttonResetCss }
-
     align-items: center;
     background: ${ props => props.theme.mainBackground }; 
     border-radius: ${ props  => props.circle ? "9999px" :  LAYOUT.borderRadius };
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
-    box-sizing: border-box;
     color: ${ props => props.theme.mainColor };
     display: flex;
     font-family: ${ FONT.main };

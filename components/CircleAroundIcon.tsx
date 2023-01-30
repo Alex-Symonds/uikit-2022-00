@@ -8,8 +8,6 @@ const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "color" | "
     height: ${ props => props.size };
     width: ${ props => props.size };
 
-    box-sizing: border-box;
-
     display: flex;
     align-items: center;
     justify-content: center;

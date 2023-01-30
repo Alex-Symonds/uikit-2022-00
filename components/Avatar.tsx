@@ -80,17 +80,6 @@ function getUnicodeAndLabel(emoji : AvatarOptions | undefined){
     }
 }
 
-// const StyledDiv = styled.div`
-//     border-radius: 50%;
-//     background: ${ PALETTE.grayL };
-//     height: 3.25rem;
-//     width: 3.25rem;
-
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// `;
-
 const StyledAvatarEmoji = styled.span`
     line-height: 1.875rem;
     font-size: 1.875rem;

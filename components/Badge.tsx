@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider } from 'styled-components';
 import { PALETTE, SHADOW, TYPOGRAPHY } from './Theme';
-import { isBlank, resetCss } from './utils';
-import Paragraph from './Paragraph';
-
+import { isBlank } from './utils';
 
 export enum BadgeType{
     primary = "primary",
@@ -68,7 +66,6 @@ const StyledBadge = styled.div.attrs(props => ({
     border: 1px solid ${props => props.theme.borderColor};
     border-radius: 6.25rem;
     box-shadow: ${props => props.theme.shadow};
-    box-sizing: border-box;
     color: ${props => props.theme.color};
     filter: ${props => props.filter };
     font-family: var(--fontMain);
@@ -80,7 +77,6 @@ const StyledBadge = styled.div.attrs(props => ({
 `;
 
 const StyledBadgeText = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p3Bold}
     color: ${props => props.theme.color};
     overflow: hidden;

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import {LAYOUT, PALETTE, SHADOW, TYPOGRAPHY} from './Theme';
-import {resetCss} from './utils';
 import CircleAroundIcon from './CircleAroundIcon';
 import Avatar, {AvatarOptions} from './Avatar';
 import Icon from './Icons';
@@ -30,7 +29,6 @@ const DROP_ZONE_HEIGHT_TO_PREVENT_FLICKERING_BUG = "5.25rem";
 
 
 const StyledDeleteButton = styled.button`
-    ${resetCss}
     ${TYPOGRAPHY.p3}
     background: transparent;
     color: ${PALETTE.primary};
@@ -85,7 +83,6 @@ const StyledLabelFile = styled.label`
 `;
 
 const StyledLayout = styled.div`
-    box-sizing: border-box;
     display: grid;
     gap: 0.5rem;
     grid-template-areas: "heading icon" "message icon";
@@ -113,13 +110,11 @@ const StyledLayoutActiveDrag = styled.div`
 `;
 
 const StyledPHeading = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
     grid-area: heading;
 `;
 
 const StyledPMessage = styled.p<{isError : boolean}>`
-    ${resetCss}
     ${TYPOGRAPHY.p3}
     color: ${props => props.isError ? PALETTE.red : PALETTE.blackStrong};
     grid-area: message;

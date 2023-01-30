@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from './Theme';
-import {resetCss} from './utils';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 import customCursorImg from '../public/cursorHand.svg';
@@ -12,7 +11,6 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
     border: 1px solid ${ props => props.disabled && props.theme.disabledBackground !== undefined ? props.theme.disabledBackground : props.theme.border};
     border-radius: ${ LAYOUT.borderRadius };
     box-shadow: ${ props => props.theme.shadow === undefined ? "none" : props.theme.shadow };
-    box-sizing: border-box;
     color: ${ props => props.theme.text };
     display: flex;
     gap: 0.275rem;
@@ -54,7 +52,6 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
 `;
 
 const StyledButton = styled.button`
-    ${resetCss}
     background: transparent;
     height: ${ICON_SIZES.small};
     position: relative;

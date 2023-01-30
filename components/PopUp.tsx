@@ -9,7 +9,6 @@ const StyledPopUp = styled.section<{height : string}>`
     background: ${PALETTE.white};
     border-radius: 0.5rem;
     box-shadow: ${SHADOW.default};
-    box-sizing: border-box;
     left: calc(50% - (30.0625rem / 2));
     padding: 1.8125rem 1rem;
     position: fixed;

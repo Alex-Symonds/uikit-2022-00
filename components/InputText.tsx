@@ -1,18 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from './Theme';
-import {resetCss} from './utils';
 import InputContainer, {StyledLabel} from './InputContainer';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 
 const StyledTextInput = styled.input.attrs({ type: "text" })`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
 
     background: transparent;
-    box-sizing: border-box;
     height: 100%;
+    outline: none;
     padding: 1.5rem 1rem 0.3rem 1rem;
     width: 100%;
     
@@ -23,6 +21,10 @@ const StyledTextInput = styled.input.attrs({ type: "text" })`
     &:disabled{
         background: transparent;
         color: ${PALETTE.blackA24};
+    }
+
+    &:focus-visible{
+        outline: none;
     }
 
     &:-webkit-autofill,

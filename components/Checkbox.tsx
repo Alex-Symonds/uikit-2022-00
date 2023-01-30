@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, FONT, LAYOUT, ICON_SIZES } from './Theme';
+import { PALETTE, FONT, LAYOUT } from './Theme';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 
@@ -45,7 +45,6 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
     border-radius: ${ LAYOUT.borderRadius };
     border-style: solid;
     border-width: 0.0625rem;
-    box-sizing: border-box;
     height: 1.5rem;
     font: inherit;
     overflow: hidden;
@@ -66,7 +65,6 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
         content: "";
         width: 1.5rem;
         height: 1.5rem;
-        box-sizing: border-box;
         transform: scale(0);
         transition: 30ms transform ease-in-out;
         background: ${ PALETTE.primary };

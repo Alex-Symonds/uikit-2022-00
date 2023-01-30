@@ -1,10 +1,8 @@
 import styled, {css} from 'styled-components';
 import { PALETTE, LAYOUT, SHADOW, TYPOGRAPHY } from './Theme';
-import {resetCss} from './utils';
 
 const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, isSuccess : boolean, readOnly : boolean}>`
     border-radius: ${LAYOUT.borderRadius};
-    box-sizing: border-box;
     height: 3.5rem;
     overflow: hidden;
     position: relative;
@@ -49,7 +47,6 @@ const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, 
 `;
 
 const StyledDescription = styled.p`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
     color: ${PALETTE.blackStrong};
     margin-top: 0.5rem;
@@ -69,7 +66,6 @@ interface I_InputContainerProps{
 }
 
 export const StyledLabel = styled.label<{disabled : boolean}>`
-    ${resetCss}
     ${TYPOGRAPHY.p2}
     color: ${ props => props.disabled ? PALETTE.blackMedium : PALETTE.blackStrong};
     height: 1.25rem;

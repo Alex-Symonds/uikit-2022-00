@@ -11,7 +11,6 @@ const StyledContextMenu = styled.div<Coords>`
     background: ${PALETTE.white};
     border-radius: ${LAYOUT.borderRadius};
     box-shadow: ${ SHADOW.contextMenu };
-    box-sizing: border-box;
     left: ${props => props.x}px;
     overflow: hidden;
     padding: 0.25rem 0 0.35rem;

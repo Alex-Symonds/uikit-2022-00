@@ -29,3 +29,9 @@ export function debounce(func : CallbackFunctionVariadicAnyReturn, timeout = 300
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
 }
+
+export function getClassName(styledComponent : any){
+    const className = String(styledComponent).replace(".", "");
+    console.log(className);
+    return className;
+}

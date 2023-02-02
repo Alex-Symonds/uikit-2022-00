@@ -2,12 +2,6 @@ import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from './Theme';
 
-interface ParagraphProps{
-    color?: string,
-    size?: 1 | 2 | 3,
-    bold?: boolean,
-    children?: React.ReactNode;
-}
 
 const p1Theme = {
     boldWeight: "700"
@@ -34,19 +28,20 @@ const themePicker = (size : number | undefined) : any => {
     }
 }
 
-
 interface StyledParagraphProps{
     color?: string,
     bold: boolean,
-    pSize: number
+    pSize: number,
 }
 
-const StyledParagraph = styled.p`
+const StyledParagraph = styled.p<StyledParagraphProps>`
     ${
-        (props : StyledParagraphProps) => {
+        (props) => {
             switch(props.pSize){
                 case 1:
                     return TYPOGRAPHY.p1;
+                case 2:
+                    return TYPOGRAPHY.p2;
                 case 3:
                     return TYPOGRAPHY.p3;
                 default:
@@ -56,17 +51,27 @@ const StyledParagraph = styled.p`
     }
 
     color: ${ props => props.color || PALETTE.black };
-    font-weight: ${ (props : any) => props.bold ? props.theme.fontWeight : "400" };
+    font-weight: ${ props => props.bold ? props.theme.fontWeight : "400" };
     width: fit-content;
 `;
 
 
-export default function Paragraph({color, size, bold, children} : ParagraphProps){
+interface ParagraphProps{
+    color?: string,
+    size?: 1 | 2 | 3,
+    bold?: boolean,
+    className? : string,
+    children?: React.ReactNode,
+}
+
+export default function Paragraph({color, size, className, bold, children} : ParagraphProps){
     const theme = themePicker(size);
     return <ThemeProvider theme={theme}>
             <StyledParagraph    color = {color}
                                 bold = { bold || false } 
-                                pSize = { size || 2 }>
+                                pSize = { size || 2 } 
+                                className = {className}
+                                >
                 {children}
             </StyledParagraph>
         </ThemeProvider>

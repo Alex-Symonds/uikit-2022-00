@@ -90,7 +90,7 @@ const WhiteTheme : TagThemeProps = {
 }
 
 interface I_TagProps{
-    color : TagColor,
+    colour : TagColor,
     disabled : boolean,
     showIcon : boolean,
     size : TagSize,
@@ -108,8 +108,8 @@ export enum TagColor{
     white = "white"
 }
 
-export default function InputTags({color, disabled, showIcon, size, text, handleClick} : I_TagProps){
-    const theme = color === TagColor.primary ? PrimaryTheme : WhiteTheme;
+export default function InputTags({colour, disabled, showIcon, size, text, handleClick} : I_TagProps){
+    const theme = colour === TagColor.primary ? PrimaryTheme : WhiteTheme;
     showIcon = handleClick !== undefined ? true : showIcon;
 
     return  <ThemeProvider theme = { theme }>

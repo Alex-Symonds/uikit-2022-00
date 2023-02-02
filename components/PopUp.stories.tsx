@@ -7,7 +7,6 @@ import { ButtonColorMode, ButtonType } from './Button';
 
 import styled from 'styled-components';
 import { TYPOGRAPHY } from './Theme';
-import { resetCss } from './utils';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -48,12 +47,10 @@ const StyledExampleLayout = styled.div`
     gap: 0.5rem;
 
     h4{
-        ${resetCss}
         ${TYPOGRAPHY.h4}
     }
 
     p{
-        ${resetCss}
         ${TYPOGRAPHY.p2}
     }
 `;

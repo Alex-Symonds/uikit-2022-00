@@ -152,7 +152,7 @@ function Buttons({clickClose, clickHelp} : ButtonActionsType){
 function NotificationIcon({type} : Pick<I_NotificationProps, "type">){
     const settings = getIconSettings(type);
     return  <StyledIconContainer fillColor = {settings.fillColor} >
-                <CircleContainer color={ settings.background } size="3.5rem">
+                <CircleContainer colour={ settings.background } size="3.5rem">
                     <Icon idMedium={settings.iconId} />
                 </CircleContainer>
             </StyledIconContainer>

@@ -152,7 +152,7 @@ function TagContainer({disabled, readOnly, tags, removeTag} : Pick<I_InputTagsPr
                 {
                     tags.map((text, index) => {
                     return <Tag key = {index}
-                                color = { TagColor.primary }
+                                colour = { TagColor.primary }
                                 disabled = {disabled}
                                 text = {text}
                                 showIcon = {!readOnly}

@@ -235,7 +235,7 @@ export default function Tooltip({text, arrowPos} : I_TooltipProps){
 
     return  <ThemeProvider theme = {theme}>
                 <StyledTooltip>
-                    <Paragraph size={3} color={PALETTE.black}>
+                    <Paragraph size={3} colour={PALETTE.black}>
                         {text}
                     </Paragraph>
                     <StyledArrowShadow />

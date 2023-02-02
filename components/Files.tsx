@@ -377,7 +377,7 @@ function Finished({fileInfo} : Pick<I_FileUploaderProps, "fileInfo">){
 
                 <StyledIconContainer>
                     <StyledFileIconCircleWrapper>
-                        <CircleAroundIcon color={PALETTE.grayL} size={"3.5rem"}>
+                        <CircleAroundIcon colour={PALETTE.grayL} size={"3.5rem"}>
                             <Icon idMedium={IconMediumId.file} />
                         </CircleAroundIcon>
                     </StyledFileIconCircleWrapper>

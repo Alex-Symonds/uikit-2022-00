@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {PALETTE} from './Theme';
 
-const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "color" | "size">>`
+const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "colour" | "size">>`
     border-radius: 50%;
-    background: ${ props => props.color };
+    background: ${ props => props.colour };
     height: ${ props => props.size };
     width: ${ props => props.size };
 
@@ -14,17 +14,17 @@ const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "color" | "
 `;
 
 interface CircleAroundIconProps{
-    color?: string,
+    colour?: string,
     size?: string,
     children: React.ReactNode
 }
 
-export default function CircleAroundIcon({color, size, children} : CircleAroundIconProps){
-    color = color === undefined ? PALETTE.grayL : color;
+export default function CircleAroundIcon({colour, size, children} : CircleAroundIconProps){
+    colour = colour === undefined ? PALETTE.grayL : colour;
     size = size === undefined ? "3.25rem" : size;
 
     return (
-        <StyledCircleContainer size={size} color={color}>
+        <StyledCircleContainer size={size} colour={colour}>
             {children}
         </StyledCircleContainer>
     )

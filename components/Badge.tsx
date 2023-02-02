@@ -18,7 +18,7 @@ interface BadgeProps{
 interface BadgeTheme{
     background: string,
     borderColor: string,
-    color: string,
+    colour: string,
     shadow: string,
     filter?: string
 }
@@ -26,14 +26,14 @@ interface BadgeTheme{
 const PrimaryTheme : BadgeTheme = {
     background: PALETTE.primary,
     borderColor: PALETTE.primary,
-    color: PALETTE.white,
+    colour: PALETTE.white,
     shadow: 'none' 
 }
 
 const SecondaryTheme : BadgeTheme = {
     background: 'transparent',
     borderColor: PALETTE.primary,
-    color: PALETTE.primary,
+    colour: PALETTE.primary,
     shadow: 'none',
     filter: 'drop-shadow(0 4px 4px rgba(51,51,51,0.04)) drop-shadow(0 4px 16px rgba(51,51,51,0.08))'
 }
@@ -41,7 +41,7 @@ const SecondaryTheme : BadgeTheme = {
 const WhiteTheme : BadgeTheme = {
     background: PALETTE.white,
     borderColor: PALETTE.grayL,
-    color: PALETTE.primary,
+    colour: PALETTE.primary,
     shadow: SHADOW.default
 }
 
@@ -66,9 +66,8 @@ const StyledBadge = styled.div.attrs(props => ({
     border: 1px solid ${props => props.theme.borderColor};
     border-radius: 6.25rem;
     box-shadow: ${props => props.theme.shadow};
-    color: ${props => props.theme.color};
+    color: ${props => props.theme.colour};
     filter: ${props => props.filter };
-    font-family: var(--fontMain);
     max-width: 15rem;
     overflow: hidden;
     padding: 0.0625rem calc(0.5rem - 1px) 0.0625rem;
@@ -78,7 +77,7 @@ const StyledBadge = styled.div.attrs(props => ({
 
 const StyledBadgeText = styled.p`
     ${TYPOGRAPHY.p3Bold}
-    color: ${props => props.theme.color};
+    color: ${props => props.theme.colour};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -92,9 +91,9 @@ export default function Badge({text, type} : BadgeProps){
     const theme = getTheme(type);
     return <ThemeProvider theme = {theme}>
                 <StyledBadge>
-                    <StyledBadgeText color={theme.color}>
+                    <StyledBadgeText>
                         {text}
                     </StyledBadgeText>
                 </StyledBadge>
-    </ThemeProvider>
+            </ThemeProvider>
 }

@@ -28,25 +28,25 @@ type ButtonProps = {
 
 type PresetThemeType = {
     background: PALETTE,
-    color: PALETTE,
+    colour: PALETTE,
     iconId: IconXLId,
 }
 
 const successTheme : PresetThemeType = {
     background: PALETTE.greenPale,
-    color: PALETTE.green,
+    colour: PALETTE.green,
     iconId: IconXLId.check,
 }
 
 const errorTheme : PresetThemeType = {
     background: PALETTE.redA12,
-    color: PALETTE.redSuper,
+    colour: PALETTE.redSuper,
     iconId: IconXLId.false,
 }
 
 const attentionTheme : PresetThemeType = {
     background: PALETTE.starA12,
-    color: PALETTE.star,
+    colour: PALETTE.star,
     iconId: IconXLId.attention,
 }
 
@@ -74,7 +74,7 @@ const StyledLayout = styled.div`
         width: 3.5rem;
 
         path{
-            fill: ${props => props.theme.color};
+            fill: ${props => props.theme.colour};
         }
     }
 `;  
@@ -99,7 +99,7 @@ export default function PopUpPreset({description, heading, mode: type, buttonPri
 
     return <ThemeProvider theme={theme}>
         <StyledLayout>
-            <CircleAroundIcon color={theme.background} size={"6rem"}>
+            <CircleAroundIcon colour={theme.background} size={"6rem"}>
                 <Icon idXL={theme.iconId} />
             </CircleAroundIcon>
             <StyledHeading>

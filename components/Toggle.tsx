@@ -127,18 +127,18 @@ type LabelProps = {
 }
 
 export default function Toggle({ disabled, isOn, label, onScreenReader, parentOnClick} : I_ToggleProps){  
-    const toggle = <ToggleButton    disabled={disabled} 
-                                    label={label}
-                                    isOn={isOn}
-                                    onScreenReader={onScreenReader}
-                                    parentOnClick={parentOnClick}
-                                    />
+    const toggleButton = <ToggleButton  disabled={disabled} 
+                                        label={label}
+                                        isOn={isOn}
+                                        onScreenReader={onScreenReader}
+                                        parentOnClick={parentOnClick}
+                                        />
 
     if(label === undefined){
-        return toggle;
+        return toggleButton;
     }
     return  <LabelWrapper label={label}>
-                {toggle}
+                {toggleButton}
             </LabelWrapper>
 }
 
@@ -171,7 +171,7 @@ function LabelWrapper({label, children} : LabelWrapperProps){
                 <StyledHeading>
                     {label.heading}
                 </StyledHeading>
-                <StyledParagraph size={3} color={PALETTE.blackStrong} className={getClassName(StyledParagraph)}>
+                <StyledParagraph size={3} colour={PALETTE.blackStrong} className={getClassName(StyledParagraph)}>
                     {label.description}
                 </StyledParagraph>
             </StyledLayout>

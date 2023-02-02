@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof Tag> = args => <Tag {...args} />;
 
 export const SmallWhite = Template.bind({});
 SmallWhite.args = {
-    color: TagColor.white,
+    colour: TagColor.white,
     size: TagSize.small
 }
 
@@ -30,7 +30,7 @@ SmallWhiteHover.parameters = {
 
 export const SmallPrimary = Template.bind({});
 SmallPrimary.args = {
-    color: TagColor.primary,
+    colour: TagColor.primary,
     size: TagSize.small
 }
 
@@ -44,7 +44,7 @@ SmallPrimaryHover.parameters = {
 
 export const MediumWhite = Template.bind({});
 MediumWhite.args = {
-    color: TagColor.white,
+    colour: TagColor.white,
     size: TagSize.medium
 }
 
@@ -59,7 +59,7 @@ MediumWhiteHover.parameters = {
 export const MediumPrimary = Template.bind({});
 MediumPrimary.args = {
     size: TagSize.medium,
-    color: TagColor.primary
+    colour: TagColor.primary
 }
 
 export const MediumPrimaryHover = Template.bind({});

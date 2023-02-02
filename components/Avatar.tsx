@@ -94,7 +94,7 @@ interface AvatarProps{
 
 export default function Avatar({ emoji } : AvatarProps){
     const data = getUnicodeAndLabel(emoji);
-    return  <Container color={PALETTE.grayL} size="3.25rem">
+    return  <Container colour={PALETTE.grayL} size="3.25rem">
                 <StyledAvatarEmoji role="img" aria-label={data.label} >
                     {String.fromCodePoint(data.unicode)}
                 </StyledAvatarEmoji>

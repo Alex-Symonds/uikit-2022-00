@@ -57,7 +57,6 @@ const StyledErrorMessage = styled(StyledDescription)`
 `;
 
 interface I_InputContainerProps{
-    className? : string,
     description? : string,
     disabled : boolean,
     errorMsg? : string,
@@ -77,10 +76,10 @@ export const StyledLabel = styled.label<{disabled : boolean}>`
     top: calc(50% - (1.25rem / 2));
 `;
 
-export default function InputContainer({className, description, disabled, errorMsg, isSuccess, readOnly, children} : I_InputContainerProps){
+export default function InputContainer({description, disabled, errorMsg, isSuccess, readOnly, children} : I_InputContainerProps){
     const isError = errorMsg !== undefined;
     return <div>
-        <StyledInputContainer className={className} disabled={disabled} isError={isError} isSuccess={!isError && isSuccess} readOnly={readOnly}>
+        <StyledInputContainer disabled={disabled} isError={isError} isSuccess={!isError && isSuccess} readOnly={readOnly}>
             {children}
         </StyledInputContainer>
         {

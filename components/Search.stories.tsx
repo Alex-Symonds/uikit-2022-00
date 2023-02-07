@@ -14,7 +14,7 @@ export default {
 
 const Template: ComponentStory<typeof Search> = args => <Search {...args} />;
 
-const ControlledTemplate: ComponentStory<typeof Search> = args => {
+const FunctioningTemplate: ComponentStory<typeof Search> = args => {
     const [results, setResults] = React.useState<string[] | null>(null);
 
     function updateResults(newInput : string | null){
@@ -54,7 +54,7 @@ const ControlledTemplate: ComponentStory<typeof Search> = args => {
 };
 
 
-export const Default = ControlledTemplate.bind({});
+export const Default = FunctioningTemplate.bind({});
 
 export const Hover = Template.bind({});
 Hover.parameters = {

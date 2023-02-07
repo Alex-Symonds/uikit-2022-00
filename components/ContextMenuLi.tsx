@@ -5,7 +5,7 @@ import customCursorImg from '../public/cursorHand.svg';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 
-const StyledMenuLi = styled.li`
+export const StyledMenuLi = styled.li`
     ${ TYPOGRAPHY.p2 }
 
     background: ${PALETTE.white};

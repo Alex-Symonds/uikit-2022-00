@@ -24,13 +24,13 @@ const StyledMenuLi = styled.li`
 `;
 export interface MenuItemProps{
     display: string,
-    handleClick : () => void,
+    handleClick : (e : React.MouseEvent<HTMLLIElement>) => void,
     selected? : boolean  
 }
 
 export default function MenuLi({ display, selected, handleClick } : MenuItemProps){
     return (
-        <StyledMenuLi onClick={ () => handleClick() }>
+        <StyledMenuLi onClick={ (e) => handleClick(e) }>
             {display}
             {selected &&
                 <Icon idMedium={IconMediumId.check} />

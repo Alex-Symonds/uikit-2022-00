@@ -148,20 +148,15 @@ const StyledEmptyResult = styled.div`
     padding: 0.5rem 1rem 0.5rem 1rem;
 `;
 
-const StyledResult = styled.div`
+const StyledResult = styled.div<{isHighlighted : boolean}>`
     ${TYPOGRAPHY.p2}
     align-text: left;
-    background: transparent;
+    background: ${props => props.isHighlighted ? PALETTE.grayL : "transparent"};
     color: ${PALETTE.black};
     padding: 0.5rem 1rem 0.5rem 1rem;
 
     &:hover{
         background: ${PALETTE.grayL};
-    }
-
-    &:focus, 
-    &:focus-within{
-        outline-color: ${PALETTE.blackStrong};
     }
 `;
 
@@ -187,12 +182,12 @@ export default function Search({initialValue, disabled, updateResults, handleSub
     const [activeId, setActiveId] = React.useState<number | null>(null);
     const searchTextInput = React.useRef<HTMLInputElement>(null);
     
-    // If the results change, reset the position in the results
+    // If the results change, reset the keyboard position in the results
     React.useEffect(() => {
         setActiveId(null);
     }, [results]);
 
-    // Functions for the controlled input and form
+    // Functions for the controlled text input and form
     function onChange(e : React.ChangeEvent<HTMLInputElement>){
         setInput(e.target.value);
 
@@ -208,7 +203,6 @@ export default function Search({initialValue, disabled, updateResults, handleSub
     function clearInput(){
         setShowResults(false);
         setInput(null);
-        searchTextInput?.current?.focus();
     }
 
     function onSubmit(){
@@ -217,31 +211,70 @@ export default function Search({initialValue, disabled, updateResults, handleSub
     }
 
     // Functions for picking a suggestion from the Results list
-    function onKeyDown(e : React.KeyboardEvent<HTMLInputElement>){
-        // Enter the list of results/suggestions
-        if(e.key === 'ArrowDown'){
-            setActiveId(0);
-        }
-    }
-
     function onOptionPick(data : SearchResultData){
         setInput(data);
         setShowResults(false);
         setActiveId(null);
-        searchTextInput?.current?.focus();
     }
 
-    function onEscape(){
-        setShowResults(false);
-        setActiveId(null);
-        searchTextInput?.current?.focus();
+    function onKeyDown(e : React.KeyboardEvent<HTMLInputElement>){
+        if(e.key === 'ArrowDown' && !showResults){
+            e.preventDefault();
+            setShowResults(true);
+            return;
+        }
+
+        if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+            e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
+            moveWithinMenu(e);
+        }
+
+        if(e.key === 'Enter'){
+            if(activeId !== null){
+                e.preventDefault(); // Prevent auto-submission of the form (we want "submit" to be a separate action)
+                if(results !== null && results !== undefined && results.length > 0){
+                    onOptionPick(results[activeId]); // Populate the search bar with the selected option
+                }
+            }
+        }
+
+        if(e.key === 'Escape'){
+            setShowResults(false);
+            setActiveId(null);
+        }
+    }
+
+    function moveWithinMenu(e: React.KeyboardEvent<HTMLDivElement>){
+        if(results === null || results === undefined){
+            return;
+        }
+
+        let newId = activeId;
+
+        if(e.key === 'ArrowUp'){
+            if(newId === null || newId <= 0 ){ /* Loop from top to bottom */
+                newId = results.length - 1;
+            }
+            else{
+                newId = newId - 1;
+            }
+        }
+        
+        if(e.key === 'ArrowDown'){
+            if(newId === null || newId >= results.length - 1 ){ /* Loop from bottom to top */
+                newId = 0;
+            }
+            else{
+                newId = newId + 1;
+            }
+        }
+
+        setActiveId(newId);
     }
 
     const resultsMenuActions = {
-        activeId: activeId,
-        setActiveId: setActiveId,
-        onOptionPick: onOptionPick,
-        onEscape: onEscape,
+        activeId,
+        onOptionPick,
     }
 
     const hasInput = input !== null;
@@ -258,7 +291,7 @@ export default function Search({initialValue, disabled, updateResults, handleSub
                                             autoComplete={"off"}
                                             aria-autocomplete={"both"}
                                             aria-owns={searchResultsId}
-                                            aria-activedescendant={resultIdPrefix + activeId}
+                                            aria-activedescendant={activeId === null ? undefined : resultIdPrefix + activeId}
 
                                             ref={searchTextInput}
 
@@ -292,9 +325,7 @@ export default function Search({initialValue, disabled, updateResults, handleSub
 
 type ResultsMenuActions = {
     activeId : number | null,
-    setActiveId: React.Dispatch<React.SetStateAction<number | null>>,
     onOptionPick: (newInput : string) => void,
-    onEscape: () => void,
 }
 
 type SearchResultsType = Pick<I_SearchProps, "results" | "loading"> & {
@@ -344,68 +375,16 @@ function ResultsEmpty(){
 
 type ResultsFullProps = ResultsMenuActions & Pick<SearchResultsType, "results">;
 
-function ResultsFull({activeId, setActiveId, results, onOptionPick, onEscape} : ResultsFullProps){
-
-    React.useEffect(() => {
-        const activeSuggestion = document.getElementById(resultIdPrefix + activeId);
-        if(activeSuggestion === null){
-            return;
-        }
-        activeSuggestion.focus();
-    }, [activeId]);
-
-    function handleKeyDown(e : React.KeyboardEvent<HTMLDivElement>, data : SearchResultData){
-        if(e.key === 'ArrowUp' || e.key === 'ArrowDown'){
-            moveWithinMenu(e);
-        }
-
-        if(e.key === 'Enter'){
-            e.preventDefault(); // Prevent auto-submission of the form (we want "submit" to be a separate action)
-            onOptionPick(data); // Populate the search bar with the selected option
-        }
-
-        if(e.key === 'Escape'){
-            onEscape();
-        }
-    }
-
-    function moveWithinMenu(e: React.KeyboardEvent<HTMLDivElement>){
-        if(results === null || results === undefined){
-            return;
-        }
-
-        let newId = activeId;
-
-        if(e.key === 'ArrowUp'){
-            if(newId === null || newId <= 0 ){
-                newId = results.length - 1;
-            }
-            else{
-                newId = newId - 1;
-            }
-        }
-        
-        if(e.key === 'ArrowDown'){
-            if(newId === null || newId >= results.length - 1 ){
-                newId = 0;
-            }
-            else{
-                newId = newId + 1;
-            }
-        }
-
-        setActiveId(newId);
-    }
-
+function ResultsFull({activeId, results, onOptionPick} : ResultsFullProps){
     return  <>
             {
                 results?.map((data, index) => {
                     return  <StyledResult   key={index}
-                                            tabIndex={0}
+                                            tabIndex={-1}
                                             id={resultIdPrefix + index}
                                             role={"option"}
                                             onClick={() => onOptionPick(data)}
-                                            onKeyDown={(e) => handleKeyDown(e, data)}
+                                            isHighlighted={index === activeId}
                                             >
                                 {data}
                             </StyledResult>

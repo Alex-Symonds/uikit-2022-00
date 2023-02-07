@@ -56,15 +56,6 @@ const StyledErrorMessage = styled(StyledDescription)`
     color: ${PALETTE.red};
 `;
 
-interface I_InputContainerProps{
-    description? : string,
-    disabled : boolean,
-    errorMsg? : string,
-    isSuccess : boolean,
-    readOnly : boolean,
-    children : React.ReactNode
-}
-
 export const StyledLabel = styled.label<{disabled : boolean}>`
     ${TYPOGRAPHY.p2}
     color: ${ props => props.disabled ? PALETTE.blackMedium : PALETTE.blackStrong};
@@ -75,6 +66,16 @@ export const StyledLabel = styled.label<{disabled : boolean}>`
     text-align: center;
     top: calc(50% - (1.25rem / 2));
 `;
+
+
+interface I_InputContainerProps{
+    description? : string,
+    disabled : boolean,
+    errorMsg? : string,
+    isSuccess : boolean,
+    readOnly : boolean,
+    children : React.ReactNode
+}
 
 export default function InputContainer({description, disabled, errorMsg, isSuccess, readOnly, children} : I_InputContainerProps){
     const isError = errorMsg !== undefined;

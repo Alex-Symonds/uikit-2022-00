@@ -8,30 +8,30 @@ export default {
     component: Search,
     args: {
         handleSubmit: () => console.log("Form submitted"),
-        updateResults: (str : string) => console.log(`Update results for search term ${str}`),
+        updateOptions: (str : string) => console.log(`Update results for search term ${str}`),
     }
   } as ComponentMeta<typeof Search>;
 
 const Template: ComponentStory<typeof Search> = args => <Search {...args} />;
 
 const FunctioningTemplate: ComponentStory<typeof Search> = args => {
-    const [results, setResults] = React.useState<string[] | null>(null);
+    const [options, setOptions] = React.useState<string[] | null>(null);
 
-    function updateResults(newInput : string | null){
+    function updateOptions(newInput : string | null){
         if(newInput === null || newInput === ""){
-            setResults(null);
+            setOptions(null);
         }
         else if(newInput === "R"){
-            setResults([]);
+            setOptions([]);
         }
         else if(newInput === "Rus"){
-            setResults([
+            setOptions([
                 "Russia",
                 "Rusk"
             ]);
         }
         else{
-            setResults([
+            setOptions([
                 newInput + "-a-like",
                 newInput + "-ish",
             ]);
@@ -47,9 +47,9 @@ const FunctioningTemplate: ComponentStory<typeof Search> = args => {
     }
 
     return <Search  {...args}
-                    updateResults={updateResults}
+                    updateOptions={updateOptions}
                     handleSubmit={onSubmit}
-                    results={results}
+                    options={options}
                     />;
 };
 
@@ -63,17 +63,17 @@ Hover.parameters = {
 
 export const Loading = Template.bind({});
 Loading.args = {
-    displayResults: true,
+    showOptions: true,
     initialValue: "Rus",
     loading: true
 }
 
 export const ActiveResults = Template.bind({});
 ActiveResults.args = {
-    displayResults: true,
+    showOptions: true,
     loading: false,
     initialValue: "Rus",
-    results: [
+    options: [
         "Russia",
         "Rusk"
     ]
@@ -81,15 +81,15 @@ ActiveResults.args = {
 
 export const NoResults = Template.bind({});
 NoResults.args = {
-    displayResults: true,
+    showOptions: true,
     loading: false,
     initialValue: "R",
-    results: []
+    options: []
 }
 
 export const Filled = Template.bind({});
 Filled.args = {
     initialValue: "Russia",
-    displayResults: false
+    showOptions: false
 }
 

@@ -7,16 +7,13 @@ import { IconMediumId } from './IconsMedium';
 
 export const StyledMenuLi = styled.li`
     ${ TYPOGRAPHY.p2 }
-
     background: ${PALETTE.white};
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0.75rem 0.5rem 1rem;
-
     svg path{
         fill: ${PALETTE.black};
     }
-
     &:hover{
         cursor: url(${customCursorImg}), auto;
         background: ${PALETTE.grayL};
@@ -24,13 +21,13 @@ export const StyledMenuLi = styled.li`
 `;
 export interface MenuItemProps{
     display: string,
-    handleClick : (e : React.MouseEvent<HTMLLIElement>) => void,
+    handleClick : () => void,
     selected? : boolean  
 }
 
 export default function MenuLi({ display, selected, handleClick } : MenuItemProps){
     return (
-        <StyledMenuLi onClick={ (e) => handleClick(e) }>
+        <StyledMenuLi onClick={ () => handleClick() }>
             {display}
             {selected &&
                 <Icon idMedium={IconMediumId.check} />
@@ -38,4 +35,3 @@ export default function MenuLi({ display, selected, handleClick } : MenuItemProp
         </StyledMenuLi>
     )
 }
-

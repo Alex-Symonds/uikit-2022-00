@@ -171,7 +171,7 @@ interface I_SearchProps{
 
 type SearchResultData = string;
 
-export default function Search({initialValue, disabled, updateOptions : updateResults, handleSubmit, loading, options, showOptions : showOptionsOnLoad} : I_SearchProps){
+export default function Search({initialValue, disabled, updateOptions, handleSubmit, loading, options, showOptions : showOptionsOnLoad} : I_SearchProps){
     const [input, setInput] = React.useState<string | null>(initialValue ?? null);
     const [showOptions, setShowOptions] = React.useState<boolean>(showOptionsOnLoad === undefined ? false : showOptionsOnLoad);
     const [activeId, setActiveId] = React.useState<number | null>(null);
@@ -187,7 +187,7 @@ export default function Search({initialValue, disabled, updateOptions : updateRe
 
         if(e.target.value !== null || e.target.value !== ""){
             setShowOptions(true);
-            updateResults(e.target.value);
+            updateOptions(e.target.value);
         }
         else {
             setShowOptions(false);
@@ -220,7 +220,7 @@ export default function Search({initialValue, disabled, updateOptions : updateRe
 
         if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
             e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
-            moveWithinMenu(e, options, activeId, setActiveId);
+            moveWithinMenu({e, options, activeId, setActiveId});
         }
 
         if(e.key === 'Enter'){

@@ -30,7 +30,7 @@ export const visuallyHidden = css`
 
 type MoveWithMenuPropsType = {
     e: React.KeyboardEvent, 
-    options : any[], 
+    options : any[] | null | undefined, 
     activeId : number | null, 
     setActiveId : (value: React.SetStateAction<number | null>) => void
 }

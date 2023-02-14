@@ -5,6 +5,7 @@ import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 import customCursorImg from '../public/cursorHand.svg';
 import { StyledScreenReaderOnly } from './utils';
+import { moveWithinMenu } from './utils';
 
 const StyledSearchAndResultsContainer = styled.div`
     position: relative;
@@ -219,7 +220,7 @@ export default function Search({initialValue, disabled, updateOptions : updateRe
 
         if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
             e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
-            moveWithinMenu(e);
+            moveWithinMenu(e, options, activeId, setActiveId);
         }
 
         if(e.key === 'Enter'){
@@ -236,35 +237,6 @@ export default function Search({initialValue, disabled, updateOptions : updateRe
             setActiveId(null);
         }
     }
-
-    function moveWithinMenu(e: React.KeyboardEvent<HTMLDivElement>){
-        if(options === null || options === undefined){
-            return;
-        }
-
-        let newId = activeId;
-
-        if(e.key === 'ArrowUp'){
-            if(newId === null || newId <= 0 ){ /* Loop from top to bottom */
-                newId = options.length - 1;
-            }
-            else{
-                newId = newId - 1;
-            }
-        }
-        
-        if(e.key === 'ArrowDown'){
-            if(newId === null || newId >= options.length - 1 ){ /* Loop from bottom to top */
-                newId = 0;
-            }
-            else{
-                newId = newId + 1;
-            }
-        }
-
-        setActiveId(newId);
-    }
-
 
     const hasInput = input !== null;
     const inputId = React.useId();

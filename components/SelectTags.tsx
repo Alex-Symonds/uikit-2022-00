@@ -2,7 +2,7 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import { StyledScreenReaderOnly, useFocusMonitor } from '../utils/utils';
-import {SelectWrapper, SelectOptionDataType, multipleInputFunctions,} from './SelectWrapper';
+import {SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps} from './SelectWrapper';
 import Tag, {TagColor, TagSize} from './Tag';
 import { StyledLabel } from './InputContainer';
 import useTagOverflowCheck, { overflowBarX } from '../utils/UseTagOverflowCheck';
@@ -57,21 +57,17 @@ const StyledTagSelect = styled.div`
     width: 100%;
 `;
 
-interface I_SelectTagsProps{
-    disabled? : boolean,
-    id?: string,
-    label: string,
-    options: SelectOptionDataType[],
-    selectedOptions: SelectOptionDataType[] | null,
-    addSelectedOption: (data : SelectOptionDataType | null) => void,
-    removeSelectedOptions: (data : SelectOptionDataType[] | null) => void,
-    showOptions? : boolean,
-}
+type SelectTagsProps =  multiSelectionProps &
+                        Pick<I_SelectWrapperProps, "disabled" | "options" > & {
+                            id?: string,
+                            label: string,
+                            showOptions? : boolean,
+};
 
-export default function SelectTags({disabled, id, label, options, selectedOptions, addSelectedOption, removeSelectedOptions, showOptions : optionsVisibleOnInit} : I_SelectTagsProps){
+export default function SelectTags({disabled, id, label, options, selectedOptions, addSelectedOption, removeSelectedOptions, showOptions : optionsVisibleOnInit} : SelectTagsProps){
+    const selectionKit = multiSelectionFunctions({selectedOptions, addSelectedOption, removeSelectedOptions});
     const monitorFocusKit = useFocusMonitor();
-    const inputFunctions = multipleInputFunctions({selectedOptions, removeSelectedOptions, addSelectedOption});
-
+    
     const containerRef = React.useRef(null);
     const optionsListKit = useOptionsList({
         id: id === undefined ? null : id, 
@@ -79,7 +75,7 @@ export default function SelectTags({disabled, id, label, options, selectedOption
         optionsVisibleOnInit: optionsVisibleOnInit ?? false,
         refCurrent: containerRef?.current, 
         selectedOptions, 
-        onOptionPick : inputFunctions.onOptionPick, 
+        onOptionPick : selectionKit.onOptionPick, 
     });
     
     function handleFocus(){
@@ -90,7 +86,7 @@ export default function SelectTags({disabled, id, label, options, selectedOption
     const optionsListInteractivity = {
         activeId: optionsListKit.activeId,
         optionIdPrefix: optionsListKit.optionIdPrefix,
-        onOptionPick: inputFunctions.onOptionPick,
+        onOptionPick: selectionKit.onOptionPick,
         selectedOptions,
     }
 
@@ -103,13 +99,13 @@ export default function SelectTags({disabled, id, label, options, selectedOption
                             optionsListId={optionsListKit.optionsListId} 
                             optionsListInteractivity={optionsListInteractivity}
                             optionsVisible={optionsListKit.optionsVisible} 
-                            clearInput={inputFunctions.clearInput}
+                            clearInput={selectionKit.clearInput}
                             toggleOptionVisibility={optionsListKit.toggleOptionVisibility} 
                             >
                 <StyledInputLayout>
                     <SelectedTagsContainer  disabled={disabled ?? false} 
                                             selectedOptions={selectedOptions} 
-                                            onOptionDelete={inputFunctions.onOptionDelete} 
+                                            onOptionDelete={selectionKit.onOptionDelete} 
                     />
                     <StyledTagSelect    id={optionsListKit.inputId}
                                         tabIndex={0}
@@ -118,6 +114,7 @@ export default function SelectTags({disabled, id, label, options, selectedOption
                                         aria-expanded={optionsListKit.optionsVisible}
                                         aria-multiselectable={true}
                                         aria-owns={optionsListKit.optionsListId}
+                                        
                                         onBlur={() => monitorFocusKit.handleBlur()}
                                         onFocus={() => handleFocus()}
                                         onKeyDown={(e : React.KeyboardEvent<HTMLDivElement>) => optionsListKit.onKeyDown(e)}
@@ -138,7 +135,7 @@ export default function SelectTags({disabled, id, label, options, selectedOption
             </SelectWrapper>
 }
 
-type SelectedTagsContainerProps = Pick<I_SelectTagsProps, "selectedOptions"> & {
+type SelectedTagsContainerProps = Pick<SelectTagsProps, "selectedOptions"> & {
     disabled : boolean,
     onOptionDelete : (data : SelectOptionDataType) => void,
 }

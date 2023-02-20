@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import {SHADOW, PALETTE, LAYOUT} from './Theme';
+import {SHADOW, PALETTE, LAYOUT} from '../utils/Theme';
 
 
 interface Coords{

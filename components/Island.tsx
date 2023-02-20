@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from './Theme';
+import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import Badge, {BadgeType} from './Badge';
 import ButtonLabel from './ButtonLabel';
 import { ButtonColorMode, ButtonType } from './Button';

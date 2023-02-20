@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components';
-
+import React from 'react';
 
 export function isBlank(prop : any) : boolean{
     return prop === '' || prop === undefined || prop === null;
@@ -26,6 +26,8 @@ export const visuallyHidden = css`
     white-space: nowrap;
     width: 1px;
 `;
+
+
 
 
 type MoveWithMenuPropsType = {
@@ -80,4 +82,51 @@ export function debounce(func : CallbackFunctionVariadicAnyReturn, timeout = 300
 export function getClassName(styledComponent : any){
     const className = String(styledComponent).replace(".", "");
     return className;
+}
+
+export function useFocusMonitor(){
+    const [inputHasFocus, setInputHasFocus] = React.useState(false);
+
+    function handleFocus(){
+        setInputHasFocus(true);
+    }
+
+    function handleBlur(){
+        setInputHasFocus(false);
+    }
+
+    return {
+        inputHasFocus,
+        handleFocus,
+        handleBlur,
+    }
+}
+
+interface I_useCloseOnOutsideClick{
+    isOpen: boolean,
+    containerEle : HTMLElement | null,
+    setIsOpen : (value: React.SetStateAction<boolean>) => void,
+}
+export function useCloseOnOutsideClick({isOpen, containerEle, setIsOpen} : I_useCloseOnOutsideClick){
+    React.useEffect(() => {
+        if(isOpen){
+            window.addEventListener('click', clickOutsideToClose);
+        }
+        else{
+            window.removeEventListener('click', clickOutsideToClose);
+        }
+
+        return function cleanup(){
+            window.removeEventListener('click', clickOutsideToClose);
+        }
+
+        function clickOutsideToClose(e : MouseEvent){
+            // Prevent the menu from closing prematurely when the user toggles an option
+            if(containerEle && e.composedPath().includes(containerEle)){
+                return;
+            }
+            setIsOpen(false);
+        }
+
+    }, [isOpen, containerEle, setIsOpen]);
 }

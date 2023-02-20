@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, FONT } from './Theme';
+import { PALETTE, FONT } from '../utils/Theme';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 import Paragraph from './Paragraph';
-import { visuallyHidden, getClassName } from './utils';
+import { visuallyHidden, getClassName } from '../utils/utils';
 
 const StyledToggleBase = styled.button<{hasLabel : boolean}>`
     align-items: center;

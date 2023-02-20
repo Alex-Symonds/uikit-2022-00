@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, TYPOGRAPHY, SHADOW } from './Theme';
+import { PALETTE, TYPOGRAPHY, SHADOW } from '../utils/Theme';
 import CircleContainer from './CircleAroundIcon';
 import Button from './ButtonLabel';
 import {ButtonType, ButtonColorMode} from './Button';

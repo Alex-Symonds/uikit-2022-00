@@ -10,8 +10,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { css, ThemeProvider } from 'styled-components'
-import { PALETTE, FONT, LAYOUT } from './Theme';
-import { isBlank } from './utils';
+import { PALETTE, FONT, LAYOUT } from '../utils/Theme';
+import { isBlank } from '../utils/utils';
 import Icon, {IconProps} from './Icons';
 import { IconMediumId } from './IconsMedium';
 

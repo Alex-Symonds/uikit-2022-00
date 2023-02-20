@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE } from './Theme';
+import { PALETTE } from '../utils/Theme';
 import Container from './CircleAroundIcon';
 
 export const enum AvatarOptions{

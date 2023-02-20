@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Select',
+    title: 'UI Kit/Input/Select',
     component: Select,
     args: {
       id: "id_countrySelect",

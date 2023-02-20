@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
-import { LAYOUT, PALETTE, SHADOW } from './Theme';
+import { LAYOUT, PALETTE, SHADOW } from '../utils/Theme';
 import Paragraph from './Paragraph';
 
 export const enum TOOLTIP_ARROW_POSITION{

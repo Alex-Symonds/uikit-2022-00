@@ -1,12 +1,12 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, TYPOGRAPHY, LAYOUT, SHADOW } from './Theme';
+import { PALETTE, TYPOGRAPHY, LAYOUT, SHADOW } from '../utils/Theme';
 import { StyledLabel } from './InputContainer';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 import customCursorImg from '../public/cursorHand.svg';
-import { StyledScreenReaderOnly } from './utils';
-import { moveWithinMenu } from './utils';
+import { StyledScreenReaderOnly } from '../utils/utils';
+import { moveWithinMenu } from '../utils/utils';
 
 const StyledInputAndOptionsContainer = styled.div`
     width: fit-content;
@@ -180,7 +180,7 @@ const StyledFloatingLabel = styled(StyledLabel)<{floatUp : boolean}>`
     }}
 `;
 
-interface I_SelectProps{
+export interface I_SelectProps{
     disabled? : boolean,
     id?: string,
     label: string,
@@ -338,7 +338,6 @@ export default function Select({disabled, id, label, options, placeholder, selec
     }
 
     return  <StyledInputAndOptionsContainer ref={containerRef}>
-
                 <StyledInputContainer disabled={disabled ?? false} showOptions={optionsVisible ?? false} inputFocused={inputHasFocus}>
                     <SelectInputBar     disabled={disabled ?? false}
                                         hasSelection={hasSelection}
@@ -354,7 +353,6 @@ export default function Select({disabled, id, label, options, placeholder, selec
                 {optionsVisible &&
                     <OptionsList id={optionsListId}  options={options}  optionsMenuActions={optionsListInteractivity} />
                 }
-
             </StyledInputAndOptionsContainer>
 }
 
@@ -376,7 +374,7 @@ type SelectInputProps = {
     handleBlur : () => void,
 }
 
-function SelectInputBar({disabled, label,hasSelection, placeholder, selectedDisplayStr, selectedOption, selectInputProps, clearInput} : SelectInputBarProps){
+function SelectInputBar({disabled, label, hasSelection, placeholder, selectedDisplayStr, selectedOption, selectInputProps, clearInput} : SelectInputBarProps){
     const {activeDescendantId, inputId, optionsListId, optionsVisible, handleFocus, handleBlur, onKeyDown, toggleOptionVisibility} = selectInputProps;
     const toggleIconId = optionsVisible ? IconMediumId.arrowUp : IconMediumId.arrowDown;
 
@@ -417,6 +415,7 @@ function SelectInputBar({disabled, label,hasSelection, placeholder, selectedDisp
                 
         </StyledInputBarLayout>
 }
+
 
 type OptionsListPropsType = Pick<I_SelectProps, "options"> & {
     id: string,
@@ -461,7 +460,7 @@ type OptionPropsType = {
     optionId : string,
 }
 
-function Option({optionId, onClick, isHighlighted, data, isSelected} : OptionPropsType){
+export function Option({optionId, onClick, isHighlighted, data, isSelected} : OptionPropsType){
     return  <StyledOption   tabIndex={-1}
                             id={optionId}
                             role={"option"}

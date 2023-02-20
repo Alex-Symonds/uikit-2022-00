@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from './Theme';
+import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import Tag, {TagColor, TagSize} from './Tag';
 import InputContainer, {StyledLabel} from './InputContainer';
-import { visuallyHidden } from './utils';
+import { visuallyHidden } from '../utils/utils';
 
-const INPUT_MIN_WIDTH = "3rem";
+export const INPUT_MIN_WIDTH = "3rem";
 const TAG_CONTAINER_GAP = "0.25rem";
 const TAG_CONTAINER_MAX_WIDTH = `calc(100% - ${INPUT_MIN_WIDTH} - ${TAG_CONTAINER_GAP})`;
 
@@ -16,16 +16,16 @@ const StyledLayout = styled.div`
     width: 100%;
 `;
 
-const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean}>`
+const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean, maxWidth : string}>`
     align-items: center;
     display: flex;
     gap: ${TAG_CONTAINER_GAP};
-    max-width: ${props => props.readOnly ? "100%" : TAG_CONTAINER_MAX_WIDTH};
+    max-width: ${props => props.readOnly ? "100%" : props.maxWidth};
 
     ${ props => {
         if(props.hasOverflow){
             return css`
-                min-width: ${props.readOnly ? "100%" : TAG_CONTAINER_MAX_WIDTH};
+                min-width: ${props.readOnly ? "100%" : props.maxWidth};
                 overflow-x: auto;
                 overflow-y: hidden;
 
@@ -88,8 +88,6 @@ const StyledTagLabel = styled(StyledLabel)<{hide : boolean}>`
     }}
 `;
 
-
-
 interface I_InputTagsProps{
     description : string,
     disabled : boolean,
@@ -119,7 +117,12 @@ export default function InputTags({description, disabled, errorMsg, label, readO
 }
 
 
-function TagContainer({disabled, readOnly, tags, removeTag} : Pick<I_InputTagsProps, "disabled" | "readOnly" | "tags" | "removeTag" >){
+type TagContainerProps = Pick<I_InputTagsProps, "disabled" | "readOnly" | "tags" | "removeTag" > &{
+    className? : string,
+    maxWidth? : string,
+}
+
+export function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth} : TagContainerProps){
     const [overflowingTags, setOverflowingTags] = React.useState(false);
     const tagContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -148,7 +151,7 @@ function TagContainer({disabled, readOnly, tags, removeTag} : Pick<I_InputTagsPr
         setOverflowingTags(false);
     }, [tags]);
 
-    return  <StyledTagContainer hasOverflow={overflowingTags} readOnly={readOnly} ref={tagContainerRef}>
+    return  <StyledTagContainer className={className} hasOverflow={overflowingTags} readOnly={readOnly} ref={tagContainerRef} maxWidth={maxWidth ?? TAG_CONTAINER_MAX_WIDTH}>
                 {
                     tags.map((text, index) => {
                     return <Tag key = {index}

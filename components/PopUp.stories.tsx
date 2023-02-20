@@ -6,7 +6,7 @@ import ButtonLabel from './ButtonLabel';
 import { ButtonColorMode, ButtonType } from './Button';
 
 import styled from 'styled-components';
-import { TYPOGRAPHY } from './Theme';
+import { TYPOGRAPHY } from '../utils/Theme';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

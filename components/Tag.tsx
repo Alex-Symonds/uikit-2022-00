@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
-import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from './Theme';
+import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from '../utils/Theme';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 import customCursorImg from '../public/cursorHand.svg';
@@ -56,6 +56,7 @@ const StyledButton = styled.button`
     height: ${ICON_SIZES.small};
     position: relative;
     top: 0rem;
+    width: ${ICON_SIZES.small};
 `;
 
 interface TagThemeProps{
@@ -108,7 +109,7 @@ export enum TagColor{
     white = "white"
 }
 
-export default function InputTags({colour, disabled, showIcon, size, text, handleClick} : I_TagProps){
+export default function Tag({colour, disabled, showIcon, size, text, handleClick} : I_TagProps){
     const theme = colour === TagColor.primary ? PrimaryTheme : WhiteTheme;
     showIcon = handleClick !== undefined ? true : showIcon;
 

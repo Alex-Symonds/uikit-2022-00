@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {PALETTE, TYPOGRAPHY} from './Theme';
+import {PALETTE, TYPOGRAPHY} from '../utils/Theme';
 import customCursorImg from '../public/cursorHand.svg';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';

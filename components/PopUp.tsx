@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {IconMediumId} from './IconsMedium';
-import { PALETTE, SHADOW } from './Theme';
+import { PALETTE, SHADOW } from '../utils/Theme';
 import ButtonCircle from './ButtonCircle';
 import { ButtonColorMode, ButtonType } from './Button';
 

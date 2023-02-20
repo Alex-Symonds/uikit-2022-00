@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, LAYOUT, TYPOGRAPHY } from './Theme';
+import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 
 const StyledFilter = styled.div<{numOptions : number}>`
     display: inline-grid;

@@ -21,31 +21,33 @@ export default function useOptionsList({onOptionPick, refCurrent, id, options, s
         setIsOpen : setOptionsVisible
     });
 
-    // If any options are selected before the listbox receives focus, focus is set on the first selected option.
-    React.useEffect(() => {
-        if(!selectedOptions){
-            return;
-        }
+    function closeOptionsList(){
+        setOptionsVisible(false);
+    }
 
-        const index = options.findIndex((ele : SelectOptionDataType) => selectedOptions.includes(ele));
-        if(index === -1){
-            return;
-        }
+    function openOptionsList(){
+        setActiveIdOnOpen();
+        setOptionsVisible(true);
+    }
 
-        setActiveId(index);
-    }, [selectedOptions, options])
+    function setActiveIdOnOpen(){
+        if(selectedOptions && selectedOptions.length > 0){
+            const selectedIndex = options.findIndex((ele : SelectOptionDataType) => selectedOptions.includes(ele));
+            if(selectedIndex !== -1){
+                setActiveId(selectedIndex);
+                return;
+            }
+        }
+        return setActiveId(0);
+    }
 
     function handleFocus(){
-        setOptionsVisible(true);
-        if(activeId === null && selectedOptions && selectedOptions.length > 1){
-            setActiveId(0);
-        }
+        openOptionsList();
     }
 
     function toggleOptionVisibility(){
-        // If it's about to toggle open and none of the variables have any better ideas, highlight the first option for keyboard users
-        if(!optionsVisible && activeId === null && !selectedOptions){
-            setActiveId(0);
+        if(!optionsVisible){
+            setActiveIdOnOpen();
         }
 
         setOptionsVisible(prevState => {
@@ -57,11 +59,12 @@ export default function useOptionsList({onOptionPick, refCurrent, id, options, s
         const props : selectMenuKeydownProps = {
             e,
             optionsVisible,
-            setOptionsVisible,
+            closeOptionsList,
             options,
             activeId, 
             setActiveId,
             onOptionPick,
+            openOptionsList,
         }
         selectMenuKeyDown(props);
     }
@@ -72,11 +75,11 @@ export default function useOptionsList({onOptionPick, refCurrent, id, options, s
     const optionIdPrefix = optionsListId + "-";
 
     return {
-        inputId,
-        optionsListId,
-        optionIdPrefix,
         activeDescendantId: activeId === null ? undefined : optionIdPrefix + activeId,
         activeId,
+        inputId,
+        optionIdPrefix,
+        optionsListId,
         optionsVisible,
         onKeyDown,
         handleFocus,
@@ -86,24 +89,28 @@ export default function useOptionsList({onOptionPick, refCurrent, id, options, s
 
 type selectMenuKeydownProps = Pick<I_SelectWrapperProps, "options"> & {
     e : React.KeyboardEvent<HTMLDivElement>,
-    optionsVisible : boolean,
-    setOptionsVisible : (value : React.SetStateAction<boolean>) => void,
     activeId : number | null,
-    setActiveId : (value : React.SetStateAction<number | null>) => void,
+    optionsVisible : boolean,
+    closeOptionsList : () => void,
     onOptionPick: (str : string) => void,
+    openOptionsList : () => void,
+    setActiveId : (value : React.SetStateAction<number | null>) => void,
 }
 
-function selectMenuKeyDown({e, options, optionsVisible, setOptionsVisible, activeId, setActiveId, onOptionPick} : selectMenuKeydownProps){
+function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOptionsList, onOptionPick, openOptionsList, setActiveId} : selectMenuKeydownProps){
     if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
         e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
+        
         if(!optionsVisible){
-            setOptionsVisible(true);
+            openOptionsList();
+            return;
         }
+
         moveWithinMenu({e, options, activeId, setActiveId});
     }
 
     if(e.key === 'Enter' || e.key === 'Space'){
-        if(activeId !== null){
+        if(activeId !== null && optionsVisible){
             if(options !== null && options !== undefined && options.length > 0){
                 onOptionPick(options[activeId]);
             }
@@ -111,6 +118,6 @@ function selectMenuKeyDown({e, options, optionsVisible, setOptionsVisible, activ
     }
 
     if(e.key === 'Escape'){
-        setOptionsVisible(false);
+        closeOptionsList();
     }
 }

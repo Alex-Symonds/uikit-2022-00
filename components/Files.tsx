@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import {LAYOUT, PALETTE, SHADOW, TYPOGRAPHY} from './Theme';
+import {LAYOUT, PALETTE, SHADOW, TYPOGRAPHY} from '../utils/Theme';
 import CircleAroundIcon from './CircleAroundIcon';
 import Avatar, {AvatarOptions} from './Avatar';
 import Icon from './Icons';

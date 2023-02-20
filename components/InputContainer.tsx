@@ -1,5 +1,5 @@
 import styled, {css} from 'styled-components';
-import { PALETTE, LAYOUT, SHADOW, TYPOGRAPHY } from './Theme';
+import { PALETTE, LAYOUT, SHADOW, TYPOGRAPHY } from '../utils/Theme';
 
 const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, isSuccess : boolean, readOnly : boolean}>`
     border-radius: ${LAYOUT.borderRadius};

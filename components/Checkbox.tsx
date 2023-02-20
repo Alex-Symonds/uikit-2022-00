@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, FONT, LAYOUT } from './Theme';
+import { PALETTE, FONT, LAYOUT } from '../utils/Theme';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 

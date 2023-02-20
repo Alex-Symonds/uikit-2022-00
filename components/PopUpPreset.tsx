@@ -2,7 +2,7 @@ import React from 'react';
 import styled, {ThemeProvider} from 'styled-components';
 import Icon from './Icons';
 import {IconXLId} from './IconsExtraLarge';
-import { PALETTE, TYPOGRAPHY } from './Theme';
+import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import ButtonLabel from './ButtonLabel';
 import { ButtonColorMode, ButtonType } from './Button';
 import CircleAroundIcon from './CircleAroundIcon';

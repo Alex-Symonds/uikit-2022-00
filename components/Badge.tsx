@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider } from 'styled-components';
-import { PALETTE, SHADOW, TYPOGRAPHY } from './Theme';
-import { isBlank } from './utils';
+import { PALETTE, SHADOW, TYPOGRAPHY } from '../utils/Theme';
+import { isBlank } from '../utils/utils';
 
 export enum BadgeType{
     primary = "primary",

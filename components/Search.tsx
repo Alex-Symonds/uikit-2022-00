@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, TYPOGRAPHY, LAYOUT, SHADOW } from './Theme';
+import { PALETTE, TYPOGRAPHY, LAYOUT, SHADOW } from '../utils/Theme';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 import customCursorImg from '../public/cursorHand.svg';
-import { StyledScreenReaderOnly } from './utils';
-import { moveWithinMenu } from './utils';
+import { StyledScreenReaderOnly } from '../utils/utils';
+import { moveWithinMenu } from '../utils/utils';
 
 const StyledSearchAndResultsContainer = styled.div`
     position: relative;

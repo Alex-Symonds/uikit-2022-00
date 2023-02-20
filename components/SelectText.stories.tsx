@@ -1,11 +1,11 @@
 import React from 'react';
-import Select from './Select';
+import SelectText from './SelectText';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/Select',
-    component: Select,
+    title: 'UI Kit/Input/SelectText',
+    component: SelectText,
     args: {
       id: "id_countrySelect",
       label: "Your country",
@@ -14,18 +14,18 @@ export default {
       selectedOption: null,
   }
 
-  } as ComponentMeta<typeof Select>;
+  } as ComponentMeta<typeof SelectText>;
 
-const Template: ComponentStory<typeof Select> = args => <Select {...args} />;
+const Template: ComponentStory<typeof SelectText> = args => <SelectText {...args} />;
 
-const ControlledTemplate : ComponentStory<typeof Select> = args => {
+const ControlledTemplate : ComponentStory<typeof SelectText> = args => {
   const [selected, setSelected] = React.useState<string | null>(args.selectedOption ?? null);
 
   function selectOption(data : string | null){
     setSelected(data);
   }
 
-  return <Select {...args} 
+  return <SelectText {...args} 
             selectedOption = {selected}
             setSelectedOption = {selectOption}
           />;

@@ -2,6 +2,8 @@
     Contains shared components and functions relating to Select.
 
     Exports:
+        > SelectOptionDataType
+            >> If you need to extend it to an object with an ID field as well, here you go :)
         > I_SelectWithOptionsProps
         > SelectWrapper
             >> Rounded-corner rectangle / hover stuff
@@ -11,16 +13,14 @@
         > multipleInputFunctions
 */
 
-
 import React, {forwardRef} from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, LAYOUT, SHADOW } from '../utils/Theme';
+import { PALETTE, LAYOUT, SHADOW, TYPOGRAPHY } from '../utils/Theme';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 import customCursorImg from '../public/cursorHand.svg';
-
 import OptionsListContainer from './OptionsContainer';
-import {Option} from './Select';
+
 
 export type SelectOptionDataType = string;
 
@@ -119,9 +119,35 @@ const StyledToggleButton = styled.button<{isActive : boolean}>`
     }
 `;
 
+const StyledOption = styled.div<{isHighlighted : boolean}>`
+    ${TYPOGRAPHY.p2}
+    align-text: left;
+    background: ${props => props.isHighlighted ? PALETTE.grayL : "transparent"};
+    color: ${PALETTE.black};
+    padding: 0.5rem 0.75rem 0.5rem 1rem;
+    position: relative;
+
+    &:hover{
+        background: ${PALETTE.grayL};
+        cursor: url(${customCursorImg}), auto;
+    }
+
+    span{
+        display: block;
+        max-width: calc(100% - 1.5rem - 0.4rem);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    svg{
+        position: absolute;
+        top: calc(50% - (1.5rem / 2));
+        right: 12px;
+    }
+`;
 
 export interface I_SelectWrapperProps{
-    className? : string,
     disabled? : boolean,
     optionsVisible? : boolean, 
     hasSelection : boolean,
@@ -134,16 +160,14 @@ export interface I_SelectWrapperProps{
     children : React.ReactNode,
 }
 
-
-
 export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
-    function SelectWithOptions({className, disabled, optionsVisible, hasSelection, inputHasFocus, optionsListId, options, optionsListInteractivity, clearInput, toggleOptionVisibility, children} : I_SelectWrapperProps, containerRef){
+    function SelectWrapper({disabled, optionsVisible, hasSelection, inputHasFocus, optionsListId, options, optionsListInteractivity, clearInput, toggleOptionVisibility, children} : I_SelectWrapperProps, containerRef){
         const toggleIconId = optionsVisible ? IconMediumId.arrowUp : IconMediumId.arrowDown;
 
         return  <StyledInputAndOptionsContainer ref={containerRef}>
-                    <StyledInputContainer   disabled={disabled ?? false} showOptions={optionsVisible ?? false} inputFocused={inputHasFocus ?? false}>
+                    <StyledInputContainer disabled={disabled ?? false} showOptions={optionsVisible ?? false} inputFocused={inputHasFocus ?? false}>
 
-                    <StyledSelectBar className={className}>
+                    <StyledSelectBar>
                         {children}
 
                         { hasSelection &&
@@ -172,6 +196,7 @@ type OptionsListPropsType = Pick<I_SelectWrapperProps, "options"> & {
     optionsMenuActions: OptionsListInteractivity,
 };
 
+// This exists to reduce the number of props being passed into SelectWrapper
 type OptionsListInteractivity = {
     activeId : number | null,
     optionIdPrefix : string,
@@ -196,16 +221,46 @@ function OptionsList({id, options, optionsMenuActions} : OptionsListPropsType){
             </OptionsListContainer>
 }
 
-export function multipleInputFunctions({selectedOptions, removeSelectedOptions, addSelectedOption} : any){
+type OptionPropsType = {
+    data : SelectOptionDataType,
+    isHighlighted : boolean,
+    isSelected : boolean,
+    onClick : () => void,
+    optionId : string,
+}
+
+function Option({optionId, onClick, isHighlighted, data, isSelected} : OptionPropsType){
+    return  <StyledOption   tabIndex={-1}
+                            id={optionId}
+                            role={"option"}
+                            onClick={() => onClick()}
+                            isHighlighted={isHighlighted}
+                            aria-selected={isSelected}
+                            >
+
+                <span>{data}</span>
+
+            {isSelected &&
+                <Icon idMedium={IconMediumId.check} />
+            }
+            </StyledOption>
+}
+
+export type multiSelectionProps = Pick<OptionsListInteractivity, "selectedOptions"> & {
+    addSelectedOption: (data : SelectOptionDataType | null) => void,
+    removeSelectedOptions: (data : SelectOptionDataType[] | null) => void,
+}
+
+export function multiSelectionFunctions({selectedOptions, removeSelectedOptions, addSelectedOption} : multiSelectionProps){
     function clearInput(){
-        if(selectedOptions.length === 0){
+        if(selectedOptions && selectedOptions.length === 0){
             return;
         }
         removeSelectedOptions(selectedOptions);
     }
 
     function onOptionPick(data : SelectOptionDataType){
-        if(selectedOptions.includes(data)){
+        if(selectedOptions && selectedOptions.includes(data)){
             removeSelectedOptions([data]);
             return;
         }
@@ -223,3 +278,27 @@ export function multipleInputFunctions({selectedOptions, removeSelectedOptions, 
     }
 }
 
+
+export type singleSelectionProps = {
+    setSelectedOption : (data : SelectOptionDataType | null) => void,
+}
+type singleSelectionFunctionsProps = Pick<OptionsListInteractivity, "selectedOptions"> 
+                                    & singleSelectionProps;
+export function singleSelectionFunctions({selectedOptions, setSelectedOption} : singleSelectionFunctionsProps){
+    function clearInput(){
+        setSelectedOption(null);
+    }
+
+    function onOptionPick(data : SelectOptionDataType){
+        if(selectedOptions && selectedOptions.includes(data)){
+            setSelectedOption(null);
+            return;
+        }
+        setSelectedOption(data);
+    }
+
+    return {
+        clearInput,
+        onOptionPick,
+    }
+}

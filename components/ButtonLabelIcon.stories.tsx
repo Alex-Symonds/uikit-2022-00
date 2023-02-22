@@ -48,6 +48,9 @@ PrimaryWhite.args = {
   colorMode: ButtonColorMode.white,
   type: ButtonType.primary
 }
+PrimaryWhite.parameters = {
+  backgrounds: { default: 'dark', }
+}
 
 export const PrimaryWhiteHover = Template.bind({});
 PrimaryWhiteHover.args = {
@@ -55,6 +58,7 @@ PrimaryWhiteHover.args = {
   type: ButtonType.primary
 }
 PrimaryWhiteHover.parameters = {
+  ...PrimaryWhite.parameters,
   pseudo: { hover: true }
 }
 
@@ -64,6 +68,7 @@ PrimaryWhiteActive.args = {
   type: ButtonType.primary
 }
 PrimaryWhiteActive.parameters = {
+  ...PrimaryWhite.parameters,
   pseudo: { active: true }
 }
 
@@ -73,6 +78,7 @@ PrimaryWhiteFocus.args = {
   type: ButtonType.primary
 }
 PrimaryWhiteFocus.parameters = {
+  ...PrimaryWhite.parameters,
   pseudo: { focus: true }
 }
 
@@ -82,7 +88,9 @@ PrimaryWhiteDisabled.args = {
   type: ButtonType.primary,
   disabled: true
 };
-
+PrimaryWhiteDisabled.parameters = {
+  ...PrimaryWhite.parameters,
+}
 
 export const Secondary = Template.bind({});
 Secondary.args = {
@@ -130,6 +138,9 @@ SecondaryWhite.args = {
   colorMode: ButtonColorMode.white,
   type: ButtonType.secondary
 }
+SecondaryWhite.parameters = {
+  ...PrimaryWhite.parameters,
+}
 
 export const SecondaryWhiteHover = Template.bind({});
 SecondaryWhiteHover.args = {
@@ -137,6 +148,7 @@ SecondaryWhiteHover.args = {
   type: ButtonType.secondary
 }
 SecondaryWhiteHover.parameters = {
+  ...SecondaryWhite.parameters,
   pseudo: { hover: true }
 }
 
@@ -146,6 +158,7 @@ SecondaryWhiteActive.args = {
   type: ButtonType.secondary
 }
 SecondaryWhiteActive.parameters = {
+  ...SecondaryWhite.parameters,
   pseudo: { active: true }
 }
 
@@ -155,6 +168,7 @@ SecondaryWhiteFocus.args = {
   type: ButtonType.secondary
 }
 SecondaryWhiteFocus.parameters = {
+  ...SecondaryWhite.parameters,
   pseudo: { focus: true }
 }
 
@@ -164,7 +178,9 @@ SecondaryWhiteDisabled.args = {
   type: ButtonType.secondary,
   disabled: true
 };
-
+SecondaryWhiteDisabled.parameters = {
+  ...SecondaryWhite.parameters,
+}
 
 export const SecondaryDark = Template.bind({});
 SecondaryDark.args = {
@@ -255,6 +271,9 @@ FlatWhite.args = {
   colorMode: ButtonColorMode.white,
   type: ButtonType.flat
 }
+FlatWhite.parameters = {
+  ...PrimaryWhite.parameters,
+}
 
 export const FlatWhiteHover = Template.bind({});
 FlatWhiteHover.args = {
@@ -262,6 +281,7 @@ FlatWhiteHover.args = {
   type: ButtonType.flat
 }
 FlatWhiteHover.parameters = {
+  ...FlatWhite.parameters,
   pseudo: { hover: true }
 }
 
@@ -271,6 +291,7 @@ FlatWhiteActive.args = {
   type: ButtonType.flat
 }
 FlatWhiteActive.parameters = {
+  ...FlatWhite.parameters,
   pseudo: { active: true }
 }
 
@@ -280,6 +301,7 @@ FlatWhiteFocus.args = {
   type: ButtonType.flat
 }
 FlatWhiteFocus.parameters = {
+  ...FlatWhite.parameters,
   pseudo: { focus: true }
 }
 
@@ -289,3 +311,6 @@ FlatWhiteDisabled.args = {
   type: ButtonType.flat,
   disabled: true
 };
+FlatWhiteDisabled.parameters = {
+  ...FlatWhite.parameters,
+}

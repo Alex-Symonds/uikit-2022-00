@@ -65,7 +65,11 @@ export const enum SHADOW{
 }
 
 export const enum LAYOUT{
-    borderRadius = "0.25rem"
+    borderRadius = "0.25rem",
+    breakPointS = "320px",
+    breakpointM = "768px",
+    breakpointL = "1024px",
+    breakpointXL = "1366px",
 }
 
 export const enum ICON_SIZES{

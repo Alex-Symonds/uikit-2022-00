@@ -1,4 +1,22 @@
 import '../styles/reset.css';
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
+
+const customViewports = {
+  desktop: {
+    name: 'Desktop',
+    styles: {
+      width: '1024px',
+      height: '768px',
+    },
+  },
+  desktopHD: {
+    name: 'Desktop HD',
+    styles: {
+      width: '1366px',
+      height: '768px',
+    },
+  },
+};
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -9,15 +27,15 @@ export const parameters = {
     },
   },
   backgrounds: {
-    default: 'mid',
+    default: 'light',
     values: [
-      {
-        name: 'mid',
-        value: '#CCC',
-      },
       {
         name: 'light',
         value: '#FFF',
+      },
+      {
+        name: 'mid',
+        value: '#CCC',
       },
       {
         name: 'dark',
@@ -25,4 +43,11 @@ export const parameters = {
       },
     ],
   },
+  viewport: {
+    viewports: {
+       ...INITIAL_VIEWPORTS,
+      ...customViewports,
+    },
+  },
 }
+

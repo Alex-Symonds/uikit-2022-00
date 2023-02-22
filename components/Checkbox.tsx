@@ -32,6 +32,11 @@ const StyledLabel = styled.label<Pick<CheckboxProps, "disabled" | "error">>`
         position: absolute;
         top: calc(.75rem - 8px);
         left: calc(.75rem - 8px);
+
+        & path,
+        & rect {
+            fill: ${PALETTE.white};
+        }
     }
 `;
 
@@ -55,10 +60,6 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
 
     & + & {
         margin-top: 1rem;
-    }
-
-    svg path {
-        fill: ${PALETTE.white};
     }
 
     &::before{

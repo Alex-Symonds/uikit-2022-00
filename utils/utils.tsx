@@ -1,5 +1,7 @@
 import styled, {css} from 'styled-components';
 import React from 'react';
+import {CheckboxOptionDataType} from '../components/ContextMenuCheckbox';
+import {RadioOptionDataType} from '../components/ContextMenuRadio';
 
 export function isBlank(prop : any) : boolean{
     return prop === '' || prop === undefined || prop === null;
@@ -48,7 +50,7 @@ export function moveWithinMenu({e, options, activeId, setActiveId} : MoveWithMen
             newId = options.length - 1;
         }
         else{
-            newId = newId - 1;
+            newId--;
         }
     }
     
@@ -57,7 +59,7 @@ export function moveWithinMenu({e, options, activeId, setActiveId} : MoveWithMen
             newId = 0;
         }
         else{
-            newId = newId + 1;
+            newId++;
         }
     }
 
@@ -67,6 +69,10 @@ export function moveWithinMenu({e, options, activeId, setActiveId} : MoveWithMen
 
 export function convertRemToPixels(rem : number){
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+export function getArrayLengthOrZero(anyArray : any[] | null | undefined) : number{
+    return anyArray == null || anyArray === undefined || anyArray.length <= 0 ? 0 : anyArray.length;
 }
 
 type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
@@ -129,4 +135,42 @@ export function useCloseOnOutsideClick({isOpen, containerEle, setIsOpen} : I_use
         }
 
     }, [isOpen, containerEle, setIsOpen]);
+}
+
+export function changeCheckbox(id : string, checked : boolean, options : CheckboxOptionDataType[], setOptions : React.Dispatch<React.SetStateAction<CheckboxOptionDataType[]>>){
+    const newOptions = options.map((c, i) => {
+        if(c.id === id){
+            return {
+                ...c,
+                checked: !checked
+            }
+        }
+        else{
+            return c;
+        }
+    });
+    setOptions(newOptions);
+}
+
+export function changeRadio(id : string, checked : boolean, options : RadioOptionDataType[], setOptions : React.Dispatch<React.SetStateAction<RadioOptionDataType[]>>){
+    const newOptions = options.map((c, i) => {
+        if(c.id === id){
+            return {
+                ...c,
+                checked: !checked
+            }
+        }
+        else{
+            if(checked){
+                return c;
+            }
+            else{
+                return {
+                    ...c,
+                    checked: false
+                }
+            }
+        }
+    });
+    setOptions(newOptions);
 }

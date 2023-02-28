@@ -1,128 +1,116 @@
 import React from 'react';
-import ContextMenu from './ContextMenu';
+import ContextMenu, {StyledContextMenu} from './ContextMenu';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import ContextUl from './ContextMenuUl';
+import styled from 'styled-components';
+import ContextRadioGroup, {RadioOptionDataType} from './ContextMenuRadio';
+import ContextCheckboxGroup, {CheckboxOptionDataType} from './ContextMenuCheckbox';
+import { changeRadio, changeCheckbox } from '../utils/utils';
+import { TYPOGRAPHY } from '../utils/Theme';
+import { COUNTRY_RADIO_DATA, COUNTRY_CHECKBOX_DATA, TIMEUNIT_CHECKBOX_DATA, TIMEUNIT_RADIO_DATA } from '../utils/storyData';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'UI Kit/ContextMenu',
     component: ContextMenu,
   } as ComponentMeta<typeof ContextMenu>;
 
-
-/* 
-    The operation of the custom context menu is restricted to the space inside a specified parent element 
-    (leaving the rest of the page to the normal context menu).
-    Therefore the story needs a parent wrapper and that wrapper needs a size, so there's an area to click within.
-*/ 
-import styled from 'styled-components';
+// Wrapper for the "RightClickToView" story
+const PARENT_COLOUR = "yellow"; // This is also inserted in the middle of a human-readable sentence, so maybe avoid hex/RGB etc.
 const StyledContainer = styled.div`
+    ${TYPOGRAPHY.p2}
     width: 50vw;
     height: 10vh;
-    background: yellow;
+    background: ${PARENT_COLOUR};
     padding: 1rem;
     box-sizing: border-box;
 `;
-const displaySentence = "Right click in the yellow area to open context menu";
 
+// Positioning for the "I just want to see it, don't make me right click things!" stories
+const POS_X = 16;
+const POS_Y = 16;
 
-const Template: ComponentStory<typeof ContextMenu> = args => {
-    // For the functioning of the right click context menu
+export const RightClickRadio: ComponentStory<typeof ContextMenu> = args =>{
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    // Some state, allowing the options to be selected and deselected
-    const [isRussia, setIsRussia] = React.useState(false);
-    const [isUSA, setIsUSA] = React.useState(true);
-    const [isGermany, setIsGermany] = React.useState(false);
+    const [countries, setCountries] = React.useState<RadioOptionDataType[]>(COUNTRY_RADIO_DATA);
 
-    const clickRussia = () => {
-        onClick(setIsRussia);
+    function changeCountries(id : string, checked : boolean){
+        changeRadio(id, checked, countries, setCountries);
     }
 
-    const clickUSA = () => {
-        onClick(setIsUSA);
-    }
-
-    const clickGermany = () => {
-        onClick(setIsGermany);
-    }
-
-    const onClick = (setter : React.Dispatch<React.SetStateAction<boolean>>) => {
-        setter(prevState => {return !prevState})
-    }
+    const id_countries = React.useId();
 
     return <StyledContainer ref={containerRef}>
-                <p>{displaySentence}</p>
+                <p>Right click in the {PARENT_COLOUR} area to open context menu</p>
                 <ContextMenu    parentRef = {containerRef}>
-                    <ContextUl 
-                        listItems = {[
-                            { display: "Russia", handleClick: clickRussia, selected: isRussia },
-                            { display: "USA", handleClick: clickUSA, selected: isUSA },
-                            { display: "Germany", handleClick: clickGermany, selected: isGermany }
-                        ]}
+                    <ContextRadioGroup  id={id_countries}
+                                        options = {countries}
+                                        onChange = {changeCountries}
+                                        name={"countries"}
+                                        legend={"Countries"}
+                                        hideLegendVisually={true}
                     />
                 </ContextMenu>
             </StyledContainer>
+}
+
+
+export const MultipleRadio: ComponentStory<typeof ContextMenu> = args => {
+    const [countries, setCountries] = React.useState<RadioOptionDataType[]>(COUNTRY_RADIO_DATA.slice(0,2));
+    const [timeUnits, setTimeUnits] = React.useState<RadioOptionDataType[]>(TIMEUNIT_RADIO_DATA);
+
+    function changeCountries(id : string, checked : boolean){
+        changeRadio(id, checked, countries, setCountries);
+    }
+
+    function changeTimeUnits(id : string, checked : boolean){
+        changeRadio(id, checked, timeUnits, setTimeUnits);
+    }
+
+    const id_countries = React.useId();
+    const id_timeUnits = React.useId();
+
+    return <StyledContextMenu x={POS_X} y={POS_Y}>
+                    <ContextRadioGroup  id={id_timeUnits}
+                                        options = {timeUnits}
+                                        onChange = {changeTimeUnits}
+                                        name={"timeUnits"}
+                                        legend={"Time"}
+                    />
+                    <ContextRadioGroup  id={id_countries}
+                                        options = {countries}
+                                        onChange = {changeCountries}
+                                        name={"countries"}
+                                        legend={"Countries"}
+                    />
+            </StyledContextMenu>
 };
 
-export const Default = Template.bind({});
 
+export const MultipleCheckbox: ComponentStory<typeof ContextMenu> = args => {
+    const [countries, setCountries] = React.useState<CheckboxOptionDataType[]>(COUNTRY_CHECKBOX_DATA.slice(0,2));
+    const [timeUnits, setTimeUnits] = React.useState<CheckboxOptionDataType[]>(TIMEUNIT_CHECKBOX_DATA);
 
-
-const TemplateMultiply: ComponentStory<typeof ContextMenu> = args => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
-
-    const [isRussia, setIsRussia] = React.useState(false);
-    const [isUSA, setIsUSA] = React.useState(true);
-
-    const [isDays, setIsDays] = React.useState(false);
-    const [isWeeks, setIsWeeks] = React.useState(true);
-    const [isYears, setIsYears] = React.useState(false);
-
-    const clickRussia = () => {
-        onClick(setIsRussia);
+    function changeCountries(id : string, checked : boolean){
+        changeCheckbox(id, checked, countries, setCountries);
     }
 
-    const clickUSA = () => {
-        onClick(setIsUSA);
+    function changeTimeUnits(id : string, checked : boolean){
+        changeCheckbox(id, checked, timeUnits, setTimeUnits);
     }
 
-    const clickDays = () => {
-        onClick(setIsDays);
-    }
+    const id_countries = React.useId();
+    const id_timeUnits = React.useId();
 
-    const clickWeeks = () => {
-        onClick(setIsWeeks);
-    }
-
-    const clickYears = () => {
-        onClick(setIsYears);
-    }
-
-    const onClick = (setter : React.Dispatch<React.SetStateAction<boolean>>) => {
-        setter(prevState => {return !prevState})
-    }
-
-    return <StyledContainer ref={containerRef}>
-                <p>{displaySentence}</p>
-                <ContextMenu    parentRef = {containerRef}>
-                    <ContextUl
-                        heading = "Time"
-                        listItems = {[
-                            { display: "Days", handleClick: clickDays, selected: isDays },
-                            { display: "Weeks", handleClick: clickWeeks, selected: isWeeks },
-                            { display: "Years", handleClick: clickYears, selected: isYears }
-                        ]}
+    return  <StyledContextMenu x={POS_X} y={POS_Y}>
+                    <ContextCheckboxGroup   id={id_timeUnits}
+                                            options = {timeUnits}
+                                            onChange = {changeTimeUnits}
+                                            legend={"Time"}
                     />
-                    <ContextUl
-                        heading = "Country"
-                        listItems = {[
-                            { display: "Russia", handleClick: clickRussia, selected: isRussia },
-                            { display: "USA", handleClick: clickUSA, selected: isUSA }
-                        ]}
+                    <ContextCheckboxGroup   id={id_countries}
+                                            options = {countries}
+                                            onChange = {changeCountries}
+                                            legend={"Countries"}
                     />
-                </ContextMenu>
-            </StyledContainer>
+            </StyledContextMenu>
 };
-
-export const Multiply = TemplateMultiply.bind({});

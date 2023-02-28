@@ -4,79 +4,42 @@
     Exports:
         > SelectOptionDataType
             >> If you need to extend it to an object with an ID field as well, here you go :)
-        > I_SelectWithOptionsProps
+        > I_SelectWrapperProps
         > SelectWrapper
             >> Rounded-corner rectangle / hover stuff
             >> The close button and up/down arrow open/close toggle button
             >> The options list
             >> Use {children} to fill in the input area
-        > multipleInputFunctions
+        > multiSelectionFunctions
+        > multiSelectionProps
+        > singleSelectionFunctions
+        > singleSelectionProps
 */
 
 import React, {forwardRef} from 'react';
-import styled, {css} from 'styled-components';
-import { PALETTE, LAYOUT, SHADOW, TYPOGRAPHY } from '../utils/Theme';
+import styled from 'styled-components';
+import { PALETTE } from '../utils/Theme';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 import customCursorImg from '../public/cursorHand.svg';
-import OptionsListContainer from './OptionsContainer';
+import OptionsListWithScreenreader from './OptionsContainer';
+import Option from './Options';
+import {   
+    StyledInputAndOptionsContainer, 
+    StyledInputContainerWithOutline as StyledInputContainer, 
+    StyledCloseButton
+} from './Styled_InputAndOptions';
 
+/*
+    Assumptions: 
+        > Each display name in the Select is unique and can therefore be used to identify the selected option
+        > Individual "checked" status is unnecessary because only one option can be selected (instead, store the selectOption's display name and compare)
+        > We're not using any <input> elements, so no particular need to consider correct use of name, value, etc.
 
+    Conclusion:
+    All we need is a string for the display name.
+*/
 export type SelectOptionDataType = string;
-
-const StyledInputAndOptionsContainer = styled.div`
-    width: fit-content;
-`;
-
-const StyledInputContainer = styled.div<{disabled : boolean, showOptions : boolean, inputFocused : boolean}>`
-    background: ${PALETTE.white};
-    box-shadow: ${props => props.showOptions && !props.disabled ? SHADOW.hoverFile : SHADOW.default};
-    border-radius: ${LAYOUT.borderRadius};
-    height: 3.5rem;
-    max-width: 100%;
-    overflow: hidden;
-    position: relative;
-    width: 30.125rem;
-
-    ${ props => {
-        if(props.disabled){
-            return;
-        }
-        return css`   
-            &:hover {
-                box-shadow: ${SHADOW.hover};
-            }
-        `;
-    }}
-
-    /*  
-        Design exists for "Focus Active" (options displayed; no outline around container), but 
-        not "Focus Inactive".
-        With the options closed, there is nothing to indicate the focussed element. For accessibility, 
-        add an outline for Focus Inactive. 
-        Note: overflow: hidden has disabled the normal outline, so make a fake one using a pseudo element.
-    */
-    ${ props => {
-        if(!props.inputFocused || props.showOptions) {
-            return;
-        }
-
-        return css`
-            &:before{
-                border: 0.125rem solid ${PALETTE.blackStrong};
-                border-radius: ${LAYOUT.borderRadius};
-                content: '';
-                display: block;
-                height: 100%;
-                left: 0;
-                position: absolute;
-                top: 0;
-                width: 100%;
-                z-index: 2;  
-            }
-        `;
-    }}
-`;
 
 const StyledSelectBar = styled.div`
     display: grid;
@@ -87,23 +50,6 @@ const StyledSelectBar = styled.div`
     height: 100%;
     padding: 0 0.75rem;
     width: 100%;
-`;
-
-const StyledCloseButton = styled.button`
-    background: transparent;
-    grid-area: closeIcon;
-    
-    svg path{
-        fill: ${ PALETTE.blackStrong };
-    }
-
-    &:hover{
-        cursor: url(${customCursorImg}), auto;
-
-        svg path{
-            fill: ${ PALETTE.black };
-        }
-    }
 `;
 
 const StyledToggleButton = styled.button<{isActive : boolean}>`
@@ -119,69 +65,49 @@ const StyledToggleButton = styled.button<{isActive : boolean}>`
     }
 `;
 
-const StyledOption = styled.div<{isHighlighted : boolean}>`
-    ${TYPOGRAPHY.p2}
-    align-text: left;
-    background: ${props => props.isHighlighted ? PALETTE.grayL : "transparent"};
-    color: ${PALETTE.black};
-    padding: 0.5rem 0.75rem 0.5rem 1rem;
-    position: relative;
-
-    &:hover{
-        background: ${PALETTE.grayL};
-        cursor: url(${customCursorImg}), auto;
-    }
-
-    span{
-        display: block;
-        max-width: calc(100% - 1.5rem - 0.4rem);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    svg{
-        position: absolute;
-        top: calc(50% - (1.5rem / 2));
-        right: 12px;
-    }
-`;
 
 export interface I_SelectWrapperProps{
     disabled? : boolean,
-    optionsVisible? : boolean, 
     hasSelection : boolean,
     inputHasFocus? : boolean,
-    optionsListId : string,
     options : SelectOptionDataType[],
+    optionsListId : string,
     optionsListInteractivity : OptionsListInteractivity,
+    optionsVisible? : boolean, 
     clearInput : () => void,   
     toggleOptionVisibility : () => void,
     children : React.ReactNode,
 }
 
+// This exists to reduce the number of props being passed into SelectWrapper.
+type OptionsListInteractivity = {
+    activeId : number | null,
+    optionIdPrefix : string,
+    onOptionPick: (newInput : string) => void,
+    selectedOptions : SelectOptionDataType[] | null,
+}
+
 export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
-    function SelectWrapper({disabled, optionsVisible, hasSelection, inputHasFocus, optionsListId, options, optionsListInteractivity, clearInput, toggleOptionVisibility, children} : I_SelectWrapperProps, containerRef){
+    function SelectWrapper({disabled, hasSelection, inputHasFocus, options, optionsListId, optionsListInteractivity, optionsVisible, clearInput, toggleOptionVisibility, children} : I_SelectWrapperProps, containerRef){
         const toggleIconId = optionsVisible ? IconMediumId.arrowUp : IconMediumId.arrowDown;
 
         return  <StyledInputAndOptionsContainer ref={containerRef}>
                     <StyledInputContainer disabled={disabled ?? false} showOptions={optionsVisible ?? false} inputFocused={inputHasFocus ?? false}>
+                        <StyledSelectBar>
 
-                    <StyledSelectBar>
-                        {children}
+                            {children}
 
-                        { hasSelection &&
-                            <StyledCloseButton onClick={ clearInput }>
-                                <Icon idMedium={IconMediumId.close} />
-                            </StyledCloseButton>
-                        }
+                            { hasSelection &&
+                                <StyledCloseButton onClick={ clearInput }>
+                                    <Icon idMedium={IconMediumId.close} />
+                                </StyledCloseButton>
+                            }
 
-                        <StyledToggleButton onClick = { toggleOptionVisibility } isActive={(optionsVisible ?? false) && hasSelection}>
-                            <Icon idMedium = {toggleIconId} />
-                        </StyledToggleButton>
-                        
-                    </StyledSelectBar>
-
+                            <StyledToggleButton onClick = { toggleOptionVisibility } isActive={(optionsVisible ?? false) && hasSelection}>
+                                <Icon idMedium = {toggleIconId} />
+                            </StyledToggleButton>
+                            
+                        </StyledSelectBar>
                     </StyledInputContainer>
 
                 {optionsVisible &&
@@ -196,55 +122,24 @@ type OptionsListPropsType = Pick<I_SelectWrapperProps, "options"> & {
     optionsMenuActions: OptionsListInteractivity,
 };
 
-// This exists to reduce the number of props being passed into SelectWrapper
-type OptionsListInteractivity = {
-    activeId : number | null,
-    optionIdPrefix : string,
-    onOptionPick: (newInput : string) => void,
-    selectedOptions : SelectOptionDataType[] | null,
-}
-
 function OptionsList({id, options, optionsMenuActions} : OptionsListPropsType){
     let {activeId, optionIdPrefix, onOptionPick, selectedOptions} = optionsMenuActions;
-    return  <OptionsListContainer id={id} options={options}>
+    return  <OptionsListWithScreenreader id={id} options={options}>
                 {
                     options?.map((data : SelectOptionDataType, index : number) => {
                         return  <Option key={index}
-                                        optionId={optionIdPrefix + index}
-                                        data={data}
-                                        onClick={() => onOptionPick(data)}
+                                        enableCheck={true}
                                         isHighlighted={index === activeId}
                                         isSelected={selectedOptions === null || selectedOptions.length === 0 ? false : selectedOptions.includes(data)}
+                                        optionId={optionIdPrefix + index}
+                                        text={data}
+                                        onClick={() => onOptionPick(data)}
                                         />
                     })
                 }
-            </OptionsListContainer>
+            </OptionsListWithScreenreader>
 }
 
-type OptionPropsType = {
-    data : SelectOptionDataType,
-    isHighlighted : boolean,
-    isSelected : boolean,
-    onClick : () => void,
-    optionId : string,
-}
-
-function Option({optionId, onClick, isHighlighted, data, isSelected} : OptionPropsType){
-    return  <StyledOption   tabIndex={-1}
-                            id={optionId}
-                            role={"option"}
-                            onClick={() => onClick()}
-                            isHighlighted={isHighlighted}
-                            aria-selected={isSelected}
-                            >
-
-                <span>{data}</span>
-
-            {isSelected &&
-                <Icon idMedium={IconMediumId.check} />
-            }
-            </StyledOption>
-}
 
 export type multiSelectionProps = Pick<OptionsListInteractivity, "selectedOptions"> & {
     addSelectedOption: (data : SelectOptionDataType | null) => void,

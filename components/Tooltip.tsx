@@ -72,10 +72,14 @@ const ARROW_POSITIONS_BY_DIRECTION : I_ArrowPositionsByDirection = {
     }
 }
 
+/* 
+    Arrows on the bottom edge (i.e. ones pointing downwards) need a slightly different shadow
+    to look right.
+*/
 const ARROW_DOWN_SHADOW = "4px 4px 4px 0 rgb(51 51 51 / 4%), 0 4px 16px 0 rgb(51 51 51 / 8%)";
 
 type TooltipArrowThemeProps = {
-    pos : ArrowPositionProps,   /* Set of positioning values: x and y, for all arrow elements  */
+    pos : ArrowPositionProps,   /* Set of x,y positioning values for the elements needed to make the arrow effect */
     rotation : string,          /* rotation for the direction of the arrow. 0 = up */
     shadow : string,            /* Shadow for the arrow shadow element */
     xKey : string,              /* left||right key for X coords */

@@ -1,37 +1,14 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
-import { PALETTE, TYPOGRAPHY, LAYOUT, SHADOW } from '../utils/Theme';
+import styled from 'styled-components';
+import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
-import customCursorImg from '../public/cursorHand.svg';
 import { StyledScreenReaderOnly } from '../utils/utils';
-import { moveWithinMenu } from '../utils/utils';
+import { selectMenuKeyDown, selectMenuKeydownProps } from '../utils/UseOptionsList';
 
-const StyledSearchAndResultsContainer = styled.div`
-    position: relative;
-`;
-
-const StyledSearchContainer = styled.div<{disabled : boolean, showResults : boolean}>`
-    background: ${PALETTE.white};
-    box-shadow: ${props => props.showResults ? SHADOW.hoverFile : SHADOW.default};
-    border-radius: ${LAYOUT.borderRadius};
-    height: 3.5rem;
-    max-width: 100%;
-    overflow: hidden;
-    position: relative;
-    width: 30.125rem;
-    
-    ${ props => {
-        if(props.disabled){
-            return;
-        }
-        return css`   
-            &:hover {
-                box-shadow: ${SHADOW.hover};
-            }
-        `;
-    }}
-`;
+import OptionsListWithScreenReader from './OptionsContainer';
+import Option from './Options';
+import {StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton} from './Styled_InputAndOptions';
 
 const StyledLayout = styled.div`
     display: grid;
@@ -92,110 +69,101 @@ const StyledSearchLabel = styled.label<{isEmpty : boolean}>`
     }
 `;
 
-const StyledCloseButton = styled.button`
-    background: transparent;
-    grid-area: closeIcon;
-    
-    svg path{
-        fill: ${ PALETTE.blackStrong };
-    }
-
-    &:hover{
-        cursor: url(${customCursorImg}), auto;
-
-        svg path{
-            fill: ${ PALETTE.black };
-        }
-    }
-`;
-
-const StyledOptionsContainer = styled.div`
-    align-items: stretch;
-    background: ${PALETTE.white};
-    border-radius: ${LAYOUT.borderRadius};
-    box-shadow: ${SHADOW.contextMenu};
-    display: flex;
-    flex-direction: column;
-    margin: 0.25rem 0 0 0;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 0.5rem 0 0.5rem 0;
-    position: relative;
-    width: 30.125rem;  
-`;
-
-
-const StyledLoadingOption = styled.div`
-    padding: 0.5rem 1rem 0.25rem 1rem;
-    
-    &:before{
-        display: block;
-        content: '';
-        background: ${PALETTE.grayL};
-        height: 1.625rem;
-        width: 100%;
-    }
-
-    &:last-child{
-        padding-bottom: 0.5625rem;
-    }
-`;
-
-const StyledOptionNone = styled.div`
-    ${TYPOGRAPHY.p2}
-    color: ${PALETTE.blackStrong};
-    padding: 0.5rem 1rem 0.5rem 1rem;
-`;
-
-const StyledResult = styled.div<{isHighlighted : boolean}>`
-    ${TYPOGRAPHY.p2}
-    align-text: left;
-    background: ${props => props.isHighlighted ? PALETTE.grayL : "transparent"};
-    color: ${PALETTE.black};
-    padding: 0.5rem 1rem 0.5rem 1rem;
-
-    &:hover{
-        background: ${PALETTE.grayL};
-    }
-`;
 
 interface I_SearchProps{
     disabled? : boolean,
     showOptions? : boolean,                      /* Override results display to force it on/off on load */
     handleSubmit: (newInput? : string) => void,
     initialValue? : string,
-    loading?: boolean,
+    loading : boolean,
     options? : SearchResultData[] | null,
     updateOptions: (data : SearchResultData) => void,
 }
 
 type SearchResultData = string;
 
-export default function Search({initialValue, disabled, updateOptions, handleSubmit, loading, options, showOptions : showOptionsOnLoad} : I_SearchProps){
-    const [input, setInput] = React.useState<string | null>(initialValue ?? null);
+type UseResultsListProps = Pick<I_SearchProps, "showOptions" | "options" > & {
+    onOptionPick: (data : SearchResultData) => void,
+};
+function useResultsList({options, showOptions : showOptionsOnLoad, onOptionPick : argOnOptionPick} : UseResultsListProps){
     const [showOptions, setShowOptions] = React.useState<boolean>(showOptionsOnLoad === undefined ? false : showOptionsOnLoad);
     const [activeId, setActiveId] = React.useState<number | null>(null);
-    
+
     // If the results change, reset the keyboard position in the results
     React.useEffect(() => {
         setActiveId(null);
     }, [options]);
 
-    // Functions for the controlled text input and form
+    function openResultsList(){
+        setShowOptions(true);
+    }
+
+    function closeResultsList(){
+        setShowOptions(false);
+        setActiveId(null);
+    }
+
+    function onOptionPick(data : SearchResultData){
+        closeResultsList();
+        argOnOptionPick(data);
+    }
+
+    function onChange(e : React.ChangeEvent<HTMLInputElement>){
+        if(e.target.value !== null || e.target.value !== ""){
+            openResultsList();
+        }
+        else {
+            closeResultsList();
+        } 
+    }
+
+    function onKeyDown(e : React.KeyboardEvent<HTMLInputElement>){
+        const props : selectMenuKeydownProps = {
+            e,
+            activeId: activeId,
+            options: options !== null && options !== undefined ? options : [],
+            optionsVisible: showOptions,
+            closeOptionsList: closeResultsList,
+            onOptionPick: onOptionPick,
+            openOptionsList: openResultsList,
+            setActiveId : setActiveId,
+        }
+        selectMenuKeyDown(props);
+    }
+
+    const inputId = React.useId();
+    const optionListId = inputId + "_optionList";
+    const optionIdPrefix = optionListId + "-";
+
+    return {
+        activeDescendantId: activeId === null ? undefined : optionIdPrefix + activeId,
+        activeId,
+        inputId,
+        optionIdPrefix,
+        optionListId,
+        showOptions,
+        closeResultsList,
+        onChange,
+        openResultsList,  
+        setActiveId,
+        onOptionPick,
+        onKeyDown,
+    }
+}
+
+type UseInputKitProps = Pick<I_SearchProps, "initialValue" | "handleSubmit" | "updateOptions">;
+function useInputKit({initialValue, handleSubmit, updateOptions} : UseInputKitProps){
+    const [input, setInput] = React.useState<string | null>(initialValue ?? null);
+
     function onChange(e : React.ChangeEvent<HTMLInputElement>){
         setInput(e.target.value);
 
         if(e.target.value !== null || e.target.value !== ""){
-            setShowOptions(true);
             updateOptions(e.target.value);
         }
-        else {
-            setShowOptions(false);
-        } 
     }
 
     function clearInput(){
-        setShowOptions(false);
         setInput(null);
     }
 
@@ -204,89 +172,83 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
         handleSubmit(value);
     }
 
-    // Functions for picking a suggestion from the Results list
     function onOptionPick(data : SearchResultData){
         setInput(data);
-        setShowOptions(false);
-        setActiveId(null);
     }
 
-    function onKeyDown(e : React.KeyboardEvent<HTMLInputElement>){
-        if(e.key === 'ArrowDown' && !showOptions){
-            e.preventDefault();
-            setShowOptions(true);
-            return;
-        }
-
-        if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
-            e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
-            moveWithinMenu({e, options, activeId, setActiveId});
-        }
-
-        if(e.key === 'Enter'){
-            if(activeId !== null){
-                e.preventDefault(); // Prevent auto-submission of the form (we want "submit" to be a separate action)
-                if(options !== null && options !== undefined && options.length > 0){
-                    onOptionPick(options[activeId]); // Populate the search bar with the selected option
-                }
-            }
-        }
-
-        if(e.key === 'Escape'){
-            setShowOptions(false);
-            setActiveId(null);
-        }
-    }
-
-    const hasInput = input !== null;
-    const inputId = React.useId();
-    const optionListId = inputId + "_optionList";
-    const optionIdPrefix = optionListId + "-";
-
-    const optionsMenuActions = {
-        activeId,
-        optionIdPrefix,
+    return {
+        input: input,
+        hasInput: input !== null,
+        onChange,
+        clearInput,
+        onSubmit,
         onOptionPick,
     }
+}
 
-    return  <StyledSearchAndResultsContainer>
-                <StyledSearchContainer disabled={false} showResults={showOptions}>
+
+export default function Search({initialValue, disabled, updateOptions, handleSubmit, loading, options, showOptions : showOptionsOnLoad} : I_SearchProps){
+    const inputKit : ReturnType<typeof useInputKit> = useInputKit({
+        initialValue,
+        updateOptions, 
+        handleSubmit,
+    });
+
+    const resultsListKit : ReturnType<typeof useResultsList> = useResultsList({
+        showOptions: showOptionsOnLoad,
+        options,
+        onOptionPick: inputKit.onOptionPick
+    });
+
+    function onChange(e : React.ChangeEvent<HTMLInputElement>){
+        inputKit.onChange(e);
+        resultsListKit.onChange(e);
+    }
+    
+    const optionsMenuActions : OptionsMenuActions = {
+        activeId: resultsListKit.activeId,
+        optionIdPrefix: resultsListKit.optionIdPrefix,
+        onOptionPick: resultsListKit.onOptionPick,
+    }
+
+    return  <StyledInputAndOptionsContainer>
+                <StyledInputContainer disabled={false} showOptions={resultsListKit.showOptions}>
                     <StyledLayout>
-                        <StyledForm onSubmit={(e) => { e.preventDefault(); onSubmit()}}>
-                            <StyledSearch   id={inputId}
+                        <StyledForm onSubmit={(e) => { e.preventDefault(); inputKit.onSubmit()}}>
+                            <StyledSearch   id={resultsListKit.inputId}
                                             placeholder={"Search"}
                                             role={"combobox"}
                                             autoComplete={"off"}
                                             aria-autocomplete={"both"}
-                                            aria-owns={optionListId}
-                                            aria-activedescendant={activeId === null ? undefined : optionIdPrefix + activeId}
+                                            aria-owns={resultsListKit.optionListId}
+                                            aria-activedescendant={resultsListKit.activeDescendantId}
 
                                             onChange={(e) => onChange(e)} 
-                                            onKeyDown={(e) => onKeyDown(e)}
-                                            value={ input ?? ""}
+                                            onKeyDown={(e) => resultsListKit.onKeyDown(e)}
+                                            value={ inputKit.input ?? ""}
                                             />
-                            <StyledSearchLabel htmlFor={inputId} isEmpty={!hasInput}>
+                            <StyledSearchLabel htmlFor={resultsListKit.inputId} isEmpty={!inputKit.hasInput}>
                                 Search
                                 <Icon idMedium={IconMediumId.search} />
                             </StyledSearchLabel>
                             <StyledScreenReaderOnly as="input" type="submit" value="Submit" disabled={disabled} />
                         </StyledForm>
                         
-                    { hasInput &&
-                        <StyledCloseButton onClick={ clearInput }>
+                    { inputKit.hasInput &&
+                        <StyledCloseButton onClick={ inputKit.clearInput }>
                             <Icon idMedium={IconMediumId.close} />
                         </StyledCloseButton>
                     }
                     </StyledLayout>
-                </StyledSearchContainer>
+                </StyledInputContainer>
 
-            { showOptions &&
-                <OptionsList    id={optionListId} 
+            { resultsListKit.showOptions &&
+                <OptionsList    id={resultsListKit.optionListId} 
                                 options={options} 
                                 loading={loading} 
                                 optionsMenuActions={optionsMenuActions}/>
             }
-            </StyledSearchAndResultsContainer>
+            </StyledInputAndOptionsContainer>
 }
 
 type OptionsMenuActions = {
@@ -301,61 +263,25 @@ type SearchOptionsType = Pick<I_SearchProps, "options" | "loading"> & {
 };
 
 function OptionsList({id, options, loading, optionsMenuActions} : SearchOptionsType){
-    let content : JSX.Element;
-    let screenReaderMsg : string;
-
-    if(loading){
-        content = <LoadingOptions />
-        screenReaderMsg = "Loading results...";
-    }
-    else if(options!== null && options !== undefined && options.length > 0){
-        content = <Options options={options} {...optionsMenuActions} />
-        screenReaderMsg = `${options.length} results found. Use up and down arrows to review.`;
-    }
-    else {
-        content = <NoOptions />
-        screenReaderMsg = `No results found`;
-    }
-    
-    return  <StyledOptionsContainer id={id} role={"listbox"}>
-                <StyledScreenReaderOnly id={"searchAnnouncement"} aria-live="assertive">
-                    {screenReaderMsg}
-                </StyledScreenReaderOnly>
-                {content}
-            </StyledOptionsContainer>
-}
-
-function LoadingOptions(){
-    return  <>
-                <StyledLoadingOption />
-                <StyledLoadingOption />
-                <StyledLoadingOption />
-            </>
-}
-
-function NoOptions(){
-    return  <StyledOptionNone>
-                No results
-            </StyledOptionNone>
-}
-
-
-type OptionsProps = OptionsMenuActions & Pick<SearchOptionsType, "options">;
-
-function Options({activeId, options, optionIdPrefix, onOptionPick} : OptionsProps){
-    return  <>
-            {
-                options?.map((data, index) => {
-                    return  <StyledResult   key={index}
-                                            tabIndex={-1}
-                                            id={optionIdPrefix + index}
-                                            role={"option"}
-                                            onClick={() => onOptionPick(data)}
-                                            isHighlighted={index === activeId}
+    const {activeId, optionIdPrefix, onOptionPick} = {...optionsMenuActions};
+    return  <OptionsListWithScreenReader    id={id} 
+                                            options={options}
+                                            role={"listbox"} 
+                                            loading={loading}
                                             >
-                                {data}
-                            </StyledResult>
+            { options!== null && options !== undefined && options.length > 0 ?
+                options.map((data, index) => {
+                    return  <Option     key={index}
+                                        isHighlighted={index === activeId}
+                                        isSelected={false}
+                                        optionId={optionIdPrefix + index}
+                                        text={data}
+                                        onClick={() => onOptionPick(data)}        
+                            />
+ 
                 })
-            }
-            </>
+                : 
+                null
+            }   
+            </OptionsListWithScreenReader>
 }

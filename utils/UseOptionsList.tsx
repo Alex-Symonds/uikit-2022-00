@@ -87,7 +87,7 @@ export default function useOptionsList({onOptionPick, refCurrent, id, options, s
     }
 }
 
-type selectMenuKeydownProps = Pick<I_SelectWrapperProps, "options"> & {
+export type selectMenuKeydownProps = Pick<I_SelectWrapperProps, "options"> & {
     e : React.KeyboardEvent<HTMLDivElement>,
     activeId : number | null,
     optionsVisible : boolean,
@@ -97,7 +97,7 @@ type selectMenuKeydownProps = Pick<I_SelectWrapperProps, "options"> & {
     setActiveId : (value : React.SetStateAction<number | null>) => void,
 }
 
-function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOptionsList, onOptionPick, openOptionsList, setActiveId} : selectMenuKeydownProps){
+export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOptionsList, onOptionPick, openOptionsList, setActiveId} : selectMenuKeydownProps){
     if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
         e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
         

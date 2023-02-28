@@ -7,6 +7,7 @@ export default {
     title: 'UI Kit/Search',
     component: Search,
     args: {
+        loading: false,
         handleSubmit: () => console.log("Form submitted"),
         updateOptions: (str : string) => console.log(`Update results for search term ${str}`),
     }

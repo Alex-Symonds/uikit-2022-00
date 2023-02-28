@@ -2,12 +2,8 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {SHADOW, PALETTE, LAYOUT} from '../utils/Theme';
 
-
-interface Coords{
-    x: number,
-    y: number
-}
-const StyledContextMenu = styled.div<Coords>`
+// This is exported for use in ContextMenu-related Stories, so you don't need to right-click every time
+export const StyledContextMenu = styled.div<{x : number, y: number}>`
     background: ${PALETTE.white};
     border-radius: ${LAYOUT.borderRadius};
     box-shadow: ${ SHADOW.contextMenu };
@@ -19,18 +15,25 @@ const StyledContextMenu = styled.div<Coords>`
     width: 15.25rem;
 `;
 
-
 interface ContextMenuProps{
     parentRef: React.RefObject<HTMLElement>,
     children?: React.ReactNode
 }
 
 export default function ContextMenu({ parentRef, children } : ContextMenuProps){
+    const contextMenuRef = React.useRef(null);
+    const {isVisible, posX, posY} = useContextMenu({parentRef, contextMenuRef});
+
+    return isVisible ?  <StyledContextMenu x={posX} y={posY} ref={contextMenuRef}>
+                            {children}
+                        </StyledContextMenu>
+                    : null;
+}
+
+function useContextMenu({parentRef, contextMenuRef} : any){
     const [isVisible, setIsVisible] = useState(false);
     const [posX, setPosX] = useState(0);
     const [posY, setPosY] = useState(0);
-
-    const contextMenuRef = React.useRef(null);
 
     useEffect(() => {
         if(parentRef === null){
@@ -66,8 +69,9 @@ export default function ContextMenu({ parentRef, children } : ContextMenuProps){
 
     });
 
-    return isVisible ?  <StyledContextMenu x={posX} y={posY} ref={contextMenuRef}>
-                            {children}
-                        </StyledContextMenu>
-                    : null;
+    return {
+        isVisible,
+        posX,
+        posY
+    }
 }

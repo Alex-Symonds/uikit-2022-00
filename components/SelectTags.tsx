@@ -1,13 +1,14 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import { StyledScreenReaderOnly, useFocusMonitor } from '../utils/utils';
+import { StyledScreenReaderOnly } from '../utils/utils';
 import {SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps} from './SelectWrapper';
 import Tag, {TagColor, TagSize} from './Tag';
 import { StyledLabel } from './InputContainer';
 import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} from '../utils/UseTagOverflowCheck';
 import useUpdatingRef from '../utils/UseUpdatingRef';
 import useOptionsList from '../utils/UseOptionsList';
+import useFocusMonitor from '../utils/UseFocusMonitor';
 
 const StyledCentreLabel = styled(StyledLabel)`
     top: calc(50% - (1.25rem / 2) - 0.125rem);

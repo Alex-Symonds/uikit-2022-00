@@ -18,7 +18,6 @@ export const StyledScreenReaderOnly = styled.div`
     width: 1px;
 `;
 
-
 export const visuallyHidden = css`
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
@@ -28,9 +27,6 @@ export const visuallyHidden = css`
     white-space: nowrap;
     width: 1px;
 `;
-
-
-
 
 type MoveWithMenuPropsType = {
     e: React.KeyboardEvent, 
@@ -75,66 +71,9 @@ export function getArrayLengthOrZero(anyArray : any[] | null | undefined) : numb
     return anyArray == null || anyArray === undefined || anyArray.length <= 0 ? 0 : anyArray.length;
 }
 
-type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
-
-export function debounce(func : CallbackFunctionVariadicAnyReturn, timeout = 300){
-    let timer : ReturnType<typeof setTimeout>;
-    return function(this : any, ...args : any[]){
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
-    };
-}
-
 export function getClassName(styledComponent : any){
     const className = String(styledComponent).replace(".", "");
     return className;
-}
-
-export function useFocusMonitor(){
-    const [inputHasFocus, setInputHasFocus] = React.useState(false);
-
-    function handleFocus(){
-        setInputHasFocus(true);
-    }
-
-    function handleBlur(){
-        setInputHasFocus(false);
-    }
-
-    return {
-        inputHasFocus,
-        handleFocus,
-        handleBlur,
-    }
-}
-
-interface I_useCloseOnOutsideClick{
-    isOpen: boolean,
-    containerEle : HTMLElement | null,
-    setIsOpen : (value: React.SetStateAction<boolean>) => void,
-}
-export function useCloseOnOutsideClick({isOpen, containerEle, setIsOpen} : I_useCloseOnOutsideClick){
-    React.useEffect(() => {
-        if(isOpen){
-            window.addEventListener('click', clickOutsideToClose);
-        }
-        else{
-            window.removeEventListener('click', clickOutsideToClose);
-        }
-
-        return function cleanup(){
-            window.removeEventListener('click', clickOutsideToClose);
-        }
-
-        function clickOutsideToClose(e : MouseEvent){
-            // Prevent the menu from closing prematurely when the user toggles an option
-            if(containerEle && e.composedPath().includes(containerEle)){
-                return;
-            }
-            setIsOpen(false);
-        }
-
-    }, [isOpen, containerEle, setIsOpen]);
 }
 
 export function changeCheckbox(id : string, checked : boolean, options : CheckboxOptionDataType[], setOptions : React.Dispatch<React.SetStateAction<CheckboxOptionDataType[]>>){

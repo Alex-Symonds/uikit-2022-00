@@ -5,8 +5,8 @@ import { StyledScreenReaderOnly, useFocusMonitor } from '../utils/utils';
 import {SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps} from './SelectWrapper';
 import Tag, {TagColor, TagSize} from './Tag';
 import { StyledLabel } from './InputContainer';
-import useTagOverflowCheck, { overflowBarX } from '../utils/UseTagOverflowCheck';
-import { useUpdatingRef } from '../utils/UseUpdatingRef';
+import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} from '../utils/UseTagOverflowCheck';
+import useUpdatingRef from '../utils/UseUpdatingRef';
 import useOptionsList from '../utils/UseOptionsList';
 
 const StyledCentreLabel = styled(StyledLabel)`
@@ -24,22 +24,14 @@ const StyledInputLayout = styled.div`
     width: 100%;
 `;
 
-const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : string, isOverflowing : boolean}>`
-    align-items: center;
-    display: flex;
-    gap: 0.25rem;
-    max-width: ${props => props.readOnly ? "100%" : props.maxWidth};
-
+const StyledTagsContainer = styled(StyledTagsContainer_Base)`
     ${ props => {
-        if(!props.isOverflowing){
-            return;
+        if(props.isOverflowing){
+            return css`
+                position: relative;
+                top: 0.25rem;
+            `;
         }
-        return css`
-            position: relative;
-            top: 0.25rem;
-            min-width: ${props.readOnly ? "100%" : props.maxWidth};
-            ${overflowBarX};   
-        `;
     }}
 `;
 
@@ -103,10 +95,13 @@ export default function SelectTags({disabled, id, label, options, selectedOption
                             toggleOptionVisibility={optionsListKit.toggleOptionVisibility} 
                             >
                 <StyledInputLayout>
+                {hasSelection ?
                     <SelectedTagsContainer  disabled={disabled ?? false} 
                                             selectedOptions={selectedOptions} 
                                             onOptionDelete={selectionKit.onOptionDelete} 
                     />
+                    : null
+                }
                     <StyledTagSelect    id={optionsListKit.inputId}
                                         tabIndex={0}
                                         role={"listbox"}
@@ -135,23 +130,23 @@ export default function SelectTags({disabled, id, label, options, selectedOption
             </SelectWrapper>
 }
 
-type SelectedTagsContainerProps = Pick<SelectTagsProps, "selectedOptions"> & {
+type SelectedTagsContainerProps = {
     disabled : boolean,
+    selectedOptions : SelectOptionDataType[],
     onOptionDelete : (data : SelectOptionDataType) => void,
 }
+
 function SelectedTagsContainer({selectedOptions, disabled, onOptionDelete} : SelectedTagsContainerProps){
-    const hasExistingTags = selectedOptions !== undefined && selectedOptions?.length !== 0;
     const {ref, refCurrent} = useUpdatingRef();
     const isOverflowing = useTagOverflowCheck({tags: selectedOptions, containerEle: refCurrent});
-    const TAG_CONTAINER_MAX_WIDTH = `calc(100% - 1rem)`;
+    const TAG_CONTAINER_MAX_WIDTH = `calc(100% - 0.75rem)`;
 
-    return hasExistingTags ?
-            <StyledTagsContainer    ref={ref}
+    return  <StyledTagsContainer    ref={ref}
                                     isOverflowing={isOverflowing}
                                     maxWidth={TAG_CONTAINER_MAX_WIDTH}
                                     readOnly={false} 
                                     >
-            { selectedOptions ? 
+            { 
                 selectedOptions.map((text : SelectOptionDataType, index : number) => {
                     return <Tag key = {index}
                                 colour = { TagColor.primary }
@@ -162,8 +157,6 @@ function SelectedTagsContainer({selectedOptions, disabled, onOptionDelete} : Sel
                                 handleClick = { !disabled ? () => onOptionDelete(text) : undefined }
                             />
                 })
-                : null
             }
             </StyledTagsContainer>
-        : null;
 }

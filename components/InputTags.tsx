@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
-import styled, {css} from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import Tag, {TagColor, TagSize} from './Tag';
 import InputContainer, {StyledLabel} from './InputContainer';
 import { visuallyHidden } from '../utils/utils';
+import useTagOverflowCheck, { StyledTagsContainer } from '../utils/UseTagOverflowCheck';
+import useUpdatingRef from '../utils/UseUpdatingRef';
+
 
 export const INPUT_MIN_WIDTH = "3rem";
 const TAG_CONTAINER_GAP = "0.25rem";
@@ -16,44 +19,9 @@ const StyledLayout = styled.div`
     width: 100%;
 `;
 
-const StyledTagContainer = styled.div<{hasOverflow : boolean, readOnly : boolean, maxWidth : string}>`
-    align-items: center;
-    display: flex;
+const StyledTagContainer = styled(StyledTagsContainer)`
     gap: ${TAG_CONTAINER_GAP};
-    max-width: ${props => props.readOnly ? "100%" : props.maxWidth};
-
-    ${ props => {
-        if(props.hasOverflow){
-            return css`
-                min-width: ${props.readOnly ? "100%" : props.maxWidth};
-                overflow-x: auto;
-                overflow-y: hidden;
-
-                // Firefox doesn't support the webkit prefixed properties, but does support these two
-                scrollbar-color: ${PALETTE.blackStrong} ${PALETTE.blackMedium};
-                scrollbar-width: thin;
-
-                &::-webkit-scrollbar {
-                    height: 0.5rem;
-                }
-                
-                &::-webkit-scrollbar-track {
-                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.blackMedium};
-                    border-radius: 10px;
-                    border: 0.125rem solid transparent;
-                }
-                
-                &::-webkit-scrollbar-thumb {
-                    border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.blackStrong};
-                    border: 0.125rem solid transparent;
-                }
-            `;
-        } 
-    }}
 `;
-
-
 
 const StyledTagInput = styled.input.attrs({ type: "text" })`
     ${TYPOGRAPHY.p2}
@@ -80,8 +48,7 @@ const StyledTagLabel = styled(StyledLabel)<{hide : boolean}>`
         ${visuallyHidden}
     }
 
-    ${
-        props => {
+    ${props => {
         if(props.hide){
             return visuallyHidden;
         }
@@ -106,11 +73,13 @@ export default function InputTags({description, disabled, errorMsg, label, readO
     return  <InputContainer description={description} disabled={disabled} errorMsg={errorMsg} isSuccess={false} readOnly={readOnly}> 
                 <StyledLayout>
                     {   
-                        hasExistingTags && 
+                        hasExistingTags ? 
                         <TagContainer disabled={disabled} readOnly={readOnly} tags={tags} removeTag={removeTag} />
+                        : null
                     }
-                    {   !readOnly &&
+                    {   !readOnly ?
                         <TagInput disabled={disabled} label={label} value={value} handleChange={handleChange} hasExistingTags={hasExistingTags}/>
+                        : null
                     }
                 </StyledLayout>
             </InputContainer>
@@ -122,36 +91,17 @@ type TagContainerProps = Pick<I_InputTagsProps, "disabled" | "readOnly" | "tags"
     maxWidth? : string,
 }
 
-export function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth} : TagContainerProps){
-    const [overflowingTags, setOverflowingTags] = React.useState(false);
-    const tagContainerRef = React.useRef<HTMLDivElement>(null);
-
+function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth} : TagContainerProps){
+    const {ref, refCurrent} = useUpdatingRef();
+    const isOverflowing = useTagOverflowCheck({tags: tags, containerEle: refCurrent});
     const tagsAreClickable = !readOnly && !disabled && removeTag !== undefined;
 
-    useEffect(() => {
-        /*
-            Set the overflow-related CSS only when max-width is exceeded, so it doesn't interfere with the 
-            "expand width to fit children" behaviour.
-        */
-
-        if( tags === undefined 
-            || tagContainerRef === null 
-            || tagContainerRef.current === null){
-            return;
-        }
-
-        const width : number = tagContainerRef.current.clientWidth;
-        const scrollWidth : number = tagContainerRef.current.scrollWidth;
-
-        if(scrollWidth > width){
-            setOverflowingTags(true);
-            return;
-        }
-    
-        setOverflowingTags(false);
-    }, [tags]);
-
-    return  <StyledTagContainer className={className} hasOverflow={overflowingTags} readOnly={readOnly} ref={tagContainerRef} maxWidth={maxWidth ?? TAG_CONTAINER_MAX_WIDTH}>
+    return  <StyledTagContainer ref={ref} 
+                                className={className} 
+                                isOverflowing={isOverflowing}
+                                maxWidth={maxWidth ?? TAG_CONTAINER_MAX_WIDTH} 
+                                readOnly={readOnly}  
+                            >
                 {
                     tags.map((text, index) => {
                     return <Tag key = {index}
@@ -173,7 +123,6 @@ type TagInputProps = Pick<I_InputTagsProps, "disabled" | "label" | "value" | "ha
 };
 
 function TagInput({disabled, label, value, handleChange, hasExistingTags} : TagInputProps){
-
     const labelText = label ?? "Enter tags";
 
     function handleTagInput(newTag : string){

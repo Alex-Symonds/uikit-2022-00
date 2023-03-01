@@ -9,7 +9,7 @@
 
 import {useState, useCallback} from 'react';
 
-export function useUpdatingRef(){
+export default function useUpdatingRef(){
     const [refCurrent, setRefCurrent] = useState<HTMLElement | null>(null);
     const ref = useCallback((node : HTMLElement | null) => {
         if(node !== null){

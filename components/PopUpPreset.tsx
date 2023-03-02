@@ -39,13 +39,13 @@ const successTheme : PresetThemeType = {
 }
 
 const errorTheme : PresetThemeType = {
-    background: PALETTE.redA12,
+    background: PALETTE.red_fadedBackground,
     colour: PALETTE.redSuper,
     iconId: IconXLId.false,
 }
 
 const attentionTheme : PresetThemeType = {
-    background: PALETTE.starA12,
+    background: PALETTE.star_fadedBackground,
     colour: PALETTE.star,
     iconId: IconXLId.attention,
 }

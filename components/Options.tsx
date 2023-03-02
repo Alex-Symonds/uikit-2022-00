@@ -84,7 +84,8 @@ export const StyledOptionLoading = styled.div`
 
 export const StyledOptionNone = styled.div`
     ${TYPOGRAPHY.p2}
-    color: ${PALETTE.blackStrong};
+    color: ${PALETTE.black};
+    opacity: 48%;
     padding: 0.5rem 1rem 0.5rem 1rem;
 `;
 

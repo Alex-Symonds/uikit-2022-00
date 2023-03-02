@@ -16,7 +16,7 @@ export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : st
                 overflow-y: hidden;
             
                 // Firefox doesn't support the webkit prefixed properties, but does support these two
-                scrollbar-color: ${PALETTE.blackStrong} ${PALETTE.blackMedium};
+                scrollbar-color: ${PALETTE.black_faded} ${PALETTE.black_fadedActive};
                 scrollbar-width: thin;
             
                 &::-webkit-scrollbar {
@@ -24,14 +24,14 @@ export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : st
                 }
             
                 &::-webkit-scrollbar-track {
-                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.blackMedium};
+                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.black_fadedActive};
                     border-radius: 10px;
                     border: 0.125rem solid transparent;
                 }
             
                 &::-webkit-scrollbar-thumb {
                     border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.blackStrong};
+                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.black_faded};
                     border: 0.125rem solid transparent;
                 }  
             `;

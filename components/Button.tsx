@@ -9,8 +9,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { css, ThemeProvider } from 'styled-components'
-import { PALETTE, FONT, LAYOUT } from '../utils/Theme';
+import { ThemeProvider } from 'styled-components'
+import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 import { isBlank } from '../utils/utils';
 import Icon, {IconProps} from './Icons';
 import { IconMediumId } from './IconsMedium';
@@ -61,7 +61,8 @@ interface I_ButtonPropsInternal extends I_ButtonProps{
     width: string,
 }
 
-interface StyledButtonProps{
+type StyledButtonProps = {
+    fadeOnDisabled : boolean,
     circle?: boolean,
     labelExists?: boolean,
     width?: string,
@@ -119,9 +120,9 @@ const PrimaryWhiteTheme : ButtonThemeProps = {
     mainBackground: PALETTE.white,
     mainBorder: 'transparent',
 
-    hoverBackground: PALETTE.whiteStrong,
+    hoverBackground: PALETTE.white_faded,
 
-    disabledBackground: PALETTE.whiteMedium
+    disabledBackground: PALETTE.white
 }
 
 const SecondaryTheme : ButtonThemeProps = {
@@ -129,11 +130,11 @@ const SecondaryTheme : ButtonThemeProps = {
     mainBackground: 'transparent',
     mainBorder: PALETTE.primary,
 
-    hoverBackground: PALETTE.primaryFaint,
-    activeBackground: PALETTE.primaryMedium,
+    hoverBackground: PALETTE.primary_fadedHover,
+    activeBackground: PALETTE.primary_fadedActive,
 
-    disabledBorder: PALETTE.primaryStrong,
-    disabledColor: PALETTE.primaryStrong
+    disabledBorder: PALETTE.primary,
+    disabledColor: PALETTE.primary
 }
 
 const SecondaryWhiteTheme : ButtonThemeProps = {
@@ -141,11 +142,11 @@ const SecondaryWhiteTheme : ButtonThemeProps = {
     mainBackground: 'transparent',
     mainBorder: PALETTE.white,
 
-    hoverBackground: PALETTE.whiteExtraFaint,
-    activeBackground: PALETTE.whiteFaint,
+    hoverBackground: PALETTE.white_fadedHover,
+    activeBackground: PALETTE.white_fadedActive,
 
-    disabledBorder: PALETTE.whiteMedium,
-    disabledColor: PALETTE.whiteMedium
+    disabledBorder: PALETTE.white,
+    disabledColor: PALETTE.white
 }
 
 const SecondaryDarkTheme : ButtonThemeProps = {
@@ -153,11 +154,11 @@ const SecondaryDarkTheme : ButtonThemeProps = {
     mainBackground: 'transparent',
     mainBorder: PALETTE.black,
 
-    hoverBackground: PALETTE.blackFaint,
-    activeBackground: PALETTE.blackMedium,
+    hoverBackground: PALETTE.black_fadedHover,
+    activeBackground: PALETTE.black_fadedActive,
 
-    disabledBorder: PALETTE.blackHeavy,
-    disabledColor: PALETTE.blackHeavy
+    disabledBorder: PALETTE.black,
+    disabledColor: PALETTE.black
 }
 
 const FlatTheme : ButtonThemeProps = {
@@ -165,10 +166,10 @@ const FlatTheme : ButtonThemeProps = {
     mainBackground: 'transparent',
     mainBorder: 'transparent',
 
-    hoverBackground: PALETTE.primaryFaint,
-    activeBackground: PALETTE.primaryMedium,
+    hoverBackground: PALETTE.primary_fadedHover,
+    activeBackground: PALETTE.primary_fadedActive,
 
-    disabledColor: PALETTE.primaryStrong
+    disabledColor: PALETTE.primary
 }
 
 const FlatWhiteTheme : ButtonThemeProps = {
@@ -176,10 +177,10 @@ const FlatWhiteTheme : ButtonThemeProps = {
     mainBackground: 'transparent',
     mainBorder: 'transparent',
 
-    hoverBackground: PALETTE.whiteExtraFaint,
-    activeBackground: PALETTE.whiteFaint,
+    hoverBackground: PALETTE.white_fadedHover,
+    activeBackground: PALETTE.white_fadedActive,
 
-    disabledColor: PALETTE.whiteMedium
+    disabledColor: PALETTE.white
 }
 
 
@@ -260,13 +261,13 @@ const themePicker = (style : ButtonTheme) : ButtonThemeProps => {
 
 
 const StyledButton = styled.button<StyledButtonProps>`
+    ${TYPOGRAPHY.p2}
     align-items: center;
     background: ${ props => props.theme.mainBackground }; 
     border-radius: ${ props  => props.circle ? "9999px" :  LAYOUT.borderRadius };
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
     color: ${ props => props.theme.mainColor };
     display: flex;
-    font-family: ${ FONT.main };
     justify-content: center;
     padding: ${ props  => props.labelExists ? "0.625rem 1.25rem" : "0.625rem" };
     width: ${ props => props.width ? props.width : "auto" };
@@ -290,6 +291,8 @@ const StyledButton = styled.button<StyledButtonProps>`
         background: ${ props => props.theme.disabledBackground ? props.theme.disabledBackground : props.theme.mainBackground };
         box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.disabledBorder ? props.theme.disabledBorder : props.theme.mainBorder };
         color: ${ props => props.theme.disabledColor ? props.theme.disabledColor : props.theme.mainColor };
+
+        opacity: ${ props => props.fadeOnDisabled ? "56%" : "100%" };
     }
 
     &:focus {
@@ -310,6 +313,7 @@ export function Button({circle, colorMode, disabled, icon, label, loader, onClic
 
     const labelExists : boolean = !isBlank(label) && loader !== true;
     const theme = getTheme(colorMode, type);
+    const fadeOnDisabled = !(type === ButtonType.primary && colorMode === ButtonColorMode.color);
 
     if(loader){
         icon = {
@@ -321,7 +325,7 @@ export function Button({circle, colorMode, disabled, icon, label, loader, onClic
     }
 
     return  <ThemeProvider theme = { theme }>
-                <StyledButton   circle = { circle } labelExists = { labelExists } width = { loader ? width : undefined }
+                <StyledButton   circle = { circle } fadeOnDisabled = {fadeOnDisabled} labelExists = { labelExists } width = { loader ? width : undefined }
                                 disabled = { disabled } onClick = { onClick } >
                     {icon !== undefined &&
                         <Icon {...icon} />

@@ -18,10 +18,11 @@ const StyledIsland = styled.div`
 
     &::before{
         aspect-ratio: 1/1;
-        background: ${PALETTE.whiteA24};
+        background: ${PALETTE.white};
         border-radius: 100%;
         content: '';
         display: block;
+        opacity: 24%;
         position: absolute;
         top: -6.9375rem;
         right: -6.9375rem;
@@ -94,7 +95,7 @@ const StyledHead = styled.h6`
 
 const StyledDescription = styled.p`
     ${TYPOGRAPHY.p2}
-    color: ${PALETTE.whiteStrong};
+    color: ${PALETTE.white_faded};
     grid-area: desc;
     height: 100%;
     overflow: hidden;
@@ -108,11 +109,11 @@ const StyledButtonContainer = styled.div`
 const StyledReq = styled.div`
     ${TYPOGRAPHY.p2}
     align-items: center;
-    color: ${PALETTE.whiteStrong};
+    color: ${PALETTE.white_faded};
     display: flex;
     height: 100%;
     svg path{
-        fill: ${PALETTE.whiteStrong};
+        fill: ${PALETTE.white_faded};
     }
 `;
 

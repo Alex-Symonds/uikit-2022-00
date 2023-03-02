@@ -65,17 +65,17 @@ interface TagThemeProps{
     close : PALETTE,
     hoverBackground : PALETTE,
     hoverClose : PALETTE,
-    shadow? : SHADOW,
+    shadow? : string,
     border : PALETTE,
     disabledBackground? : PALETTE
 }
 
 const PrimaryTheme : TagThemeProps = {
     background: PALETTE.primary,
-    text: PALETTE.whiteStrong,
-    close: PALETTE.whiteStrong,
+    text: PALETTE.white_faded,
+    close: PALETTE.white_faded,
     hoverBackground: PALETTE.hover,
-    hoverClose: PALETTE.whiteStrong,
+    hoverClose: PALETTE.white_faded,
     border: PALETTE.primary,
     disabledBackground: PALETTE.disabled
 }
@@ -83,7 +83,7 @@ const PrimaryTheme : TagThemeProps = {
 const WhiteTheme : TagThemeProps = {
     background: PALETTE.white,
     text: PALETTE.primary,
-    close: PALETTE.blackStrong,
+    close: PALETTE.black_faded,
     hoverBackground: PALETTE.grayL,
     hoverClose: PALETTE.black,
     shadow: SHADOW.default,

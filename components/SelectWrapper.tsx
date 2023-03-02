@@ -56,8 +56,11 @@ const StyledToggleButton = styled.button<{isActive : boolean}>`
     background: transparent;
     grid-area: toggleIcon;
 
-    svg path{
-        fill: ${ props => props.isActive ? PALETTE.black : PALETTE.blackStrong };
+    svg {
+        opacity: ${ props => props.isActive ? "100%" : "48%" };
+        path{
+            fill: ${ PALETTE.black };
+        }
     }
 
     &:hover{

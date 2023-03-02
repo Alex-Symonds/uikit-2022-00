@@ -70,12 +70,13 @@ export const StyledInputContainerWithOutline = styled(StyledInputContainer)<{inp
 
         return css`
             &:before{
-                border: 0.125rem solid ${PALETTE.blackStrong};
+                border: 0.125rem solid ${PALETTE.black};
                 border-radius: ${LAYOUT.borderRadius};
                 content: '';
                 display: block;
                 height: 100%;
                 left: 0;
+                opacity: 48%;
                 position: absolute;
                 top: 0;
                 width: 100%;
@@ -89,8 +90,11 @@ export const StyledCloseButton = styled.button`
     background: transparent;
     grid-area: closeIcon;
     
-    svg path{
-        fill: ${ PALETTE.blackStrong };
+    svg{ 
+        opacity: 48%;
+        path{
+            fill: ${ PALETTE.black };
+        }
     }
 
     &:hover{

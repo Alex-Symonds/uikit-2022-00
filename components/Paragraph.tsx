@@ -39,11 +39,11 @@ const StyledParagraph = styled.p<StyledParagraphProps>`
         (props) => {
             switch(props.pSize){
                 case 1:
-                    return TYPOGRAPHY.p1;
+                    return props.bold ? TYPOGRAPHY.p1Bold : TYPOGRAPHY.p1;
                 case 2:
-                    return TYPOGRAPHY.p2;
+                    return props.bold ? TYPOGRAPHY.p2Bold : TYPOGRAPHY.p2;
                 case 3:
-                    return TYPOGRAPHY.p3;
+                    return props.bold ? TYPOGRAPHY.p3Bold : TYPOGRAPHY.p3;
                 default:
                     return TYPOGRAPHY.p2;
             }

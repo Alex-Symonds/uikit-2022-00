@@ -1,32 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
-import { PALETTE, FONT, LAYOUT } from '../utils/Theme';
+import styled, {css} from 'styled-components';
+import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 
 
 const StyledLabel = styled.label<Pick<CheckboxProps, "disabled" | "error">>`
-    font-family: ${ FONT.main };
-    font-size: 1rem;
-    line-height: 1.5rem;
+    ${TYPOGRAPHY.p2}
 
     align-items: center;
-
+    color: ${ props => props.error ? PALETTE.red : "inherit" };
     display: grid;
-    grid-template-columns: 1.5rem auto;
     gap: 0.75rem;
-
+    grid-template-columns: 1.5rem auto;
+    opacity: ${ props => props.disabled && !props.error ? "56%" : "100%"};
     position: relative;
-
-    color: ${ props => {
-        if(props.disabled && !props.error){
-            return PALETTE.blackHeavy
-        }
-        else if(props.error){
-            return PALETTE.red;
-        }
-        return "inherit"
-    }};
 
     & svg {
         position: absolute;
@@ -89,17 +77,18 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
     }
 
     &:disabled{
-        border-color: ${ PALETTE.graySHeavier };
+        border-color: ${ PALETTE.grayS };
         cursor: not-allowed;
+        opacity: 56%;
 
         &:checked::before,
         &:indeterminate::before{
-            background: ${ PALETTE.primaryStrong };
+            background: ${ PALETTE.primary };
         }
     }
 
     &:focus{
-        border-color: ${ PALETTE.graySMedium };
+        border-color: ${ PALETTE.grayS_faded };
         border-width: 0.125rem; 
 
         &:checked::before,
@@ -109,14 +98,19 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
         }
     }
 
-    &:hover{
-        background: ${ PALETTE.grayM };
-
-        &:checked::before{
-            background: ${ PALETTE.hover };
+    ${ props => {
+        if(!props.disabled){
+            return css`
+                &:hover{
+                    background: ${ props.error ? PALETTE.redBoy : PALETTE.grayM };
+            
+                    &:checked::before{
+                        background: ${ PALETTE.hover };
+                    }
+                }
+            `;
         }
-    }
-
+    }}
 `;
 
 

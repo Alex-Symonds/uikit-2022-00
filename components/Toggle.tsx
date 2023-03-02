@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, FONT } from '../utils/Theme';
+import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import Icon from './Icons';
 import { IconSmallId } from './IconsSmall';
 import Paragraph from './Paragraph';
@@ -23,7 +23,7 @@ const StyledToggleBase = styled.button<{hasLabel : boolean}>`
     }
 
     &:focus:not([disabled]){
-        border-color: ${PALETTE.blackStrong};
+        border-color: ${PALETTE.black_faded};
     }
 
     svg path{
@@ -96,13 +96,10 @@ const StyledLayout = styled.div`
     gap: 0.125rem 0.75rem;
 `;
 
-// Non-standard heading style
 const StyledHeading = styled.h3`
-    font-family: ${FONT.main};
-    font-size: 1rem;
+    ${TYPOGRAPHY.p2}
     font-weight: normal;
     grid-area: heading;
-    line-height: 1.5rem; 
 `;
 
 const StyledParagraph = styled(Paragraph)`
@@ -171,7 +168,7 @@ function LabelWrapper({label, children} : LabelWrapperProps){
                 <StyledHeading>
                     {label.heading}
                 </StyledHeading>
-                <StyledParagraph size={3} colour={PALETTE.blackStrong} className={getClassName(StyledParagraph)}>
+                <StyledParagraph size={3} colour={PALETTE.black_faded} className={getClassName(StyledParagraph)}>
                     {label.description}
                 </StyledParagraph>
             </StyledLayout>

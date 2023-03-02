@@ -116,7 +116,7 @@ const StyledPHeading = styled.p`
 
 const StyledPMessage = styled.p<{isError : boolean}>`
     ${TYPOGRAPHY.p3}
-    color: ${props => props.isError ? PALETTE.red : PALETTE.blackStrong};
+    color: ${props => props.isError ? PALETTE.red : PALETTE.black_faded};
     grid-area: message;
     pointer-events: none;
 `;
@@ -135,7 +135,7 @@ const StyledProgressPerc = styled.div`
 `;
 
 const StyledSpanFileSize = styled.span`
-    color: ${PALETTE.blackStrong};
+    color: ${PALETTE.black_faded};
     padding: 0 0 0 0.5rem;
     pointer-events: none;
 `;

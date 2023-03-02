@@ -48,7 +48,7 @@ const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, 
 
 const StyledDescription = styled.p`
     ${TYPOGRAPHY.p2}
-    color: ${PALETTE.blackStrong};
+    color: ${PALETTE.black_faded};
     margin-top: 0.5rem;
 `;
 
@@ -58,9 +58,11 @@ const StyledErrorMessage = styled(StyledDescription)`
 
 export const StyledLabel = styled.label<{disabled : boolean}>`
     ${TYPOGRAPHY.p2}
-    color: ${ props => props.disabled ? PALETTE.blackMedium : PALETTE.blackStrong};
+    color: ${ PALETTE.black };
+    font-weight: normal;
     height: 1.25rem;
     left: 1rem;
+    opacity: ${props => props.disabled ? "24%": "48%"};
     pointer-events: none;
     position: absolute;
     text-align: center;

@@ -55,18 +55,19 @@ const StyledRadio = styled.span<Pick<I_Radio, "checked" | "disabled">>`
 const StyledLabel = styled.label<Pick<I_Radio, "disabled">>`
     ${TYPOGRAPHY.p2}
 
-    color: ${ props => props.disabled ? PALETTE.blackStrong : PALETTE.black };
-
+    color: ${ PALETTE.black };
     display: flex;
     gap: 0.75rem;
+    opacity: ${ props => props.disabled ? "48%" : "100%" };
 
     &:focus{
         ${StyledRadio}::after{
             aspect-ratio: 1/1;
-            border: 2px solid ${PALETTE.blackStrong};
+            border: 2px solid ${PALETTE.black};
             border-radius: var(--radioWidth);
             content: '';
             display: block;
+            opacity: 48%;
             position: absolute;
             pointer-events: none;
             width: var(--radioWidth);

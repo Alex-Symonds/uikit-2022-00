@@ -46,7 +46,7 @@ const StyledSearch = styled.input.attrs({ type: "text" })`
     }
 
     &::placeholder{
-        color: ${PALETTE.blackStrong};
+        opacity: 48%;
     }
 `;
 
@@ -58,7 +58,8 @@ const StyledSearchLabel = styled.label<{isEmpty : boolean}>`
     text-indent: -9999px;
 
     svg path{
-        fill: ${ props => props.isEmpty ? PALETTE.blackStrong : PALETTE.black };
+        fill: ${ PALETTE.black };
+        opacity: ${ props => props.isEmpty ? "48%" : "100%" };
     }
 
     ${StyledSearch}:focus ~ &,

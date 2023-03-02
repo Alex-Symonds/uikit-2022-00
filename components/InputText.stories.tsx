@@ -9,7 +9,7 @@ export default {
     args: {
         label: "Your name",
         id: "id_name",
-        name: "name"
+        name: "name",
     }
   } as ComponentMeta<typeof Input>;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+import { TYPOGRAPHY } from '../utils/Theme';
 import Tag, {TagColor, TagSize} from './Tag';
 import InputContainer, {StyledLabel} from './InputContainer';
 import { visuallyHidden } from '../utils/utils';
@@ -33,12 +33,12 @@ const StyledTagInput = styled.input.attrs({ type: "text" })`
     width: 100%;
 
     &::placeholder{
-        color: ${PALETTE.blackStrong};
+        opacity: 48%;
     }
 
     &:disabled{
         background: transparent;
-        color: ${PALETTE.blackA24};
+        opacity: 24%;
     }
 `;
 

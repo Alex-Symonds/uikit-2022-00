@@ -15,7 +15,7 @@ const StyledHorizontalLarge = styled.li`
     border-color: transparent;
     border-style: solid;
     border-width: 0 0 0 0.125rem;
-    color: ${PALETTE.blackStrong};
+    color: ${PALETTE.black_faded};
     display: flex;
     justify-content: space-between;
     padding: 0.375rem 0.5rem 0.25rem 1.375rem;
@@ -26,7 +26,7 @@ const StyledHorizontalLarge = styled.li`
     }
 
     &:hover{
-        border-color: ${PALETTE.blackStrong}; 
+        border-color: ${PALETTE.black_faded}; 
         color: ${PALETTE.grayK};
     }
 
@@ -56,11 +56,11 @@ const StyledVertical = styled.li`
 
 const StyledVerticalLarge = styled(StyledVertical)`
     ${TYPOGRAPHY.p2}
-    color: ${PALETTE.blackStrong};
+    color: ${PALETTE.black_faded};
     padding: 1.3125rem 0.0625rem 1.4375rem 0;
 
     &:hover{
-        border-color: ${PALETTE.blackStrong};
+        border-color: ${PALETTE.black_faded};
     }
 `;
 

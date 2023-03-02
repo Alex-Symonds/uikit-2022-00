@@ -162,7 +162,7 @@ function getIconSettings(type : NotificationType) : { background : PALETTE, fill
     switch(type){
         case NotificationType.success:
             return {
-                background: PALETTE.greenMedium,
+                background: PALETTE.green_fadedBackground,
                 fillColor: PALETTE.green,
                 iconId: IconMediumId.check,
             }

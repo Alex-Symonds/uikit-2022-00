@@ -15,12 +15,12 @@ const StyledTextInput = styled.input.attrs({ type: "text" })`
     width: 100%;
     
     &::placeholder{
-        color: ${PALETTE.blackStrong};
+        opacity: 48%;
     }
 
     &:disabled{
         background: transparent;
-        color: ${PALETTE.blackA24};
+        opacity: 24%;
     }
     
     &:-webkit-autofill,
@@ -38,7 +38,6 @@ const StyledFloatingLabel = styled(StyledLabel)`
     ${StyledTextInput}:not(:placeholder-shown) ~ &{
         ${TYPOGRAPHY.p3}
         left: 1rem;
-        opacity: 1;
         top: 0.375rem;
     }
 `;

@@ -21,7 +21,7 @@ const StyledSelectedInput = styled.div`
 `;
 
 const StyledPlaceholderSpan = styled.span`
-    color: ${PALETTE.blackStrong};
+    opacity: 48%;
 `;
 
 const StyledFloatingLabel = styled(StyledLabel)<{floatUp : boolean}>`

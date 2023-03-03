@@ -28,6 +28,16 @@ export const visuallyHidden = css`
     width: 1px;
 `;
 
+export const visuallyUnhidden = css`
+    clip: auto;
+    clip-path: none;
+    height: auto;
+    overflow: visible;
+    position: absolute;
+    white-space: normal;
+    width: auto;
+`;
+
 type MoveWithMenuPropsType = {
     e: React.KeyboardEvent, 
     options : any[] | null | undefined, 

@@ -1,32 +1,6 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-
-
-const p1Theme = {
-    boldWeight: "700"
-}
-
-const p2Theme = {
-    boldWeight: "500"
-}
-
-const p3Theme = {
-    boldWeight: "700"
-}
-
-const themePicker = (size : number | undefined) : any => {
-    switch(size){
-        case 1:
-            return p1Theme;
-        case 2:
-            return p2Theme;
-        case 3:
-            return p3Theme;
-        default:
-            return p2Theme;
-    }
-}
 
 interface StyledParagraphProps{
     colour?: string,
@@ -51,7 +25,6 @@ const StyledParagraph = styled.p<StyledParagraphProps>`
     }
 
     color: ${ props => props.colour || PALETTE.black };
-    font-weight: ${ props => props.bold ? props.theme.fontWeight : "400" };
     width: fit-content;
 `;
 
@@ -65,16 +38,14 @@ interface ParagraphProps{
 }
 
 export default function Paragraph({colour, size, className, bold, children} : ParagraphProps){
-    const theme = themePicker(size);
-    return <ThemeProvider theme={theme}>
-            <StyledParagraph    colour = {colour}
+    return  <StyledParagraph    colour = {colour}
                                 bold = { bold || false } 
                                 pSize = { size || 2 } 
                                 className = {className}
                                 >
                 {children}
             </StyledParagraph>
-        </ThemeProvider>
+
 }
 
 

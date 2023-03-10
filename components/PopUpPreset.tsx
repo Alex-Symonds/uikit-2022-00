@@ -3,8 +3,7 @@ import styled, {ThemeProvider} from 'styled-components';
 import Icon from './Icons';
 import {IconXLId} from './IconsExtraLarge';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import ButtonLabel from './ButtonLabel';
-import { ButtonColorMode, ButtonType } from './Button';
+import Button, { ButtonStyle } from './Button';
 import CircleAroundIcon from './CircleAroundIcon';
 
 export const enum PopUpPresetMode{
@@ -120,11 +119,11 @@ function ButtonContainer({buttonPrimary, buttonSecondary} : Pick<PopUpPresetProp
     return <StyledButtonContainer>
         {
             buttonPrimary !== undefined &&
-            <ButtonLabel colorMode={ButtonColorMode.color} type={ButtonType.primary} label={buttonPrimary.label} onClick={buttonPrimary.onClick}/>
+            <Button style={ButtonStyle.primary} label={buttonPrimary.label} onClick={buttonPrimary.onClick}/>
         }
         {
             buttonSecondary !== undefined &&
-            <ButtonLabel colorMode={ButtonColorMode.color} type={ButtonType.secondary} label={buttonSecondary.label} onClick={buttonSecondary.onClick}/>
+            <Button style={ButtonStyle.secondary} label={buttonSecondary.label} onClick={buttonSecondary.onClick}/>
         }
     </StyledButtonContainer>
 }

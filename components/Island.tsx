@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import Badge, {BadgeType} from './Badge';
-import ButtonLabel from './ButtonLabel';
-import { ButtonColorMode, ButtonType } from './Button';
+import Button from './Button';
+import { ButtonStyle } from './Button';
 import SubjectIcon, {Subject} from './IconMediumSubject';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
@@ -184,11 +184,10 @@ export default function Island({progress, subject, text, heading, description, b
                 <StyledHead>{heading}</StyledHead>
                 <StyledDescription>{description}</StyledDescription>
                 <StyledButtonContainer>
-                    <ButtonLabel colorMode={ButtonColorMode.white}
+                    <Button style={ButtonStyle.secondaryWhite}
                             disabled={false}
                             label={ buttonLabel}
                             onClick={onClick}
-                            type={ButtonType.secondary}
                     />
                 </StyledButtonContainer>
                 <StyledReqStudent>

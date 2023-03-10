@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY, SHADOW } from '../utils/Theme';
 import CircleContainer from './CircleAroundIcon';
-import Button from './ButtonLabel';
-import {ButtonType, ButtonColorMode} from './Button';
+import Button, {ButtonStyle} from './Button';
 import Icon from './Icons';
 import { IconMediumId } from './IconsMedium';
 
@@ -136,13 +135,11 @@ export default function Notification({type, heading, description, buttonActions}
 
 function Buttons({clickClose, clickHelp} : ButtonActionsType){
     return  <StyledButtonsContainer>
-                <Button     colorMode={ButtonColorMode.color}
-                            type={ButtonType.secondary}
+                <Button     style={ButtonStyle.secondary}
                             label={"Close"}
                             onClick={clickClose}
                 />
-                <Button     colorMode={ButtonColorMode.color} 
-                            type={ButtonType.flat}
+                <Button     style={ButtonStyle.flat}
                             label={"Help"}
                             onClick={clickHelp}
                 />

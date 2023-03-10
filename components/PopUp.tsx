@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {IconMediumId} from './IconsMedium';
 import { PALETTE, SHADOW } from '../utils/Theme';
-import ButtonCircle from './ButtonCircle';
-import { ButtonColorMode, ButtonType } from './Button';
+import Button, { ButtonStyle } from './Button';
 
 const StyledPopUp = styled.section<{height : string}>`
     background: ${PALETTE.white};
@@ -37,7 +36,7 @@ export default function PopUp({close, children} : I_PopUpProps){
     return <StyledPopUp ref={popUpRef} height={popUpRef !== null && popUpRef.current !== null ? popUpRef.current.clientHeight + "px" : "20rem"}>
         
         <StyledCloseButtonContainer>
-            <ButtonCircle colorMode={ButtonColorMode.color} type={ButtonType.primary} onClick={close} icon = { {idMedium: IconMediumId.close} } />
+            <Button circle label={"Close"} style={ButtonStyle.primary} onClick={close} icon = { {idMedium: IconMediumId.close} } />
         </StyledCloseButtonContainer>
 
         {children}

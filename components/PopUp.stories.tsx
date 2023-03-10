@@ -2,8 +2,7 @@ import React from 'react';
 import PopUp from './PopUp';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import TextInput from './InputText';
-import ButtonLabel from './ButtonLabel';
-import { ButtonColorMode, ButtonType } from './Button';
+import Button, { ButtonStyle } from './Button';
 
 import styled from 'styled-components';
 import { TYPOGRAPHY } from '../utils/Theme';
@@ -19,9 +18,9 @@ export default {
 */
 
 const Template: ComponentStory<typeof PopUp> = args => {
-    const [name, setName] = React.useState<string | undefined>(undefined);
-    const [phone, setPhone] = React.useState<string | undefined>(undefined);
-    const [country, setCountry] = React.useState<string | undefined>(undefined);
+    const [name, setName] = React.useState<string | null>(null);
+    const [phone, setPhone] = React.useState<string | null>(null);
+    const [country, setCountry] = React.useState<string | null>(null);
 
     return <PopUp {...args} >
         <StyledExampleLayout>
@@ -31,7 +30,7 @@ const Template: ComponentStory<typeof PopUp> = args => {
                 <TextInput label="Your name" id="id_name" name="name" handleChange={(e) => setName(e.target.value)} value={name} />
                 <TextInput label="Your phone" id="id_phone" name="phone" handleChange={(e) => setPhone(e.target.value)} value={phone} />
                 <TextInput label="Your country" id="id_country" name="country" handleChange={(e) => setCountry(e.target.value)} value={country} />
-                <ButtonLabel label="Send" colorMode={ButtonColorMode.color} type={ButtonType.primary} onClick={() => console.log("Send clicked")}/>
+                <Button label="Send" style={ButtonStyle.primary} onClick={() => console.log("Send clicked")}/>
             </StyledFormContainer>
         </StyledExampleLayout>
     </PopUp>

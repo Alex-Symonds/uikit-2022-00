@@ -70,10 +70,10 @@ type IconSectionProps = {
     iconSize: string,
 }
 function IconSection({iconSize} : IconSectionProps){
-    let {enumToConvert, idS, idM, idL, idXL} = getIconSettings(iconSize);
+    let {enumToConvert, idS, idM, idL, idXL, heading} = getIconSettings(iconSize);
 
     return  <StyledIconSection>
-                <Heading level={4}>{iconSize}</Heading>
+                <Heading level={4}>{iconSize} {heading}</Heading>
                 <StyledIconsContainer>
                 {
                     enumToArray(enumToConvert).map((name, index) => {
@@ -99,29 +99,35 @@ function getIconSettings(iconSize : string){
     let idM = false;
     let idL = false;
     let idXL = false;
+    let heading : string = "";
 
     switch(iconSize){
         case ICON_SIZES.medium:
             enumToConvert = IconMediumId;
             idM = true;
+            heading = "(Medium)";
             break;
         case ICON_SIZES.small:
             enumToConvert = IconSmallId;
             idS = true;
+            heading = "(Small)";
             break;
         case ICON_SIZES.large:
             enumToConvert = IconLargeId;
             idL = true;
+            heading = "(Large)";
             break;
         case ICON_SIZES.extraLarge:
             enumToConvert = IconXLId;
             idXL = true;
+            heading = "(Extra Large / XL)";
             break;
         default:
             enumToConvert = IconMediumId;
             idM = true;
+            heading = "(Medium)";
     }
-    return {enumToConvert, idS, idM, idL, idXL};
+    return {enumToConvert, idS, idM, idL, idXL, heading};
 }
 
 function enumToArray(enumToConvert : any){

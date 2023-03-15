@@ -134,7 +134,7 @@ const rightTheme : TooltipArrowThemeProps = {
     yKey: "top",
 }
 
-function getTooltipTheme(arrowPos : TOOLTIP_ARROW_POSITION) : TooltipArrowThemeProps{
+function getTooltipTheme(arrowPos? : TOOLTIP_ARROW_POSITION) : TooltipArrowThemeProps{
     switch(arrowPos){
         case TOOLTIP_ARROW_POSITION.bottomLeft:
             return bottomLeftTheme;
@@ -175,10 +175,11 @@ const StyledTooltip = styled.div.attrs<ThemeProps<TooltipArrowThemeProps>, Toolt
     border: 0.0625rem solid ${props => props.borderColor};
     border-radius: ${LAYOUT.borderRadius};
     box-shadow: ${SHADOW.default};
-    max-width: 100%;
+    max-width: 99vw;
     padding: 0.6875rem 1rem 0.6875rem 0.9375rem;
     position: relative;
     width: fit-content;
+    max-width: 100%;
     
     &:before,
     &:after{
@@ -229,16 +230,17 @@ const StyledArrowShadow = styled.div`
     ${props => props.theme.yKey}: ${props => props.theme.pos.y.shadow};
 `;
 
-interface I_TooltipProps{
+export interface I_TooltipProps{
+    id : string,
     text : string,
-    arrowPos : TOOLTIP_ARROW_POSITION
+    arrowPos? : TOOLTIP_ARROW_POSITION
 }
 
-export default function Tooltip({text, arrowPos} : I_TooltipProps){
+export default function Tooltip({id, text, arrowPos} : I_TooltipProps){
     const theme = getTooltipTheme(arrowPos);
 
     return  <ThemeProvider theme = {theme}>
-                <StyledTooltip>
+                <StyledTooltip role="tooltip" id={id}>
                     <Paragraph size={3} colour={PALETTE.black}>
                         {text}
                     </Paragraph>

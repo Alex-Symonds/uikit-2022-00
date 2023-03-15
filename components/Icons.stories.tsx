@@ -9,15 +9,14 @@ import {IconLargeId} from './IconsLarge';
 import {IconXLId} from './IconsExtraLarge';
 import {ICON_SIZES} from '../utils/Theme';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Tooltip, {TOOLTIP_ARROW_POSITION} from './Tooltip';
-import { visuallyHidden, visuallyUnhidden } from '../utils/utils';
+import {TOOLTIP_ARROW_POSITION} from './Tooltip';
+import TooltipWrapper from './TooltipWrapper';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'UI Kit/Icon',
     component: Icon,
   } as ComponentMeta<typeof Icon>;
-
 
 const StyledIconsContainer = styled.div`
     display: flex;
@@ -28,24 +27,6 @@ const StyledIconsContainer = styled.div`
     margin-top: 0.75rem;
     width: 47.5rem;
     max-width: calc(100% - 2rem);
-`;
-
-const StyledTooltipContainer = styled.div`
-  ${visuallyHidden}
-`;
-
-const StyledIconWrapper = styled.div<{iconSize : string}>`
-  max-width: ${props => props.iconSize};
-  min-width: ${props => props.iconSize};
-
-  position: relative;
-  &:hover ${StyledTooltipContainer}{
-        ${visuallyUnhidden}
-        display: block;
-        position: absolute;
-        top: -3.1rem;
-        left: calc(-1.375rem + (${props => props.iconSize}/2));
-  }
 `;
 
 const StyledIconSection = styled.section`
@@ -77,16 +58,13 @@ function IconSection({iconSize} : IconSectionProps){
                 <StyledIconsContainer>
                 {
                     enumToArray(enumToConvert).map((name, index) => {
-                        return  <StyledIconWrapper key={index} iconSize={iconSize}>
+                        return  <TooltipWrapper key={index} text={`${name}`} arrowPos={TOOLTIP_ARROW_POSITION.bottomLeft}>
                                     <Icon   idSmall={idS ? index : undefined}
                                             idMedium={idM ? index : undefined}
                                             idLarge={idL ? index : undefined}
                                             idXL={idXL ? index : undefined} 
                                             />
-                                    <StyledTooltipContainer>
-                                        <Tooltip text={`${name}`} arrowPos={TOOLTIP_ARROW_POSITION.bottomLeft} />
-                                    </StyledTooltipContainer>
-                                </StyledIconWrapper>
+                                </TooltipWrapper>
                     })
                 }
                 </StyledIconsContainer>

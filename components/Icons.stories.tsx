@@ -9,8 +9,9 @@ import {IconLargeId} from './IconsLarge';
 import {IconXLId} from './IconsExtraLarge';
 import {ICON_SIZES} from '../utils/Theme';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import {TOOLTIP_ARROW_POSITION} from './Tooltip';
+import { TOOLTIP_ARROW_POSITION } from './Tooltip';
 import TooltipWrapper from './TooltipWrapper';
+import { TOOLTIP_POS } from './TooltipPositioned';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -58,7 +59,11 @@ function IconSection({iconSize} : IconSectionProps){
                 <StyledIconsContainer>
                 {
                     enumToArray(enumToConvert).map((name, index) => {
-                        return  <TooltipWrapper key={index} text={`${name}`} arrowPos={TOOLTIP_ARROW_POSITION.bottomLeft}>
+                        return  <TooltipWrapper key={index} 
+                                                text={`${name}`} 
+                                                pos={TOOLTIP_POS.center} 
+                                                arrowPos={TOOLTIP_ARROW_POSITION.bottomLeft}
+                                                >
                                     <Icon   idSmall={idS ? index : undefined}
                                             idMedium={idM ? index : undefined}
                                             idLarge={idL ? index : undefined}

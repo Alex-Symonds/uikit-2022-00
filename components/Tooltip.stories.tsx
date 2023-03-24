@@ -45,3 +45,9 @@ export const Right = Template.bind({});
 Right.args = {
     arrowPos: TOOLTIP_ARROW_POSITION.right
 }
+
+export const Fullscreen = Template.bind({});
+Fullscreen.args = {
+    arrowPos: TOOLTIP_ARROW_POSITION.right,
+    fullscreenMode: true,
+}

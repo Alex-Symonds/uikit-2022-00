@@ -1,37 +1,45 @@
 /*
     For use with TooltipWrapper.
-    Automatically positions the Tooltip relative to the wrapper, based on the 
-    Tooltip's arrowPos (it will point to the target DOM element) and the TOOLTIP_POS,
-    (which is used to pick one of three locations along the target).
+    Automatically positions the Tooltip relative to the wrapper,
+    based on the user's TOOLTIP_MODE and POINTS_TO selections.
 */
 import React from 'react';
 import styled from 'styled-components';
 import Tooltip, {I_TooltipProps, TOOLTIP_ARROW_POSITION as ARROW_POS} from './Tooltip';
 import { convertRemToPixels } from '../utils/utils';
 import { PositionsObj } from './TooltipWrapper';
-import updateToFit from '../utils/tooltipPosUpdateToFit';
+import getTooltipOptionsThatFit from '../utils/tooltipPosUpdateToFit';
 
-export enum TOOLTIP_POS{
+
+export enum TOOLTIP_MODE{
+    aboveWithArrowLeft = "aboveWithArrowLeft",
+    aboveWithArrowRight = "aboveWithArrowRight",
+    belowWithArrowLeft = "belowWithArrowLeft",
+    belowWithArrowRight = "belowWithArrowRight",
+    leftWithArrowMid = "leftWithArrowMid",
+    rightWithArrowMid = "rightWithArrowMid"
+}
+
+export enum POINTS_TO{
     start = "start",
     center = "center",
     end = "end"
 }
 
-// For topX and bottomX arrows only: the distance between the edge of the tooltip and the static arrow point.
-// This can be used to adjust tooltip positioning to make it relative to the arrow point.
+
+// || Consts for responsive offsets
+// Space between the target and the tooltip bubble (space for the arrow, plus a little extra)
+const OFFSET_ARROW_OUTWARDS = "0.4375rem"; 
+
+// aboveX|belowX only. Distance from arrow point to closest side of the tooltip bubble.
 const OFFSET_ARROW_PERP = "1.375rem"; 
-const OFFSET_ARROW_PERP_PX = convertRemStrToPx(OFFSET_ARROW_PERP);
 
-// For all arrow types. Arbitrary/subjective offset. "Start" and "end" don't look right if they point to 
-// the very first pixel of the target element, so move them inwards a bit, so they look nicer.
-const OFFSET_EDGE = "0.6875rem";
-const OFFSET_EDGE_PX = convertRemStrToPx(OFFSET_EDGE);
-
-// For all arrow types. Offset to leave space between the tooltip and the target: for the arrow plus a
-// little artistic-extra.
-const OFFSET_ARROW_OUTWARDS = "0.4375rem";
-const OFFSET_ARROW_OUTWARDS_PX = convertRemStrToPx(OFFSET_ARROW_OUTWARDS);
-const NEXT_TO_TARGET = `calc(100% + ${OFFSET_ARROW_OUTWARDS})`;
+/* 
+    Move the arrow "in a bit" from start|end, so the arrow doesn't point at the very first px.
+    Defined as both rem and a percentage multiplier: the smaller is chosen.
+*/
+const OFFSET_EDGE_REM = "0.6875rem"; // <-- Sane option for enormous targets
+const OFFSET_EDGE_MULT = 0.15; // <-- Sane option for teeny targets
 
 function convertRemStrToPx(str : string) : number{
     /* Guide for if you haven't used regex in a while:
@@ -59,92 +67,139 @@ function convertRemStrToPx(str : string) : number{
 }
 
 
-// Take the ArrowPos chosen for the tooltip and set its implications for TooltipResponsive.
-export type T_ArrowPosWithSettings = {
+// Take the mode chosen for the tooltip and set its implications.
+export type T_ModeWithSettings = {
+    mode : TOOLTIP_MODE,
+/* 
+    The associated arrow position needed for displaying the correct tooltip "speech bubble".
+
+    A tooltip positioned to the right of the target needs an arrow pointing left; a tooltip
+    positioned above the target needs an arrow pointing downwards, from its bottom. This can
+    be a bit counterintuitive when your mind is on the overall positioning, so let's squirrel
+    that confusing implementation detail away in these settings and never worry about it again.
+*/
     arrow : ARROW_POS,
-    defaultPerpPos : TOOLTIP_POS,
+
+/* pointTo is an optional argument, so pick a subjectively "nice" default for this mode */
+    defaultPointTo : POINTS_TO,
+    
+/* Toggle the CSS keys used with the X- and Y-axis positioning values. */
     fromTop : boolean,
     fromLeft : boolean,
-    atSideOfTarget : boolean,
-    fallbackTop : boolean | undefined,
-    fallbackLeft : boolean | null,
+
+/* 
+    Settings used to describe the mode's positioning, used for both setting the CSS and 
+    responsive mode-switching.
+*/
+    side: SIDE,
+    arrowFrom: ARROW_FROM,
+} ;
+
+
+export enum SIDE{
+    above = "above",
+    below = "below",
+    left = "left",
+    right = "right",
 }
-export function addSettingsToArrowPos(arrowPos: ARROW_POS | undefined) : T_ArrowPosWithSettings{
-    let fromTop : boolean;
+
+export enum ARROW_FROM{
+    left = "left",
+    right = "right",
+    mid = "mid",
+}
+
+
+export function atSideOfTarget(modeSettings 
+    : T_ModeWithSettings) 
+    : boolean {
+
+    return modeSettings.side === SIDE.left || modeSettings.side === SIDE.right;
+}
+
+
+export function getSettingsForMode(mode
+    : TOOLTIP_MODE | undefined) 
+    : T_ModeWithSettings {
+
+    let arrow : ARROW_POS;
+    let fromTop : boolean;                  
     let fromLeft : boolean;
-    let atSideOfTarget : boolean;
-    let fallbackTop : boolean | undefined; // undefined = depends on start/center/end
-    let fallbackLeft : boolean | null; // null = not relevant for this arrowPos
+    let side : SIDE;
+    let arrowFrom : ARROW_FROM;
 
-    let defaultPerpPos : TOOLTIP_POS = TOOLTIP_POS.start;
-    let arrow = arrowPos ?? ARROW_POS.bottomLeft; // undefined arrowPos is covered here
+    // This is the same for 4/6 of the modes, so assign it here and let the 2/6 adjust it
+    let defaultPointTo : POINTS_TO = POINTS_TO.start;
 
-    switch(arrow){
-        case ARROW_POS.bottomLeft:
+    // Mode is an optional argument, so handle undefined here
+    mode = mode ?? TOOLTIP_MODE.aboveWithArrowLeft;
+
+    switch(mode){
+        case TOOLTIP_MODE.aboveWithArrowLeft:
+            arrow = ARROW_POS.bottomLeft,
             fromTop = false;
             fromLeft = true;
-            atSideOfTarget = false;
-            fallbackTop = false;
-            fallbackLeft = null;
+            side = SIDE.above;
+            arrowFrom = ARROW_FROM.left;
             break;
 
-        case ARROW_POS.bottomRight:
-            defaultPerpPos = TOOLTIP_POS.end;
+        case TOOLTIP_MODE.aboveWithArrowRight:
+            arrow = ARROW_POS.bottomRight;
             fromTop = false;
             fromLeft = false;
-            atSideOfTarget = false;
-            fallbackTop = false;
-            fallbackLeft = null;
+            side = SIDE.above;
+            arrowFrom = ARROW_FROM.right;
+
+            defaultPointTo = POINTS_TO.end;
             break;
 
-        case ARROW_POS.left:
+        case TOOLTIP_MODE.belowWithArrowLeft:
+            arrow = ARROW_POS.topLeft;
             fromTop = true;
             fromLeft = true;
-            atSideOfTarget = true;
-            fallbackTop = undefined;
-            fallbackLeft = false;
+            side = SIDE.below;
+            arrowFrom = ARROW_FROM.left;
             break;
 
-        case ARROW_POS.topLeft:
+        case TOOLTIP_MODE.belowWithArrowRight:
+            arrow = ARROW_POS.topRight;
+            fromTop = true;
+            fromLeft = false;
+            side = SIDE.below;
+            arrowFrom = ARROW_FROM.right;
+
+            defaultPointTo = POINTS_TO.end;
+            break;
+
+        case TOOLTIP_MODE.leftWithArrowMid:
+            arrow = ARROW_POS.right;
+            fromTop = true;
+            fromLeft = false;
+            side = SIDE.left;
+            arrowFrom = ARROW_FROM.mid;
+            break;
+
+        case TOOLTIP_MODE.rightWithArrowMid:
+            arrow = ARROW_POS.left;
             fromTop = true;
             fromLeft = true;
-            atSideOfTarget = false;
-            fallbackTop = true;
-            fallbackLeft = null;
-            break;
-
-        case ARROW_POS.topRight:
-            defaultPerpPos = TOOLTIP_POS.end;
-            fromTop = true;
-            fromLeft = false;
-            atSideOfTarget = false;
-            fallbackTop = true;
-            fallbackLeft = null;
-            break;
-
-        case ARROW_POS.right:
-            fromTop = true;
-            fromLeft = false;
-            atSideOfTarget = true;
-            fallbackTop = undefined;
-            fallbackLeft = true;
+            side = SIDE.right;
+            arrowFrom = ARROW_FROM.mid;
             break;
 
         // no default case: the line above the switch covers "undefined"; all enum options must be covered
     }
 
     return {
+        mode,
         arrow,
-        defaultPerpPos,
+        defaultPointTo,
         fromTop,
         fromLeft,
-        atSideOfTarget,
-        fallbackTop,
-        fallbackLeft,
+        side,
+        arrowFrom,
     }
 }
-
-
 
 // Styled-Component
 type T_Positioning = {
@@ -178,36 +233,53 @@ const StyledTooltipContainer = styled.div.attrs<
     position: absolute;
     z-index: 5;
     width: max-content;
-    max-width: 25rem;
+    max-width: 31rem;
 `;
 
 
-// Prepare the settings to be used in the style attribute
+// Prepare the modeSettings to be used in the style attribute
 export type T_TooltipOptions = {
-    settings : T_ArrowPosWithSettings,
-    perpPos : TOOLTIP_POS,
+    modeSettings : T_ModeWithSettings,
+    pointTo : POINTS_TO,
 }
-type T_TooltipOptionsWithHeight = T_TooltipOptions & { 
-    heightInPx : number,
+
+export type T_DOMElementSettings = {
+    wrapperPos: PositionsObj,
+    preferredWidth : number,
+    preferredHeight : number,
 }
-function getPositioningSettings({perpPos, settings, heightInPx} : T_TooltipOptionsWithHeight) : T_Positioning{
-    let posSettings = {
+
+type T_TooltipOptionsWithWrapper = 
+    T_TooltipOptions 
+    & Pick<T_DOMElementSettings, "wrapperPos">;
+
+type T_TooltipOptionsWithHeightAndWrapper = 
+    & T_TooltipOptionsWithWrapper
+    & { 
+        heightInPx : number,
+    };
+
+function getPositioningSettings({pointTo, modeSettings, heightInPx, wrapperPos} 
+    : T_TooltipOptionsWithHeightAndWrapper) 
+    : T_Positioning {
+
+    let posSettings : T_Positioning = {
         top: "auto",
         right: "auto",
         bottom: "auto",
         left: "auto",
     }
 
-    const strX = getCssForXAxis({perpPos, settings});
-    if(settings.fromLeft){
+    const strX : string = getCssForXAxis({pointTo, modeSettings, wrapperPos});
+    if(modeSettings.fromLeft){
         posSettings.left = strX;
     }
     else{
         posSettings.right = strX;
     }
 
-    const strY = getCssForYAxis({perpPos, settings, heightInPx});
-    if(settings.fromTop){
+    const strY : string = getCssForYAxis({pointTo, modeSettings, heightInPx, wrapperPos});
+    if(modeSettings.fromTop){
         posSettings.top = strY;
     }
     else{
@@ -218,24 +290,27 @@ function getPositioningSettings({perpPos, settings, heightInPx} : T_TooltipOptio
 }
 
 
-function getCssForXAxis({perpPos, settings} : T_TooltipOptions) : string{
-    if(settings.atSideOfTarget){
-        return NEXT_TO_TARGET;
+function getCssForXAxis({pointTo, modeSettings, wrapperPos} 
+    : T_TooltipOptionsWithWrapper) 
+    : string {
+
+    if(atSideOfTarget(modeSettings)){
+        return getCssNextToTarget();
     }
 
-    const offset = `${getXOffsetPx({perpPos, settings})}px`;
-    const offsetCloseSide = `-${offset}`;
-    const offsetFarSide = `calc(100% - ${offset})`;
+    const offset : number = getXOffsetPx({pointTo, modeSettings, wrapperPos});
+    const offsetCloseSide : string = `-${offset}px`;
+    const offsetFarSide : string = `calc(100% - ${offset}px)`;
 
-    switch(perpPos){
-        case TOOLTIP_POS.start:
-            return settings.fromLeft ? offsetCloseSide : offsetFarSide;
+    switch(pointTo){
+        case POINTS_TO.start:
+            return modeSettings.fromLeft ? offsetCloseSide : offsetFarSide;
 
-        case TOOLTIP_POS.end:
-            return settings.fromLeft ? offsetFarSide : offsetCloseSide;
+        case POINTS_TO.end:
+            return modeSettings.fromLeft ? offsetFarSide : offsetCloseSide;
 
-        case TOOLTIP_POS.center:
-            return `calc(50% - ${offset})`;
+        case POINTS_TO.center:
+            return `calc(50% - ${offset}px)`;
 
         default:
             return "0";
@@ -243,44 +318,54 @@ function getCssForXAxis({perpPos, settings} : T_TooltipOptions) : string{
 }
 
 
-function getCssForYAxis({perpPos, settings, heightInPx} : T_TooltipOptionsWithHeight) : string{
-    if(!settings.atSideOfTarget){
-        return NEXT_TO_TARGET;
+function getCssForYAxis({pointTo, modeSettings, heightInPx, wrapperPos} 
+    : T_TooltipOptionsWithHeightAndWrapper) 
+    : string {
+
+    if(!atSideOfTarget(modeSettings)){
+        return getCssNextToTarget();
     }
 
-    const heightOffset = `${heightInPx / 2}px`;
-    switch(perpPos){
-        case TOOLTIP_POS.start:
-            return `calc(${OFFSET_EDGE} - ${heightOffset})`;
+    const offset : number = getYOffsetPx({pointTo, modeSettings, heightInPx, wrapperPos});
+    switch(pointTo){
+        case POINTS_TO.start:
+            return `${offset}px`;
 
-        case TOOLTIP_POS.end:
-            return `calc(100% - ${OFFSET_EDGE} - ${heightOffset})`;
+        case POINTS_TO.end:
+            return `calc(100% - ${offset}px)`;
 
-        case TOOLTIP_POS.center:
-            return `calc(50% - ${heightOffset})`;
+        case POINTS_TO.center:
+            return `calc(50% - ${offset}px)`;
             
         default:
             return "0";
     }
 }
 
+function getCssNextToTarget() : string {
+    return `calc(100% + ${OFFSET_ARROW_OUTWARDS})`;
+}
 
 
-// Get X-axis offsets in pixels (converted from rem, so responsive)
-export function getXOffsetPx({settings, perpPos} : T_TooltipOptions) : number{
-    if(settings.atSideOfTarget){
-        return OFFSET_ARROW_OUTWARDS_PX;
+// Get offsets in pixels (converted from rem, so responsive)
+export function getXOffsetPx({pointTo, modeSettings, wrapperPos} 
+    : T_TooltipOptionsWithWrapper) 
+    : number {
+
+    if(atSideOfTarget(modeSettings)){
+        return convertRemStrToPx(OFFSET_ARROW_OUTWARDS);
     }
 
-    const farSideOffset : number = OFFSET_EDGE_PX + OFFSET_ARROW_PERP_PX;
-    switch(perpPos){
-        case TOOLTIP_POS.start:
-            return settings.fromLeft ? OFFSET_EDGE_PX : farSideOffset;
+    const OFFSET_ARROW_PERP_PX : number = convertRemStrToPx(OFFSET_ARROW_PERP);
+    const farSideOffset : number = getEdgeOffsetOffsetPx({wrapperPos}) + OFFSET_ARROW_PERP_PX;
+    switch(pointTo){
+        case POINTS_TO.start:
+            return modeSettings.fromLeft ? 0 : farSideOffset;
 
-        case TOOLTIP_POS.end:
-            return settings.fromLeft ? farSideOffset : OFFSET_EDGE_PX;
+        case POINTS_TO.end:
+            return modeSettings.fromLeft ? farSideOffset : 0;
 
-        case TOOLTIP_POS.center:
+        case POINTS_TO.center:
             return OFFSET_ARROW_PERP_PX;
         
         default:
@@ -289,21 +374,172 @@ export function getXOffsetPx({settings, perpPos} : T_TooltipOptions) : number{
 }
 
 
-// Responsiveness Helper types
-export type T_DOMElementSettings = {
-    wrapperPos: PositionsObj,
-    preferredWidth : number,
+export function getYOffsetPx({pointTo, modeSettings, heightInPx, wrapperPos} 
+    : T_TooltipOptionsWithHeightAndWrapper) 
+    : number {
+
+    if(!atSideOfTarget(modeSettings)){
+        return convertRemStrToPx(OFFSET_ARROW_OUTWARDS);
+    }
+
+    const heightOffset : number = heightInPx / 2;
+    const offset : number = getEdgeOffsetOffsetPx({wrapperPos});
+
+    switch(pointTo){
+        case POINTS_TO.start:
+            return offset - heightOffset;
+
+        case POINTS_TO.end:
+            return offset + heightOffset;
+
+        case POINTS_TO.center:
+            return heightOffset;
+            
+        default:
+            return 0;
+    }
 }
 
-export type T_MaxSpaceToEachSide = {
-    maxSpaceGoingLeft : number,
-    maxSpaceGoingRight : number,
+
+function getEdgeOffsetOffsetPx({wrapperPos} 
+    : Pick<T_DOMElementSettings, "wrapperPos">) 
+    : number {
+
+    const wrapperHeight : number = wrapperPos.bottom - wrapperPos.top;
+    const offsetMultiplier : number = wrapperHeight * OFFSET_EDGE_MULT;
+
+    const offsetRemToPx : number = convertRemStrToPx(OFFSET_EDGE_REM);
+
+    return offsetMultiplier < offsetRemToPx ? offsetMultiplier : offsetRemToPx;
+}
+
+
+// Responsive support: check if the tooltip fits on the screen
+export function tooltipFitsX({modeSettings, pointTo, wrapperPos, preferredWidth} 
+    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredWidth">)
+    : boolean {
+
+    let predictedXPosition = getPredictedXPosition({modeSettings, pointTo, wrapperPos, preferredWidth});
+    return  predictedXPosition.left >= 0 
+            && predictedXPosition.right <= window.innerWidth;
+}
+
+
+export function tooltipFitsY({modeSettings, pointTo, wrapperPos, preferredHeight} 
+    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredHeight">) 
+    : boolean {
+
+    let predictedYPosition = getPredictedYPosition({modeSettings, pointTo, wrapperPos, preferredHeight});
+    return  predictedYPosition.top >= 0
+            && predictedYPosition.bottom <= window.innerHeight;
+}
+
+
+// Work out where the tooltip /would/ appear if we applied the given tooltip options
+function getPredictedXPosition({modeSettings, pointTo, wrapperPos, preferredWidth} 
+    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredWidth">)
+    : { left: number, right: number } {
+
+    let offset : number = getXOffsetPx({modeSettings, pointTo, wrapperPos});
+    let aboveBelowPos : number = atSideOfTarget(modeSettings) ? 
+                                    0 
+                                    : getPredictedPosStaticSide({pointTo, modeSettings, offset, wrapperPos});
+    
+    let left : number = 0;
+    let right : number = 0;
+
+    if(modeSettings.fromLeft){
+        left = atSideOfTarget(modeSettings) ? wrapperPos.right + offset : aboveBelowPos;
+        right = left + preferredWidth;
+    }
+    else{
+        right = atSideOfTarget(modeSettings) ? wrapperPos.left - offset : aboveBelowPos;
+        left = right - preferredWidth;
+    }
+
+    return {
+        left,
+        right,
+    }
+}
+
+
+type T_PropsGetPreferredPosStaticSide = 
+    T_TooltipOptionsWithWrapper
+    & {
+        offset: number,
+    };
+function getPredictedPosStaticSide({modeSettings, pointTo, wrapperPos, offset} 
+    : T_PropsGetPreferredPosStaticSide) 
+    : number {
+
+    let wrapperWidth : number = wrapperPos.right - wrapperPos.left;
+    let wrapperMid : number = wrapperPos.left + wrapperWidth / 2;
+
+    let directionalOffset : number = modeSettings.fromLeft ? offset : -offset;
+
+    switch(pointTo){
+        case POINTS_TO.start:
+            return wrapperPos.left - directionalOffset;
+
+        case POINTS_TO.end:
+            return wrapperPos.right - directionalOffset;
+
+        case POINTS_TO.center:
+            return wrapperMid - offset;
+            
+        // No default because all enum options should be covered   
+    }
+    return 0;
+}
+
+
+function getPredictedYPosition({modeSettings, pointTo, wrapperPos, preferredHeight} 
+    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredHeight">) 
+    : { top : number, bottom : number } {   
+        
+    let top : number = 0;
+    let offset : number = getYOffsetPx({modeSettings, pointTo, wrapperPos, heightInPx: preferredHeight});
+    if(!atSideOfTarget(modeSettings)){
+        if(modeSettings.mode === TOOLTIP_MODE.belowWithArrowLeft || modeSettings.mode === TOOLTIP_MODE.belowWithArrowRight){
+            top = wrapperPos.bottom + offset;
+        }
+        else{
+            top = wrapperPos.top - offset - preferredHeight;
+        }
+    }
+    else{
+        let midPoint : number;
+        switch(pointTo){
+            case POINTS_TO.start:
+                top = wrapperPos.top + offset;
+                break;
+            
+            case POINTS_TO.end:
+                top = wrapperPos.bottom - offset;
+                break;
+            
+            case POINTS_TO.center:
+                midPoint = (wrapperPos.bottom - wrapperPos.top) / 2;
+                top = midPoint - offset;
+                break;
+    
+            // No default because all enum options should be covered
+        }
+    }
+
+    return {
+        top,
+        bottom: top + preferredHeight
+    };
 }
 
 
 // Hooks
-type useFullscreenModeProps = T_MaxSpaceToEachSide & Pick<T_DOMElementSettings, "preferredWidth">;
-function useFullscreenMode({maxSpaceGoingLeft, maxSpaceGoingRight, preferredWidth} : useFullscreenModeProps) : boolean{
+function useFullscreenMode({wrapperPos, preferredWidth, preferredHeight} 
+    : T_DOMElementSettings) 
+    : boolean {
+
     const [fullscreenMode, setFullscreenMode] = React.useState<boolean>(false);
 
     React.useEffect(() => {
@@ -312,8 +548,7 @@ function useFullscreenMode({maxSpaceGoingLeft, maxSpaceGoingRight, preferredWidt
     }, []);
 
     function updateFullscreenMode(){
-        const needFullscreen =  preferredWidth > maxSpaceGoingLeft
-                                && preferredWidth > maxSpaceGoingRight;
+        const needFullscreen = fullscreenModeIsRequired();
 
         if(fullscreenMode && !needFullscreen){
             setFullscreenMode(false);
@@ -323,10 +558,32 @@ function useFullscreenMode({maxSpaceGoingLeft, maxSpaceGoingRight, preferredWidt
         }
     }
 
+    function fullscreenModeIsRequired() 
+        : boolean {
+
+        const modeArr = Object.values(TOOLTIP_MODE);
+        const pointPosArr = Object.values(POINTS_TO);
+    
+        for(let idxMode : number = 0; idxMode < modeArr.length; idxMode++){
+            let loopSettings = getSettingsForMode(modeArr[idxMode]);
+    
+            for(let idxPoint : number = 0; idxPoint < pointPosArr.length; idxPoint++){
+                let sharedProps = { modeSettings: loopSettings, pointTo: pointPosArr[idxPoint], wrapperPos };
+    
+                if(tooltipFitsX({...sharedProps, preferredWidth }) && tooltipFitsY({...sharedProps, preferredHeight})){
+                    return false;
+                }
+            }
+        }
+    
+        return true;
+    }
+
     updateFullscreenMode();
 
     return fullscreenMode;
 }
+
 
 type T_UseDimensionsProps = {
     ref : React.MutableRefObject<HTMLDivElement | HTMLElement | null>,
@@ -336,7 +593,10 @@ type T_Dimensions = {
     height : number,
     width: number,
 }
-function useOriginalDimensions({ref, text} : T_UseDimensionsProps) : T_Dimensions{
+function useOriginalDimensions({ref, text} 
+    : T_UseDimensionsProps) 
+    : T_Dimensions {
+
     const [measurements, setMeasurements] = React.useState<T_Dimensions>(getDimensions);
 
     function getDimensions(){
@@ -364,32 +624,35 @@ function useOriginalDimensions({ref, text} : T_UseDimensionsProps) : T_Dimension
 }
 
 
-type T_TooltipPositionedProps =   Pick<I_TooltipProps, "arrowPos" | "id" | "text"> 
-                                & Pick<T_DOMElementSettings, "wrapperPos"> 
-                                & {
-                                    pos? : TOOLTIP_POS,
-                                };
-export default function TooltipPositioned({arrowPos, pos, text, id, wrapperPos} : T_TooltipPositionedProps){
+export type T_TooltipPositionedProps = 
+    Pick<I_TooltipProps, "id" | "text"> 
+    & Pick<T_DOMElementSettings, "wrapperPos"> 
+    & {
+        mode? : TOOLTIP_MODE,
+        pointTo? : POINTS_TO,
+    };
+export default function TooltipPositioned({mode, pointTo : argPointTo, text, id, wrapperPos} 
+    : T_TooltipPositionedProps)
+    {
+
     const ref = React.useRef<HTMLDivElement | null>(null);
     const {height: preferredHeight, width: preferredWidth} = useOriginalDimensions({ref, text});
 
-    let settings = addSettingsToArrowPos(arrowPos);
-    let perpPos = pos ?? settings.defaultPerpPos;
+    let prioritiseMode : boolean = mode !== undefined && argPointTo === undefined;
+    let modeSettings : T_ModeWithSettings = getSettingsForMode(mode);
+    let pointTo : POINTS_TO = argPointTo ?? modeSettings.defaultPointTo;
 
-    let maxSpaceGoingLeft = wrapperPos.right + OFFSET_EDGE_PX;
-    let maxSpaceGoingRight = window.innerWidth - wrapperPos.left + OFFSET_EDGE_PX;  
-
-    const fullscreenMode = useFullscreenMode({maxSpaceGoingLeft, maxSpaceGoingRight, preferredWidth});
+    const fullscreenMode : boolean = useFullscreenMode({wrapperPos, preferredWidth, preferredHeight});
     if(!fullscreenMode){
-        let responsive = updateToFit({settings, perpPos, fullscreenMode, wrapperPos, preferredWidth, maxSpaceGoingLeft, maxSpaceGoingRight});
-        settings = responsive.settings;
-        perpPos = responsive.perpPos;
+        let responsive : T_TooltipOptions = getTooltipOptionsThatFit({modeSettings, pointTo, wrapperPos, preferredWidth, preferredHeight, prioritiseMode});
+        modeSettings = responsive.modeSettings;
+        pointTo = responsive.pointTo;
     }
 
     return  <StyledTooltipContainer ref={ref} 
-                                    pos={getPositioningSettings({perpPos, settings, heightInPx: preferredHeight})}
+                                    pos={getPositioningSettings({pointTo, modeSettings, wrapperPos, heightInPx: preferredHeight})}
                                     >
-                <Tooltip    arrowPos={settings.arrow}
+                <Tooltip    arrowPos={modeSettings.arrow}
                             fullscreenMode={fullscreenMode}
                             id={id} 
                             text={text}

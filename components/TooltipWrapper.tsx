@@ -5,7 +5,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {I_TooltipProps} from './Tooltip';
 import useCloseOnOutsideClick from '../utils/UseCloseOnOutsideClick';
-import TooltipPositioned, { TOOLTIP_POS } from './TooltipPositioned';
+import TooltipPositioned, { T_TooltipPositionedProps } from './TooltipPositioned';
+
 
 const StyledWrapper = styled.div`
     height: fit-content;
@@ -13,17 +14,24 @@ const StyledWrapper = styled.div`
     width: fit-content;
 `;
 
-type TooltipWrapperProps = Pick<I_TooltipProps, "arrowPos" | "text"> & {
-    className?: string,
-    pos? : TOOLTIP_POS,
-    lockVisible? : boolean,
-    children: React.ReactNode,
+
+type TooltipWrapperProps = 
+    Pick<I_TooltipProps, "text"> 
+    & Pick<T_TooltipPositionedProps, "mode" | "pointTo"> 
+    &{
+        className?: string,
+        lockVisible? : boolean,         /* true = tooltip is permanently visible */
+        children: React.ReactNode,
 }
 
-export default function TooltipWrapper({lockVisible, className, pos, text, arrowPos, children} : TooltipWrapperProps){
+
+export default function TooltipWrapper({mode, lockVisible, pointTo, text, className, children} 
+    : TooltipWrapperProps)
+    {
+
     const [isVisible, setIsVisible] = React.useState(false);
     const ref = React.useRef(null);
-    const wrapperPos = useXPosition(ref);
+    const wrapperPos = usePosition(ref); /* Used to prevent the tooltip from going off screen */
     
     // For touchscreen users
     useCloseOnOutsideClick({
@@ -59,9 +67,9 @@ export default function TooltipWrapper({lockVisible, className, pos, text, arrow
                             >
                 {children}
             {lockVisible || isVisible ? 
-                <TooltipPositioned  arrowPos={arrowPos} 
+                <TooltipPositioned  mode={mode} 
                                     id={id}
-                                    pos={pos} 
+                                    pointTo={pointTo} 
                                     text={text} 
                                     wrapperPos={wrapperPos}
                 />
@@ -70,13 +78,14 @@ export default function TooltipWrapper({lockVisible, className, pos, text, arrow
             </StyledWrapper>
 }
 
+
 export type PositionsObj = {
     left : number,
     right : number,
     top : number,
     bottom : number,
 }
- function useXPosition(ref : React.MutableRefObject<HTMLDivElement | null>) : PositionsObj{
+ function usePosition(ref : React.MutableRefObject<HTMLDivElement | null>) : PositionsObj{
     const [positions, setPositions] = React.useState(getPositions);
 
     function getPositions(){

@@ -4,7 +4,7 @@ import { LAYOUT, PALETTE, SHADOW } from '../utils/Theme';
 import Paragraph from './Paragraph';
 import {PositionsObj} from './TooltipWrapper';
 
-export const enum TOOLTIP_ARROW_POSITION{
+export enum TOOLTIP_ARROW_POSITION{
     topLeft = "topLeft",
     topRight = "topRight",
     bottomLeft = "bottomLeft",
@@ -188,8 +188,8 @@ const StyledTooltipFullscreen = styled(StyledTooltipBase)<{topStr : string | und
     max-height: calc(100vh - 1rem);
     overflow-y: auto;
     position: fixed;
-    top: ${props => props.topStr ? props.topStr : "50%"};
-    width: calc(100vw - 1rem);  
+    top: ${props => props.topStr ? props.topStr : "0.5rem"};
+    width: calc(100vw - 1.25rem);  
 `;
 
 const StyledTooltip = styled(StyledTooltipBase)`
@@ -245,11 +245,19 @@ const StyledArrowShadow = styled.div`
 `;
 
 function getCssForFullscreenTop({wrapperPos, height} : {wrapperPos : PositionsObj | undefined, height : number | undefined}){
-    if(wrapperPos){
-        return `calc(${wrapperPos.bottom}px + 8px)`;
-    }
-    else if(height){
-        return `calc(50% - ${height / 2}px)`;
+    if(wrapperPos && height){
+        const padding = 8;
+        let topNum : number;
+
+        if(wrapperPos.top - height - padding > 0){
+            topNum = wrapperPos.top - height - padding;
+            return `${topNum}px`;
+        }
+
+        if(wrapperPos.bottom + height + padding < window.innerHeight){
+            topNum = wrapperPos.bottom + padding;
+            return `${topNum}px`;
+        }
     }
     return undefined;
 }
@@ -275,7 +283,6 @@ export default function Tooltip({arrowPos, fullscreenMode, id, text, wrapperPos 
     }
 
     const theme = getTooltipTheme(arrowPos);
-    
     return  <ThemeProvider theme = {theme}>
                 <StyledTooltip role="tooltip" id={id} ref={ref}>
                     <TooltipContents text={text} />

@@ -18,17 +18,17 @@
 
 import React, {forwardRef} from 'react';
 import styled from 'styled-components';
-import { PALETTE } from '../utils/Theme';
-import Icon from './Icons';
-import { IconMediumId } from './IconsMedium';
-import customCursorImg from '../public/cursorHand.svg';
-import OptionsListWithScreenreader from './OptionsContainer';
-import Option from './Options';
+
 import {   
     StyledInputAndOptionsContainer, 
     StyledInputContainerWithOutline as StyledInputContainer, 
-    StyledCloseButton
-} from './Styled_InputAndOptions';
+    StyledCloseButton,
+    Options as Option,
+    Icon, IconMediumId,
+    OptionsContainer as OptionsListWithScreenreader,
+    } from './';
+import { PALETTE } from '../utils/Theme';
+import customCursorImg from '../public/cursorHand.svg';
 
 /*
     Assumptions: 

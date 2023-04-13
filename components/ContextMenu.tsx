@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
+
 import {SHADOW, PALETTE, LAYOUT} from '../utils/Theme';
 
 // This is exported for use in ContextMenu-related Stories, so you don't need to right-click every time

@@ -1,8 +1,8 @@
 import React from 'react';
-import Notification, {NotificationType} from './Notification';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
+import { Notification, NotificationType } from './';
 
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

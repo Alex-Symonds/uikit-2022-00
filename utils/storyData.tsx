@@ -1,5 +1,4 @@
-import { CheckboxOptionDataType } from "../components/ContextMenuCheckbox";
-import { RadioOptionDataType } from "../components/ContextMenuRadio";
+import { CheckboxOptionDataType, RadioOptionDataType } from "../components/";
 
 export const COUNTRY_CHECKBOX_DATA : CheckboxOptionDataType[] = [
     {   id: "1",    checked: false,     displayText: "Russia",  name:"country-russia"   },

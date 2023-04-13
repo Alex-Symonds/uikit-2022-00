@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 
 export const enum TAB_TYPE{

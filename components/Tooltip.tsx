@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
+
+import { Paragraph, PositionsObj } from './';
 import { LAYOUT, PALETTE, SHADOW } from '../utils/Theme';
-import Paragraph from './Paragraph';
-import {PositionsObj} from './TooltipWrapper';
 
 export enum TOOLTIP_ARROW_POSITION{
     topLeft = "topLeft",

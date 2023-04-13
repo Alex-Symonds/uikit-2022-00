@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import {PALETTE} from '../utils/Theme';
 
 const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "colour" | "size">>`

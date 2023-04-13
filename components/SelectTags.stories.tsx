@@ -1,6 +1,7 @@
 import React from 'react';
-import SelectTags from './SelectTags';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { SelectTags } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

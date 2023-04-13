@@ -1,7 +1,8 @@
 import styled, {css} from 'styled-components';
 import React from 'react';
-import {CheckboxOptionDataType} from '../components/ContextMenuCheckbox';
-import {RadioOptionDataType} from '../components/ContextMenuRadio';
+
+import {CheckboxOptionDataType, RadioOptionDataType} from '../components/';
+
 
 export function isBlank(prop : any) : boolean{
     return prop === '' || prop === undefined || prop === null;

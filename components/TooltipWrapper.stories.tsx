@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TooltipWrapper from './TooltipWrapper';
-import { TOOLTIP_MODE, POINTS_TO } from './TooltipPositioned';
-
 import styled from 'styled-components';
+
+import { TooltipWrapper, TOOLTIP_MODE, POINTS_TO } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 
 const TEXT = "Your Text in Tooltip ";

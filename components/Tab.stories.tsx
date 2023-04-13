@@ -1,9 +1,8 @@
 import React from 'react';
-import Tab, {TAB_TYPE} from './Tab';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Icon from './Icons';
-import { IconMediumId } from './IconsMedium';
 import styled from 'styled-components';
+
+import { Icon, IconMediumId, Tab, TAB_TYPE} from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

@@ -1,6 +1,7 @@
 import React from 'react';
-import Avatar, { AvatarOptions } from './Avatar';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import {Avatar, AvatarOptions } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

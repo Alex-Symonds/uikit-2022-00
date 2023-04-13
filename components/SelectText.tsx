@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
+
+import { SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps, StyledLabel } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import {SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps} from './SelectWrapper';
-import { StyledLabel } from './InputContainer';
 import useOptionsList from '../utils/UseOptionsList';
 import useFocusMonitor from '../utils/UseFocusMonitor';
 

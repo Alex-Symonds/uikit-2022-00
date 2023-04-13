@@ -1,6 +1,6 @@
 import React from 'react';
 import { moveWithinMenu } from './utils';
-import { SelectOptionDataType, I_SelectWrapperProps } from '../components/SelectWrapper';
+import { SelectOptionDataType, I_SelectWrapperProps } from '../components/';
 import useCloseOnOutsideClick from './UseCloseOnOutsideClick';
 
 interface I_useOptionsList{

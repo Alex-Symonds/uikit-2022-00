@@ -3,10 +3,9 @@
 */
 import React from 'react';
 import styled from 'styled-components';
-import {I_TooltipProps} from './Tooltip';
-import useCloseOnOutsideClick from '../utils/UseCloseOnOutsideClick';
-import TooltipPositioned, { T_TooltipPositionedProps } from './TooltipPositioned';
 
+import {TooltipPositioned, T_TooltipPositionedProps, I_TooltipProps} from './';
+import useCloseOnOutsideClick from '../utils/UseCloseOnOutsideClick';
 
 const StyledWrapper = styled.div`
     height: fit-content;

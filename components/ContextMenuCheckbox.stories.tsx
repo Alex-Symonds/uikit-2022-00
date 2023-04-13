@@ -1,9 +1,9 @@
 import React from 'react';
-import ContextCheckboxGroup, {CheckboxOptionDataType} from './ContextMenuCheckbox';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { ContextMenuCheckbox as ContextCheckboxGroup, CheckboxOptionDataType, StyledContextMenu } from './';
 import { changeCheckbox } from '../utils/utils';
-import {StyledContextMenu} from './ContextMenu';
-import {COUNTRY_CHECKBOX_DATA as COUNTRY_DATA} from '../utils/storyData';
+import { COUNTRY_CHECKBOX_DATA as COUNTRY_DATA } from '../utils/storyData';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

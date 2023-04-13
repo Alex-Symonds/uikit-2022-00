@@ -9,9 +9,10 @@
 
 import React from 'react';
 import styled from 'styled-components';
+
+import { StyledOptionWithCheck } from './';
 import { StyledScreenReaderOnly } from '../utils/utils';
 import { TYPOGRAPHY, PALETTE } from '../utils/Theme';
-import { StyledOptionWithCheck } from './Options';
 
 const StyledFieldSet = styled.fieldset`
     display: flex;

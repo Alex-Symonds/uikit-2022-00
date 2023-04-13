@@ -48,5 +48,8 @@ next-env.d.ts
 /stories/Page.stories.tsx
 /stories/Page.tsx
 
+# helper file
+/components/_getIndex.py
+
 
 

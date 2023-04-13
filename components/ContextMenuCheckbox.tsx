@@ -1,7 +1,6 @@
 import React from 'react';
-import Icon from './Icons';
-import { IconMediumId } from './IconsMedium';
-import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
+
+import { Icon, IconMediumId, ContextMenuFieldset, I_ContextMenuFieldset, StyledContextOption } from './';
 import { StyledScreenReaderOnly } from '../utils/utils';
 
 export type CheckboxOptionDataType = {

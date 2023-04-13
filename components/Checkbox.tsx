@@ -1,9 +1,8 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
-import Icon from './Icons';
-import { IconSmallId } from './IconsSmall';
 
+import {Icon, IconSmallId } from './';
+import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 
 const StyledLabel = styled.label<Pick<CheckboxProps, "disabled" | "error">>`
     ${TYPOGRAPHY.p2}

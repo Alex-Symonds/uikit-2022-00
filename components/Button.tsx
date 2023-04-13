@@ -8,10 +8,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ThemeProvider } from 'styled-components'
+
+import {Icon, IconProps, IconMediumId } from '.';
 import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 import { StyledScreenReaderOnly } from '../utils/utils';
-import Icon, {IconProps} from './Icons';
-import { IconMediumId } from './IconsMedium';
 
 // Colour Themes
 export enum ButtonStyle{

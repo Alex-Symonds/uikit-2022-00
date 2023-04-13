@@ -1,6 +1,7 @@
 import React from 'react';
-import Tooltip, {TOOLTIP_ARROW_POSITION} from './Tooltip';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { Tooltip, TOOLTIP_ARROW_POSITION } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

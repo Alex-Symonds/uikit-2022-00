@@ -1,9 +1,11 @@
 import React from 'react';
-import ContextMenu, {StyledContextMenu} from './ContextMenu';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
-import ContextRadioGroup, {RadioOptionDataType} from './ContextMenuRadio';
-import ContextCheckboxGroup, {CheckboxOptionDataType} from './ContextMenuCheckbox';
+
+import {    ContextMenu, StyledContextMenu,
+            ContextMenuRadio as ContextRadioGroup, RadioOptionDataType,
+            ContextMenuCheckbox as ContextCheckboxGroup, CheckboxOptionDataType,
+            } from './';
 import { changeRadio, changeCheckbox } from '../utils/utils';
 import { TYPOGRAPHY } from '../utils/Theme';
 import { COUNTRY_RADIO_DATA, COUNTRY_CHECKBOX_DATA, TIMEUNIT_CHECKBOX_DATA, TIMEUNIT_RADIO_DATA } from '../utils/storyData';

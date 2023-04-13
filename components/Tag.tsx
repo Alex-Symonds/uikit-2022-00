@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
+
+import { Icon, IconSmallId } from '.';
 import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from '../utils/Theme';
-import Icon from './Icons';
-import { IconSmallId } from './IconsSmall';
 import customCursorImg from '../public/cursorHand.svg';
 
 const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : Boolean }>`

@@ -1,8 +1,7 @@
 import React from 'react';
-import Island from './Island';
-import {Subject} from './IconMediumSubject';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
+import { Island, Subject } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

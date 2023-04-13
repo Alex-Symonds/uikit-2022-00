@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
+
+import { CircleAroundIcon, Avatar, AvatarOptions, Icon, IconMediumId } from './';
 import {LAYOUT, PALETTE, SHADOW, TYPOGRAPHY} from '../utils/Theme';
-import CircleAroundIcon from './CircleAroundIcon';
-import Avatar, {AvatarOptions} from './Avatar';
-import Icon from './Icons';
-import { IconMediumId } from './IconsMedium';
-
-
 
 // TODO: get the user to pass in props for file types and sizes, then use for validation and
 // constructing this display sentence.

@@ -1,10 +1,8 @@
 import React from 'react';
-import PopUp from './PopUp';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import TextInput from './InputText';
-import Button, { ButtonStyle } from './Button';
-
 import styled from 'styled-components';
+
+import { PopUp, InputText as TextInput, Button, ButtonStyle } from './';
 import { TYPOGRAPHY } from '../utils/Theme';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

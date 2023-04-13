@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import Icon from './Icons';
-import { IconSmallId } from './IconsSmall';
-import Paragraph from './Paragraph';
+
+import { Icon, IconSmallId, Paragraph } from './';
 import { visuallyHidden, getClassName } from '../utils/utils';
 
 const StyledToggleBase = styled.button<{hasLabel : boolean}>`

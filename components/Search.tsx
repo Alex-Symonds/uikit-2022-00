@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+
+import {    Icon, IconMediumId,
+            StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton,
+            OptionsContainer as OptionsListWithScreenReader,
+            Options as Option
+        } from './';
+
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import Icon from './Icons';
-import { IconMediumId } from './IconsMedium';
 import { StyledScreenReaderOnly } from '../utils/utils';
 import { selectMenuKeyDown, selectMenuKeydownProps } from '../utils/UseOptionsList';
-
-import OptionsListWithScreenReader from './OptionsContainer';
-import Option from './Options';
-import {StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton} from './Styled_InputAndOptions';
 
 const StyledLayout = styled.div`
     display: grid;

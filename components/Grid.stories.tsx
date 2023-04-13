@@ -1,7 +1,8 @@
 import React from 'react';
-import Grid from './Grid';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
+
+import { Grid } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

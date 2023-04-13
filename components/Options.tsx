@@ -23,8 +23,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 
-import Icon from './Icons';
-import { IconMediumId } from './IconsMedium';
+import { Icon, IconMediumId } from './';
 import customCursorImg from '../public/cursorHand.svg';
 
 export const StyledOption = styled.div<{isHighlighted : boolean}>`

@@ -1,7 +1,4 @@
-import IconS, {IconSmallId} from './IconsSmall';
-import IconM, {IconMediumId} from './IconsMedium';
-import IconL, {IconLargeId} from './IconsLarge';
-import IconXL, {IconXLId} from './IconsExtraLarge';
+import { IconS, IconM, IconL, IconXL, IconSmallId, IconMediumId, IconLargeId, IconXLId } from '.';
 
 export interface IconProps{
     idSmall?: IconSmallId,

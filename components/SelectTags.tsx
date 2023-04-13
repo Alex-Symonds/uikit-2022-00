@@ -1,10 +1,12 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
+
+import {    SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps,
+            Tag, TagColor, TagSize,
+            StyledLabel,
+            } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import { StyledScreenReaderOnly } from '../utils/utils';
-import {SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps} from './SelectWrapper';
-import Tag, {TagColor, TagSize} from './Tag';
-import { StyledLabel } from './InputContainer';
 import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} from '../utils/UseTagOverflowCheck';
 import useUpdatingRef from '../utils/UseUpdatingRef';
 import useOptionsList from '../utils/UseOptionsList';

@@ -1,12 +1,10 @@
 import React from 'react';
-import Button, { ButtonStyle } from './Button';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
 import styled, {ThemeProvider} from 'styled-components';
-import { IconSmallId } from './IconsSmall';
-import { IconMediumId } from './IconsMedium';
+
+import { Button, ButtonStyle, IconSmallId, IconMediumId, Paragraph } from './';
 import { TYPOGRAPHY, PALETTE } from '../utils/Theme';
-import Paragraph from './Paragraph';
+
 
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

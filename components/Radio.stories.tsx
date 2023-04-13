@@ -1,6 +1,7 @@
 import React from 'react';
-import Radio from './Radio';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { Radio } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

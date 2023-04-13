@@ -1,6 +1,5 @@
 import React from 'react';
-import Icon from './Icons';
-import {IconMediumId} from './IconsMedium';
+import {Icon, IconMediumId} from './';
 
 export enum Subject{
     mathematics,

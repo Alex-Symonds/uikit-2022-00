@@ -1,6 +1,7 @@
 import React from 'react';
-import Search from './Search';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { Search } from './';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

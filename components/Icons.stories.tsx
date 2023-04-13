@@ -1,17 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
-import Heading from './Heading';
-import Paragraph from './Paragraph';
-import Icon from './Icons';
-import {IconSmallId} from './IconsSmall';
-import {IconMediumId} from './IconsMedium';
-import {IconLargeId} from './IconsLarge';
-import {IconXLId} from './IconsExtraLarge';
-import {ICON_SIZES} from '../utils/Theme';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TOOLTIP_ARROW_POSITION } from './Tooltip';
-import TooltipWrapper from './TooltipWrapper';
-import { TOOLTIP_MODE, POINTS_TO } from './TooltipPositioned';
+import styled from 'styled-components';
+
+import {    Icon, IconSmallId, IconMediumId, IconLargeId, IconXLId, 
+            Heading, Paragraph, 
+            TooltipWrapper, TOOLTIP_MODE, POINTS_TO
+        } from './';
+import {ICON_SIZES} from '../utils/Theme';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -62,7 +57,7 @@ function IconSection({iconSize} : IconSectionProps){
                         return  <TooltipWrapper key={index} 
                                                 text={`${name}`} 
                                                 pointTo={POINTS_TO.center} 
-                                                mode={TOOLTIP_MODE.aboveArrowLeft}
+                                                mode={TOOLTIP_MODE.aboveWithArrowLeft}
                                                 >
                                     <Icon   idSmall={idS ? index : undefined}
                                             idMedium={idM ? index : undefined}

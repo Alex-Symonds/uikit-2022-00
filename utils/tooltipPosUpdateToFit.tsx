@@ -18,7 +18,7 @@ import {    getSettingsForMode,
             T_DOMElementSettings,
             T_TooltipOptions,
             T_ModeWithSettings,
-                } from '../components/TooltipPositioned';
+                } from '../components/';
 
 
 type T_PriorityFlag = {

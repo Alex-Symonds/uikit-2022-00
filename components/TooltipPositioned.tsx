@@ -5,11 +5,10 @@
 */
 import React from 'react';
 import styled from 'styled-components';
-import Tooltip, {I_TooltipProps, TOOLTIP_ARROW_POSITION as ARROW_POS} from './Tooltip';
-import { convertRemToPixels } from '../utils/utils';
-import { PositionsObj } from './TooltipWrapper';
-import getTooltipOptionsThatFit from '../utils/tooltipPosUpdateToFit';
 
+import { Tooltip, I_TooltipProps, TOOLTIP_ARROW_POSITION as ARROW_POS, PositionsObj } from './';
+import { convertRemToPixels } from '../utils/utils';
+import getTooltipOptionsThatFit from '../utils/tooltipPosUpdateToFit';
 
 export enum TOOLTIP_MODE{
     aboveWithArrowLeft = "aboveWithArrowLeft",

@@ -16,20 +16,6 @@ const customViewports = {
       height: '768px',
     },
   },
-  test_tooltipWrapper_onRight: {
-    name: 'test tooltipWrapper onRight',
-    styles: {
-      width: '700px',
-      height: '768px',
-    },
-  },
-  test_tooltipWrapper_onRight_prefSide: {
-    name: 'test tooltipWrapper onRight prefSide',
-    styles: {
-      width: '590px',
-      height: '768px',
-    },
-  },
 };
 
 export const parameters = {

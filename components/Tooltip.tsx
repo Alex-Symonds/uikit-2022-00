@@ -2,8 +2,9 @@ import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
 import { LAYOUT, PALETTE, SHADOW } from '../utils/Theme';
 import Paragraph from './Paragraph';
+import {PositionsObj} from './TooltipWrapper';
 
-export const enum TOOLTIP_ARROW_POSITION{
+export enum TOOLTIP_ARROW_POSITION{
     topLeft = "topLeft",
     topRight = "topRight",
     bottomLeft = "bottomLeft",
@@ -11,7 +12,6 @@ export const enum TOOLTIP_ARROW_POSITION{
     left = "left",
     right = "right",
 }
-
 
 /*
     Notes:
@@ -134,7 +134,7 @@ const rightTheme : TooltipArrowThemeProps = {
     yKey: "top",
 }
 
-function getTooltipTheme(arrowPos : TOOLTIP_ARROW_POSITION) : TooltipArrowThemeProps{
+function getTooltipTheme(arrowPos? : TOOLTIP_ARROW_POSITION) : TooltipArrowThemeProps{
     switch(arrowPos){
         case TOOLTIP_ARROW_POSITION.bottomLeft:
             return bottomLeftTheme;
@@ -165,21 +165,36 @@ type TooltipAttrsProps = {
     borderColor : PALETTE,
 }
 
-const StyledTooltip = styled.div.attrs<ThemeProps<TooltipArrowThemeProps>, TooltipAttrsProps>(() => {
+const StyledTooltipBase = styled.div.attrs<
+    ThemeProps<TooltipArrowThemeProps>, 
+    TooltipAttrsProps
+    >(() => {
         return {
             backgroundColor: PALETTE.white,
             borderColor: PALETTE.grayL,
         }
-    })`
+})`
     background: ${props => props.backgroundColor};
     border: 0.0625rem solid ${props => props.borderColor};
     border-radius: ${LAYOUT.borderRadius};
     box-shadow: ${SHADOW.default};
-    max-width: 100%;
+    max-width: min(calc(100vw - 1rem), 100%);
     padding: 0.6875rem 1rem 0.6875rem 0.9375rem;
-    position: relative;
     width: fit-content;
-    
+`;
+
+const StyledTooltipFullscreen = styled(StyledTooltipBase)<{topStr : string | undefined}>`
+    left: 0.5rem;
+    max-height: calc(100vh - 1rem);
+    overflow-y: auto;
+    position: fixed;
+    top: ${props => props.topStr ? props.topStr : "0.5rem"};
+    width: calc(100vw - 1.25rem);  
+`;
+
+const StyledTooltip = styled(StyledTooltipBase)`
+    position: relative;
+
     &:before,
     &:after{
         aspect-ratio: 12/5;
@@ -229,20 +244,55 @@ const StyledArrowShadow = styled.div`
     ${props => props.theme.yKey}: ${props => props.theme.pos.y.shadow};
 `;
 
-interface I_TooltipProps{
-    text : string,
-    arrowPos : TOOLTIP_ARROW_POSITION
+function getCssForFullscreenTop({wrapperPos, height} : {wrapperPos : PositionsObj | undefined, height : number | undefined}){
+    if(wrapperPos && height){
+        const padding = 8;
+        let topNum : number;
+
+        if(wrapperPos.top - height - padding > 0){
+            topNum = wrapperPos.top - height - padding;
+            return `${topNum}px`;
+        }
+
+        if(wrapperPos.bottom + height + padding < window.innerHeight){
+            topNum = wrapperPos.bottom + padding;
+            return `${topNum}px`;
+        }
+    }
+    return undefined;
 }
 
-export default function Tooltip({text, arrowPos} : I_TooltipProps){
-    const theme = getTooltipTheme(arrowPos);
+export interface I_TooltipProps{
+    arrowPos? : TOOLTIP_ARROW_POSITION
+    id : string,
+    fullscreenMode? : boolean,
+    text : string, 
+    wrapperPos? : PositionsObj,
+}
 
+export default function Tooltip({arrowPos, fullscreenMode, id, text, wrapperPos } : I_TooltipProps){
+    const ref = React.useRef<HTMLDivElement>(null);
+    
+    if(fullscreenMode){
+        let {height} = ref.current ? ref.current.getBoundingClientRect() : {height: undefined};
+        let topStr : string | undefined = fullscreenMode ? getCssForFullscreenTop({wrapperPos, height}) : undefined;
+        
+        return  <StyledTooltipFullscreen role="tooltip" id={id} ref={ref} topStr={topStr}>
+                    <TooltipContents text={text} />
+                </StyledTooltipFullscreen>
+    }
+
+    const theme = getTooltipTheme(arrowPos);
     return  <ThemeProvider theme = {theme}>
-                <StyledTooltip>
-                    <Paragraph size={3} colour={PALETTE.black}>
-                        {text}
-                    </Paragraph>
+                <StyledTooltip role="tooltip" id={id} ref={ref}>
+                    <TooltipContents text={text} />
                     <StyledArrowShadow />
                 </StyledTooltip>
-            </ThemeProvider>
+            </ThemeProvider>      
+}
+
+function TooltipContents({text} : Pick<I_TooltipProps, "text">){
+    return  <Paragraph size={3} colour={PALETTE.black}>
+                {text}
+            </Paragraph>
 }

@@ -23,7 +23,7 @@ import {
     StyledInputAndOptionsContainer, 
     StyledInputContainerWithOutline as StyledInputContainer, 
     StyledCloseButton,
-    Options as Option,
+    Option,
     Icon, IconMediumId,
     OptionsContainer as OptionsListWithScreenreader,
     } from './';

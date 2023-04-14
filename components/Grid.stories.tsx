@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof Grid> = args => {
 
     let illustrativeBlocks : React.ReactNode[] = [];
     for(let i = 0; i < 12; i++){
-        illustrativeBlocks.push(<StyledColouredBlock />);
+        illustrativeBlocks.push(<StyledColouredBlock key={i} />);
     }
 
     return  <Grid {...args}>

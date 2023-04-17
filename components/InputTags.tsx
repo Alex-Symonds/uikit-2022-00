@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Tag, TagColor, TagSize, InputContainer, StyledLabel } from './';
+import { Tag, TagColor, TagSize, InputContainer } from './';
 import { TYPOGRAPHY } from '../utils/Theme';
 import { visuallyHidden } from '../utils/utils';
 import useTagOverflowCheck, { StyledTagsContainer } from '../utils/UseTagOverflowCheck';
 import useUpdatingRef from '../utils/UseUpdatingRef';
+import { StyledLabel } from './StyledLabel';
 
 export const INPUT_MIN_WIDTH = "3rem";
 const TAG_CONTAINER_GAP = "0.25rem";

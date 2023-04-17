@@ -1,10 +1,12 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import { SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps, StyledLabel } from './';
+import { SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import useOptionsList from '../utils/UseOptionsList';
 import useFocusMonitor from '../utils/UseFocusMonitor';
+
+import { StyledLabel } from './StyledLabel';
 
 const StyledSelectedInput = styled.div`
     ${TYPOGRAPHY.p2}

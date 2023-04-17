@@ -3,10 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
 import {    Icon, IconSmallId, IconMediumId, IconLargeId, IconXLId, 
-            Heading, Paragraph, 
-            TooltipWrapper, TOOLTIP_MODE, POINTS_TO
+
         } from './';
-import {ICON_SIZES} from '../utils/Theme';
+import {
+        Heading, Paragraph, 
+        TooltipWrapper, TOOLTIP_MODE, POINTS_TO
+    } from '../';
+import {ICON_SIZES} from '../../utils/Theme';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

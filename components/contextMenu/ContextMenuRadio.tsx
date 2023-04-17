@@ -1,7 +1,9 @@
 import React from 'react';
 
-import { Icon, IconMediumId, ContextMenuFieldset, I_ContextMenuFieldset, StyledContextOption } from './';
-import {StyledScreenReaderOnly} from '../utils/utils';
+import {StyledScreenReaderOnly} from '../../utils/utils';
+import { Icon, IconMediumId, } from '../icons/';
+
+import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
 
 export type RadioOptionDataType = {
     checked : boolean,      /* Controlled state of whether it's checked. */

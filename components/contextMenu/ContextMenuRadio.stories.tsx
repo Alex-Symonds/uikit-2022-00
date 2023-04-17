@@ -1,9 +1,12 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { ContextMenuRadio as ContextRadioGroup, RadioOptionDataType, StyledContextMenu } from './';
-import { changeRadio } from '../utils/utils';
-import { COUNTRY_RADIO_DATA as COUNTRY_DATA } from '../utils/storyData';
+import { changeRadio } from '../../utils/utils';
+import { COUNTRY_RADIO_DATA as COUNTRY_DATA } from '../../utils/storyData';
+
+import ContextRadioGroup, { RadioOptionDataType } from './ContextMenuRadio';
+import { StyledContextMenu } from './ContextMenu';
+
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

@@ -10,9 +10,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { StyledOptionWithCheck } from './Option'; // importing from Option because using index causes the entire Storybook to fail: I think a circular ref
-import { StyledScreenReaderOnly } from '../utils/utils';
-import { TYPOGRAPHY, PALETTE } from '../utils/Theme';
+import { StyledScreenReaderOnly } from '../../utils/utils';
+import { TYPOGRAPHY, PALETTE } from '../../utils/Theme';
+
+import { StyledOptionWithCheck } from '../Option';
 
 const StyledFieldSet = styled.fieldset`
     display: flex;

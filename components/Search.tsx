@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {    Icon, IconMediumId,
             StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton,
             OptionsContainer as OptionsListWithScreenReader,
-            Options as Option
+            Option
         } from './';
 
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';

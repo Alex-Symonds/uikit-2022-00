@@ -6,10 +6,9 @@
 */
 
 import React from 'react';
-import styled from 'styled-components';
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components';
 
-import {Icon, IconProps, IconMediumId } from '.';
+import { Icon, IconProps, IconMediumId } from './icons/';
 import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 import { StyledScreenReaderOnly } from '../utils/utils';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { Badge, BadgeType, Button, ButtonStyle, IconMSubject as SubjectIcon, Subject, Icon, IconMediumId } from './';
+import { Badge, BadgeType, Button, ButtonStyle, getIconMediumIdFromSubject, Subject, Icon, IconMediumId } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 
 const StyledIsland = styled.div`
@@ -172,7 +172,7 @@ export default function Island({progress, subject, text, heading, description, b
             }
 
             <StyledSubjectContainer>
-                <SubjectIcon subject={subject}/>
+                <Icon idMedium={getIconMediumIdFromSubject(subject)}/>
             </StyledSubjectContainer>
 
             <StyledLayout>

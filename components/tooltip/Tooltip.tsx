@@ -4,8 +4,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {TooltipPositioned, T_TooltipPositionedProps, I_TooltipProps} from './';
-import useCloseOnOutsideClick from '../utils/UseCloseOnOutsideClick';
+import useCloseOnOutsideClick from '../../utils/UseCloseOnOutsideClick';
+
+import { I_TooltipBubbleProps } from './TooltipBubble';
+import TooltipPositioned, { T_TooltipPositionedProps } from './TooltipPositioned';
+import usePosition from './utils/usePosition';
 
 const StyledWrapper = styled.div`
     height: fit-content;
@@ -13,9 +16,8 @@ const StyledWrapper = styled.div`
     width: fit-content;
 `;
 
-
 type TooltipWrapperProps = 
-    Pick<I_TooltipProps, "text"> 
+    Pick<I_TooltipBubbleProps, "text"> 
     & Pick<T_TooltipPositionedProps, "mode" | "pointTo"> 
     &{
         className?: string,
@@ -77,39 +79,4 @@ export default function TooltipWrapper({mode, lockVisible, pointTo, text, classN
             </StyledWrapper>
 }
 
-
-export type PositionsObj = {
-    left : number,
-    right : number,
-    top : number,
-    bottom : number,
-}
- function usePosition(ref : React.MutableRefObject<HTMLDivElement | null>) : PositionsObj{
-    const [positions, setPositions] = React.useState(getPositions);
-
-    function getPositions(){
-        const tarRect = ref.current ? ref.current.getBoundingClientRect() : null;
-        return {
-                left: tarRect ? tarRect.left : 0,
-                right: tarRect ? tarRect.right : 0,
-                top: tarRect ? tarRect.top : 0,
-                bottom: tarRect ? tarRect.bottom : 0,
-            };
-    };
-
-    function handleResize(){
-        setPositions(getPositions());
-    };
-
-    React.useEffect(() => {
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    React.useLayoutEffect(() => {
-        handleResize();
-    }, []);
-
-    return positions;
-}
 

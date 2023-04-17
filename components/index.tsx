@@ -1,5 +1,6 @@
 export * from './contextMenu/';
 export * from './icons/';
+export * from './tooltip/';
 
 export * from './Avatar';
 export {default as Avatar} from './Avatar';
@@ -48,8 +49,7 @@ export {default as SelectTags} from './SelectTags';
 export * from './SelectText';
 export {default as SelectText} from './SelectText';
 export * from './SelectWrapper';
-export { StyledLabel } from './StyledLabel';
-// export {default as StyledLabel} from './StyledLabel';
+// export { StyledLabel } from './StyledLabel';
 export * from './Styled_InputAndOptions';
 export * from './Tab';
 export {default as Tab} from './Tab';
@@ -57,9 +57,6 @@ export * from './Tag';
 export {default as Tag} from './Tag';
 export * from './Toggle';
 export {default as Toggle} from './Toggle';
-export * from './Tooltip';
-export {default as Tooltip} from './Tooltip';
-export * from './TooltipPositioned';
-export {default as TooltipPositioned} from './TooltipPositioned';
-export * from './TooltipWrapper';
-export {default as TooltipWrapper} from './TooltipWrapper';
+
+
+

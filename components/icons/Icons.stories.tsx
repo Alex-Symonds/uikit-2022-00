@@ -2,14 +2,17 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
-import {    Icon, IconSmallId, IconMediumId, IconLargeId, IconXLId, 
-
-        } from './';
+import {    
+        Icon, IconSmallId, IconMediumId, IconLargeId, IconXLId, 
+            } from './';
 import {
         Heading, Paragraph, 
+            } from '../';
+import {
         TooltipWrapper, TOOLTIP_MODE, POINTS_TO
-    } from '../';
-import {ICON_SIZES} from '../../utils/Theme';
+            } from '../tooltip/';
+
+import { ICON_SIZES } from '../../utils/Theme';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

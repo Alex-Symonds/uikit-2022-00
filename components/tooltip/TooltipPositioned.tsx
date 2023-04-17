@@ -6,9 +6,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Tooltip, I_TooltipProps, TOOLTIP_ARROW_POSITION as ARROW_POS, PositionsObj } from './';
-import { convertRemToPixels } from '../utils/utils';
-import getTooltipOptionsThatFit from '../utils/tooltipPosUpdateToFit';
+import { convertRemToPixels } from '../../utils/utils';
+
+import TooltipBubble, { I_TooltipBubbleProps, TOOLTIP_ARROW_POSITION as ARROW_POS } from './TooltipBubble';
+import { T_PositionObj } from './utils/usePosition';
+import getTooltipOptionsThatFit from './utils/getOptionsThatFit';
+import useOriginalDimensions from './utils/useOriginalDimensions';
+import useFullscreenMode from './utils/useFullscreenMode';
 
 export enum TOOLTIP_MODE{
     aboveWithArrowLeft = "aboveWithArrowLeft",
@@ -109,7 +113,7 @@ export enum ARROW_FROM{
 }
 
 
-export function atSideOfTarget(modeSettings 
+export function isAtSideOfTarget(modeSettings 
     : T_ModeWithSettings) 
     : boolean {
 
@@ -218,6 +222,7 @@ const StyledTooltipContainer = styled.div.attrs<
     T_PropsTooltipWrapper,
     T_OutputTypeTooltipWrapperAttrs
     >((props : T_PropsTooltipWrapper) => {
+
         return {
             style: {
                     top: props.pos ? props.pos.top : "0",
@@ -226,6 +231,7 @@ const StyledTooltipContainer = styled.div.attrs<
                     left: props.pos ? props.pos.left : "0",
                 },
         }
+
     })<T_PropsTooltipWrapper>`
 
     display: block;
@@ -243,12 +249,12 @@ export type T_TooltipOptions = {
 }
 
 export type T_DOMElementSettings = {
-    wrapperPos: PositionsObj,
+    wrapperPos: T_PositionObj,
     preferredWidth : number,
     preferredHeight : number,
 }
 
-type T_TooltipOptionsWithWrapper = 
+export type T_TooltipOptionsWithWrapper = 
     T_TooltipOptions 
     & Pick<T_DOMElementSettings, "wrapperPos">;
 
@@ -293,7 +299,7 @@ function getCssForXAxis({pointTo, modeSettings, wrapperPos}
     : T_TooltipOptionsWithWrapper) 
     : string {
 
-    if(atSideOfTarget(modeSettings)){
+    if(isAtSideOfTarget(modeSettings)){
         return getCssNextToTarget();
     }
 
@@ -321,7 +327,7 @@ function getCssForYAxis({pointTo, modeSettings, heightInPx, wrapperPos}
     : T_TooltipOptionsWithHeightAndWrapper) 
     : string {
 
-    if(!atSideOfTarget(modeSettings)){
+    if(!isAtSideOfTarget(modeSettings)){
         return getCssNextToTarget();
     }
 
@@ -351,7 +357,7 @@ export function getXOffsetPx({pointTo, modeSettings, wrapperPos}
     : T_TooltipOptionsWithWrapper) 
     : number {
 
-    if(atSideOfTarget(modeSettings)){
+    if(isAtSideOfTarget(modeSettings)){
         return convertRemStrToPx(OFFSET_ARROW_OUTWARDS);
     }
 
@@ -377,7 +383,7 @@ export function getYOffsetPx({pointTo, modeSettings, heightInPx, wrapperPos}
     : T_TooltipOptionsWithHeightAndWrapper) 
     : number {
 
-    if(!atSideOfTarget(modeSettings)){
+    if(!isAtSideOfTarget(modeSettings)){
         return convertRemStrToPx(OFFSET_ARROW_OUTWARDS);
     }
 
@@ -414,217 +420,10 @@ function getEdgeOffsetOffsetPx({wrapperPos}
 
 
 // Responsive support: check if the tooltip fits on the screen
-export function tooltipFitsX({modeSettings, pointTo, wrapperPos, preferredWidth} 
-    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredWidth">)
-    : boolean {
-
-    let predictedXPosition = getPredictedXPosition({modeSettings, pointTo, wrapperPos, preferredWidth});
-    return  predictedXPosition.left >= 0 
-            && predictedXPosition.right <= window.innerWidth;
-}
-
-
-export function tooltipFitsY({modeSettings, pointTo, wrapperPos, preferredHeight} 
-    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredHeight">) 
-    : boolean {
-
-    let predictedYPosition = getPredictedYPosition({modeSettings, pointTo, wrapperPos, preferredHeight});
-    return  predictedYPosition.top >= 0
-            && predictedYPosition.bottom <= window.innerHeight;
-}
-
-
-// Work out where the tooltip /would/ appear if we applied the given tooltip options
-function getPredictedXPosition({modeSettings, pointTo, wrapperPos, preferredWidth} 
-    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredWidth">)
-    : { left: number, right: number } {
-
-    let offset : number = getXOffsetPx({modeSettings, pointTo, wrapperPos});
-    let aboveBelowPos : number = atSideOfTarget(modeSettings) ? 
-                                    0 
-                                    : getPredictedPosStaticSide({pointTo, modeSettings, offset, wrapperPos});
-    
-    let left : number = 0;
-    let right : number = 0;
-
-    if(modeSettings.fromLeft){
-        left = atSideOfTarget(modeSettings) ? wrapperPos.right + offset : aboveBelowPos;
-        right = left + preferredWidth;
-    }
-    else{
-        right = atSideOfTarget(modeSettings) ? wrapperPos.left - offset : aboveBelowPos;
-        left = right - preferredWidth;
-    }
-
-    return {
-        left,
-        right,
-    }
-}
-
-
-type T_PropsGetPreferredPosStaticSide = 
-    T_TooltipOptionsWithWrapper
-    & {
-        offset: number,
-    };
-function getPredictedPosStaticSide({modeSettings, pointTo, wrapperPos, offset} 
-    : T_PropsGetPreferredPosStaticSide) 
-    : number {
-
-    let wrapperWidth : number = wrapperPos.right - wrapperPos.left;
-    let wrapperMid : number = wrapperPos.left + wrapperWidth / 2;
-
-    let directionalOffset : number = modeSettings.fromLeft ? offset : -offset;
-
-    switch(pointTo){
-        case POINTS_TO.start:
-            return wrapperPos.left - directionalOffset;
-
-        case POINTS_TO.end:
-            return wrapperPos.right - directionalOffset;
-
-        case POINTS_TO.center:
-            return wrapperMid - offset;
-            
-        // No default because all enum options should be covered   
-    }
-    return 0;
-}
-
-
-function getPredictedYPosition({modeSettings, pointTo, wrapperPos, preferredHeight} 
-    : T_TooltipOptions & Pick<T_DOMElementSettings, "wrapperPos" | "preferredHeight">) 
-    : { top : number, bottom : number } {   
-        
-    let top : number = 0;
-    let offset : number = getYOffsetPx({modeSettings, pointTo, wrapperPos, heightInPx: preferredHeight});
-    if(!atSideOfTarget(modeSettings)){
-        if(modeSettings.mode === TOOLTIP_MODE.belowWithArrowLeft || modeSettings.mode === TOOLTIP_MODE.belowWithArrowRight){
-            top = wrapperPos.bottom + offset;
-        }
-        else{
-            top = wrapperPos.top - offset - preferredHeight;
-        }
-    }
-    else{
-        let midPoint : number;
-        switch(pointTo){
-            case POINTS_TO.start:
-                top = wrapperPos.top + offset;
-                break;
-            
-            case POINTS_TO.end:
-                top = wrapperPos.bottom - offset;
-                break;
-            
-            case POINTS_TO.center:
-                midPoint = (wrapperPos.bottom - wrapperPos.top) / 2;
-                top = midPoint - offset;
-                break;
-    
-            // No default because all enum options should be covered
-        }
-    }
-
-    return {
-        top,
-        bottom: top + preferredHeight
-    };
-}
-
-
-// Hooks
-function useFullscreenMode({wrapperPos, preferredWidth, preferredHeight} 
-    : T_DOMElementSettings) 
-    : boolean {
-
-    const [fullscreenMode, setFullscreenMode] = React.useState<boolean>(false);
-
-    React.useEffect(() => {
-        window.addEventListener("resize", updateFullscreenMode);
-        return () => window.removeEventListener("resize", updateFullscreenMode);
-    }, []);
-
-    function updateFullscreenMode(){
-        const needFullscreen = fullscreenModeIsRequired();
-
-        if(fullscreenMode && !needFullscreen){
-            setFullscreenMode(false);
-        }
-        else if(!fullscreenMode && needFullscreen){
-            setFullscreenMode(true);
-        }
-    }
-
-    function fullscreenModeIsRequired() 
-        : boolean {
-
-        const modeArr = Object.values(TOOLTIP_MODE);
-        const pointPosArr = Object.values(POINTS_TO);
-    
-        for(let idxMode : number = 0; idxMode < modeArr.length; idxMode++){
-            let loopSettings = getSettingsForMode(modeArr[idxMode]);
-    
-            for(let idxPoint : number = 0; idxPoint < pointPosArr.length; idxPoint++){
-                let sharedProps = { modeSettings: loopSettings, pointTo: pointPosArr[idxPoint], wrapperPos };
-    
-                if(tooltipFitsX({...sharedProps, preferredWidth }) && tooltipFitsY({...sharedProps, preferredHeight})){
-                    return false;
-                }
-            }
-        }
-    
-        return true;
-    }
-
-    updateFullscreenMode();
-
-    return fullscreenMode;
-}
-
-
-type T_UseDimensionsProps = {
-    ref : React.MutableRefObject<HTMLDivElement | HTMLElement | null>,
-    text? : string,
-}
-type T_Dimensions = {
-    height : number,
-    width: number,
-}
-function useOriginalDimensions({ref, text} 
-    : T_UseDimensionsProps) 
-    : T_Dimensions {
-
-    const [measurements, setMeasurements] = React.useState<T_Dimensions>(getDimensions);
-
-    function getDimensions(){
-        return {
-            height: ref.current ? ref.current.offsetHeight : 0,
-            width: ref.current ? ref.current.offsetWidth : 0,
-        }
-    }
-
-    function updateDimensions(){
-        if(ref.current){
-            setMeasurements(getDimensions());
-        }
-    }
-
-    React.useLayoutEffect(() => {
-        updateDimensions();
-    }, []);
-
-    React.useEffect(() => {
-        updateDimensions();
-    }, [text]);
-
-    return measurements;
-}
 
 
 export type T_TooltipPositionedProps = 
-    Pick<I_TooltipProps, "id" | "text"> 
+    Pick<I_TooltipBubbleProps, "id" | "text"> 
     & Pick<T_DOMElementSettings, "wrapperPos"> 
     & {
         mode? : TOOLTIP_MODE,
@@ -651,11 +450,11 @@ export default function TooltipPositioned({mode, pointTo : argPointTo, text, id,
     return  <StyledTooltipContainer ref={ref} 
                                     pos={getPositioningSettings({pointTo, modeSettings, wrapperPos, heightInPx: preferredHeight})}
                                     >
-                <Tooltip    arrowPos={modeSettings.arrow}
-                            fullscreenMode={fullscreenMode}
-                            id={id} 
-                            text={text}
-                            wrapperPos={wrapperPos}
+                <TooltipBubble  arrowPos={modeSettings.arrow}
+                                fullscreenMode={fullscreenMode}
+                                id={id} 
+                                text={text}
+                                wrapperPos={wrapperPos}
                 />
             </StyledTooltipContainer>
 }

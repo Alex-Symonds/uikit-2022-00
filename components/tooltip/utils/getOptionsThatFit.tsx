@@ -1,25 +1,30 @@
 /*
     Helper function for Tooltip auto-positioning.
     
-    Checks if the user's selection of mode and pointTo will fit on screen.
-    If not, it works out which alternative would fit and returns that.
-    If it has a choice, it will pick the alternative that comes closest to the 
-    user's original selection.
+    Checks if the user's selected options (i.e. mode and pointTo) will fit 
+    on screen.
+
+    If not, it will sort the remaining options into a priority order (based 
+    on the user's selected options), loop through them and return the first 
+    set of options that will fit on screen.
 */
 
-import {    getSettingsForMode, 
-            tooltipFitsX, 
-            tooltipFitsY,
-            atSideOfTarget,
-            TOOLTIP_MODE as MODE,
-            POINTS_TO,
-            SIDE,
-            ARROW_FROM,
-            T_DOMElementSettings,
-            T_TooltipOptions,
-            T_ModeWithSettings,
-                } from '../components/';
+import {
+    getSettingsForMode, 
+    isAtSideOfTarget,
+    TOOLTIP_MODE as MODE,
+    POINTS_TO,
+    SIDE,
+    ARROW_FROM,
+    T_DOMElementSettings,
+    T_TooltipOptions,
+    T_ModeWithSettings,
+        } from '../TooltipPositioned';
 
+import {
+    tooltipFitsX,
+    tooltipFitsY
+        } from './tooltipFits';
 
 type T_PriorityFlag = {
     prioritiseMode : boolean
@@ -36,14 +41,18 @@ export default function getTooltipOptionsThatFit({modeSettings, pointTo, wrapper
     : T_PropsUpdateTooltipOptionsToFit) 
     : T_TooltipOptions {
     
+    // wrapperPos is key to determining if the tooltip will fit. If it's empty, none of this will
+    // return a meaningful result, so don't waste time on it.
     let wrapperPosIsEmpty : boolean = wrapperPos.left === 0 && wrapperPos.right === 0;
-    let willFitX : boolean = tooltipFitsX({modeSettings, pointTo, wrapperPos, preferredWidth});
-    let willFitY : boolean = tooltipFitsY({modeSettings, pointTo, wrapperPos, preferredHeight});
+    if(!wrapperPosIsEmpty){
+        let willFitX : boolean = tooltipFitsX({modeSettings, pointTo, wrapperPos, preferredWidth});
+        let willFitY : boolean = tooltipFitsY({modeSettings, pointTo, wrapperPos, preferredHeight});
 
-    if(!wrapperPosIsEmpty && (!willFitX || !willFitY)){
-        let optionsThatFit : T_FittingOptionsOrNull = getClosestOptionsThatFit({ modeSettings, pointTo, wrapperPos, preferredWidth, preferredHeight, prioritiseMode });
-        if(optionsThatFit !== null){
-            return optionsThatFit;
+        if(!willFitX || !willFitY){
+            let optionsThatFit : T_FittingOptionsOrNull = getClosestOptionsThatFit({ modeSettings, pointTo, wrapperPos, preferredWidth, preferredHeight, prioritiseMode });
+            if(optionsThatFit !== null){
+                return optionsThatFit;
+            }
         }
     }
 
@@ -68,7 +77,7 @@ function getClosestOptionsThatFit({modeSettings, pointTo, wrapperPos, preferredW
     let optionsOrderedByCloseness : T_TooltipOptions[] = getOptionsInOrder({modeSettings, pointTo, prioritiseMode});
     let sharedProps : T_DOMElementSettings = { wrapperPos, preferredWidth, preferredHeight};
 
-    // Map to avoid repeating checks. We've already checked the user's selection, so add that to the map.
+    // Map to avoid repeating checks. We checked the user's selection before calling this, so add that to the map.
     let optionsMemo : Map<string, boolean> = new Map<string, boolean>();
     let key : string = getKeyStr({modeSettings, pointTo});
     optionsMemo.set(key, true);
@@ -118,7 +127,7 @@ function tooltipFitsOutwards({modeSettings, pointTo, wrapperPos, preferredWidth,
     : T_TooltipOptions & T_DOMElementSettings)
     : boolean {
 
-    return atSideOfTarget(modeSettings) ?
+    return isAtSideOfTarget(modeSettings) ?
                 tooltipFitsX({modeSettings, pointTo, wrapperPos, preferredWidth})
                 : tooltipFitsY({modeSettings, pointTo, wrapperPos, preferredHeight});
 }
@@ -128,7 +137,7 @@ function tooltipFitsPerpendicularly({modeSettings, pointTo, wrapperPos, preferre
     : T_TooltipOptions & T_DOMElementSettings)
     : boolean {
     
-    return atSideOfTarget(modeSettings) ?
+    return isAtSideOfTarget(modeSettings) ?
                 tooltipFitsY({modeSettings, pointTo, wrapperPos, preferredHeight})
                 : tooltipFitsX({modeSettings, pointTo, wrapperPos, preferredWidth});
 }
@@ -143,7 +152,7 @@ function getOptionsInOrder({modeSettings, pointTo, prioritiseMode}
     let relDef : T_RelativeModeSettings = getRelativeSettings({modeSettings, pointTo});
     let {opposite, nearPerp, farPerp, perpPointTo} : T_RelativeModeSettings = relDef;
 
-    if(atSideOfTarget(modeSettings)){
+    if(isAtSideOfTarget(modeSettings)){
         return getOptionsInOrderLeftRight({modeSettings, pointTo, opposite, nearPerp, farPerp, perpPointTo});
     }
     else{
@@ -156,8 +165,8 @@ function getOptionsInOrderLeftRight({modeSettings, pointTo, opposite, nearPerp, 
     : T_TooltipOptions & T_RelativeModeSettings)
     : T_TooltipOptions[] {
 
-    // 1) Get other pointTo options on the same side. left|right don't have any settingsToWeave, so ignore that.
-    let orderedArr : T_TooltipOptions[] = getOptionCombos({modeSettings, pointTo, settingsToWeave: null, excludeFirst: true});
+    // 1) Get other pointTo options on the same side. left|right don't have any modeSettingsToWeave, so ignore that.
+    let orderedArr : T_TooltipOptions[] = getOptionCombos({modeSettings, pointTo, modeSettingsToWeave: null, excludeFirst: true});
 
     // 2) The two "xPerp @ perpPointTo" combos have so much in common with a side-y tooltip -- they're almost "pre-start"
     // and "post-end" -- that we're going to pretend they're on the same side as the user's selection and prioritise 
@@ -165,12 +174,12 @@ function getOptionsInOrderLeftRight({modeSettings, pointTo, opposite, nearPerp, 
     orderedArr.push({modeSettings: nearPerp, pointTo: perpPointTo});
     orderedArr.push({modeSettings: farPerp, pointTo: perpPointTo});
 
-    // 3) and 4) varies depending on pointTo. Prepare some props objects to keep things DRY when setting up different orders
-    let propsOpp =  {modeSettings: opposite,    pointTo,                settingsToWeave: null };
-    let propsNear = {modeSettings: nearPerp,    pointTo: perpPointTo,   settingsToWeave: getSettingsSameSide(nearPerp),  excludeFirst: true};
+    // 3) and 4) vary depending on selected pointTo. Prepare some props objects to keep things DRY when reordering
+    let propsOpp =  {modeSettings: opposite,    pointTo,                modeSettingsToWeave: null };
+    let propsNear = {modeSettings: nearPerp,    pointTo: perpPointTo,   modeSettingsToWeave: getSettingsSameSide(nearPerp),  excludeFirst: true};
 
     if(pointTo === POINTS_TO.center){
-        /*  o  The tooltip content is also centered around the arrow, so both perp sides are equally "near" and "far"
+        /*  o  The tooltip content is centered around the arrow, so both perp sides are equally "near" and "far"
                and it makes no sense to prioritise one over the other. They should be grouped together, similar prio.
             o  The opposite side preserves the distinctive "poking out the side" look, so let's prioritise that over
                shuffling the tooltip across above|below.
@@ -187,7 +196,7 @@ function getOptionsInOrderLeftRight({modeSettings, pointTo, opposite, nearPerp, 
     // 5) All that remains is the remainder of "far"
     orderedArr = orderedArr.concat( getOptionCombos({   modeSettings: farPerp, 
                                                         pointTo: perpPointTo, 
-                                                        settingsToWeave: getSettingsSameSide(farPerp), 
+                                                        modeSettingsToWeave: getSettingsSameSide(farPerp), 
                                                         excludeFirst: true 
                                                 }));
     return orderedArr;
@@ -210,35 +219,35 @@ function getOptionsInOrderAboveBelow({modeSettings, pointTo, prioritiseMode, opp
     // To prioritise preservation of the mode, run the function twice: no weaving
     let sideSharer : T_ModeWithSettings | null = getSettingsSameSide(modeSettings);
     if(prioritiseMode){
-        orderedArr = orderedArr.concat(getOptionCombos({modeSettings, pointTo, settingsToWeave: null, excludeFirst: true}));
+        orderedArr = orderedArr.concat(getOptionCombos({modeSettings, pointTo, modeSettingsToWeave: null, excludeFirst: true}));
         if(sideSharer){
-            orderedArr = orderedArr.concat(getOptionCombos({modeSettings: sideSharer, pointTo, settingsToWeave: null}));
+            orderedArr = orderedArr.concat(getOptionCombos({modeSettings: sideSharer, pointTo, modeSettingsToWeave: null}));
         }
     }
     // To prioritise preservation of the pointTo, weave away.
     else{
-        orderedArr = orderedArr.concat(getOptionCombos({modeSettings, pointTo, settingsToWeave: sideSharer, excludeFirst: true}));
+        orderedArr = orderedArr.concat(getOptionCombos({modeSettings, pointTo, modeSettingsToWeave: sideSharer, excludeFirst: true}));
     }
 
     // above|below are always closer to one corner or the other -- either they're pointing to it with the arrow
     // or the content is looming over it (or, at least, sticking out towards it) -- so pop around the nearest corner.
-    orderedArr = orderedArr.concat(getOptionCombos({ modeSettings: nearPerp, pointTo: perpPointTo, settingsToWeave: null }));
+    orderedArr = orderedArr.concat(getOptionCombos({ modeSettings: nearPerp, pointTo: perpPointTo, modeSettingsToWeave: null }));
 
     // The opposite side comes closer to the look of the user's selected options.
-    orderedArr = orderedArr.concat(getOptionCombos({modeSettings: opposite, pointTo, settingsToWeave: getSettingsSameSide(opposite) }));
+    orderedArr = orderedArr.concat(getOptionCombos({modeSettings: opposite, pointTo, modeSettingsToWeave: getSettingsSameSide(opposite) }));
 
     // Far perpendicular side is all that's left.
-    orderedArr = orderedArr.concat(getOptionCombos({ modeSettings: farPerp, pointTo: perpPointTo, settingsToWeave: null }));
+    orderedArr = orderedArr.concat(getOptionCombos({ modeSettings: farPerp, pointTo: perpPointTo, modeSettingsToWeave: null }));
 
     return orderedArr;
 }
 
 
 type T_GetAllPointToProps = {
-    settingsToWeave : T_ModeWithSettings | null,
+    modeSettingsToWeave : T_ModeWithSettings | null,
     excludeFirst? : boolean,
 };
-function getOptionCombos({modeSettings, pointTo, settingsToWeave, excludeFirst = false}
+function getOptionCombos({modeSettings, pointTo, modeSettingsToWeave, excludeFirst = false}
     : T_TooltipOptions & T_GetAllPointToProps)
     : T_TooltipOptions[] {
 
@@ -256,8 +265,8 @@ function getOptionCombos({modeSettings, pointTo, settingsToWeave, excludeFirst =
             optionsArr.push({modeSettings, pointTo: loopPointTo});
         }
         
-        if(settingsToWeave){
-            optionsArr.push({modeSettings: settingsToWeave, pointTo: loopPointTo});
+        if(modeSettingsToWeave){
+            optionsArr.push({modeSettings: modeSettingsToWeave, pointTo: loopPointTo});
         }
     }
     return optionsArr;
@@ -309,7 +318,7 @@ function getModesPerpendicularSides({modeSettings, pointTo}
 
     // Center and not-side-y means the arrow is centered but the content is skewed to one side. 
     // Return the perp side closest to the content.
-    if(pointTo === POINTS_TO.center && !atSideOfTarget(modeSettings)){
+    if(pointTo === POINTS_TO.center && !isAtSideOfTarget(modeSettings)){
         let contentGrowsTowards : POINTS_TO | null = getContentGrowthDirection(modeSettings);
         near = contentGrowsTowards === POINTS_TO.start ?
             startMode
@@ -334,7 +343,7 @@ function getContentGrowthDirection(modeSettings
     : POINTS_TO | null {  
 
     // Side-y tooltips grow evenly in both directions, so return null
-    if(atSideOfTarget(modeSettings)){
+    if(isAtSideOfTarget(modeSettings)){
         return null;
     }
 

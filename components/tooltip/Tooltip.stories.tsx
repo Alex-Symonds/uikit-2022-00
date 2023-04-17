@@ -1,15 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import styled from 'styled-components';
 
-import { TooltipWrapper, TOOLTIP_MODE, POINTS_TO } from './';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+
+import TooltipWrapper from './Tooltip';
+import { TOOLTIP_MODE, POINTS_TO } from './TooltipPositioned';
 
 const TEXT = "Your Text in Tooltip ";
 const FULL_ROW = TEXT + TEXT + TEXT + TEXT;
 const THREE_ROWS = FULL_ROW + FULL_ROW + FULL_ROW;
 
 const meta: Meta<typeof TooltipWrapper> = {
-    title: 'UI Kit/TooltipWrapper',
+    title: 'UI Kit/Tooltip',
     component: TooltipWrapper,
     args: {
         text: TEXT,

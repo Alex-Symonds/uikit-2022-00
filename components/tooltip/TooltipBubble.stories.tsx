@@ -1,20 +1,20 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Tooltip, TOOLTIP_ARROW_POSITION } from './';
+import TooltipBubble, { TOOLTIP_ARROW_POSITION } from './TooltipBubble';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Tooltip',
-    component: Tooltip,
+    title: 'UI Kit/Tooltip/Bubble',
+    component: TooltipBubble,
     args: {
         text: "Your Text in Tooltip",
     }
-  } as ComponentMeta<typeof Tooltip>;
+  } as ComponentMeta<typeof TooltipBubble>;
 
-const Template: ComponentStory<typeof Tooltip> = args => {
+const Template: ComponentStory<typeof TooltipBubble> = args => {
     const id = React.useId();
-    return <Tooltip {...args} id={id} />
+    return <TooltipBubble {...args} id={id} />
 };
 
 export const TopLeft = Template.bind({});

@@ -1,8 +1,10 @@
 import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
 
-import { Paragraph, PositionsObj } from './';
-import { LAYOUT, PALETTE, SHADOW } from '../utils/Theme';
+import { Paragraph } from '../';
+import { LAYOUT, PALETTE, SHADOW } from '../../utils/Theme';
+
+import { T_PositionObj } from './utils/usePosition';
 
 export enum TOOLTIP_ARROW_POSITION{
     topLeft = "topLeft",
@@ -244,7 +246,7 @@ const StyledArrowShadow = styled.div`
     ${props => props.theme.yKey}: ${props => props.theme.pos.y.shadow};
 `;
 
-function getCssForFullscreenTop({wrapperPos, height} : {wrapperPos : PositionsObj | undefined, height : number | undefined}){
+function getCssForFullscreenTop({wrapperPos, height} : {wrapperPos : T_PositionObj | undefined, height : number | undefined}){
     if(wrapperPos && height){
         const padding = 8;
         let topNum : number;
@@ -262,15 +264,15 @@ function getCssForFullscreenTop({wrapperPos, height} : {wrapperPos : PositionsOb
     return undefined;
 }
 
-export interface I_TooltipProps{
+export interface I_TooltipBubbleProps{
     arrowPos? : TOOLTIP_ARROW_POSITION
     id : string,
     fullscreenMode? : boolean,
     text : string, 
-    wrapperPos? : PositionsObj,
+    wrapperPos? : T_PositionObj,
 }
 
-export default function Tooltip({arrowPos, fullscreenMode, id, text, wrapperPos } : I_TooltipProps){
+export default function TooltipBubble({arrowPos, fullscreenMode, id, text, wrapperPos } : I_TooltipBubbleProps){
     const ref = React.useRef<HTMLDivElement>(null);
     
     if(fullscreenMode){
@@ -291,7 +293,7 @@ export default function Tooltip({arrowPos, fullscreenMode, id, text, wrapperPos 
             </ThemeProvider>      
 }
 
-function TooltipContents({text} : Pick<I_TooltipProps, "text">){
+function TooltipContents({text} : Pick<I_TooltipBubbleProps, "text">){
     return  <Paragraph size={3} colour={PALETTE.black}>
                 {text}
             </Paragraph>

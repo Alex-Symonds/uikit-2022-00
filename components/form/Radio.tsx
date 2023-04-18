@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import { visuallyHidden } from '../utils/utils';
+
+import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import { visuallyHidden } from '../../utils/utils';
 
 const VisuallyHiddenRadio = styled.input.attrs({type: "radio"})`
     ${visuallyHidden}

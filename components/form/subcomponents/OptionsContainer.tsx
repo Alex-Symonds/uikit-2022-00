@@ -8,9 +8,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { StyledOptionLoading, StyledOptionNone } from './';
-import { PALETTE, LAYOUT, SHADOW } from '../utils/Theme';
-import { StyledScreenReaderOnly, getArrayLengthOrZero } from '../utils/utils';
+import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
+import { StyledScreenReaderOnly, getArrayLengthOrZero } from '../../../utils/utils';
+
+import { StyledOptionLoading, StyledOptionNone } from './Option';
 
 const StyledOptionsContainer = styled.div`
     align-items: stretch;

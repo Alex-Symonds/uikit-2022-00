@@ -1,12 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { InputText as Input} from './';
-
+import Input from './InputText';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/Text',
+    title: 'UI Kit/Form/Text',
     component: Input,
     args: {
         label: "Your name",

@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { InputContainer, Icon, IconMediumId } from './';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import { StyledLabel } from './StyledLabel';
+import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+
+import { Icon, IconMediumId } from '../icons/';
+
+import { StyledLabel, InputContainer } from './subcomponents';
+
 
 const StyledTextInput = styled.input.attrs({ type: "text" })`
     ${TYPOGRAPHY.p2}

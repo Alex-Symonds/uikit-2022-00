@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+
+import { PALETTE, TYPOGRAPHY } from '../../../utils/Theme';
 
 export const StyledLabel = styled.label<{disabled : boolean}>`
     ${TYPOGRAPHY.p2}

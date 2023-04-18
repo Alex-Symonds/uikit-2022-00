@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Toggle } from './';
+import Toggle from './Toggle';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/Toggle',
+    title: 'UI Kit/Form/Toggle',
     component: Toggle,
     args: {
         onScreenReader: "toggle"

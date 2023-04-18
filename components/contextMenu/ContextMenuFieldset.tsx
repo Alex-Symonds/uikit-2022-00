@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { StyledScreenReaderOnly } from '../../utils/utils';
 import { TYPOGRAPHY, PALETTE } from '../../utils/Theme';
 
-import { StyledOptionWithCheck } from '../Option';
+import { StyledOptionWithCheck } from '../form/';
 
 const StyledFieldSet = styled.fieldset`
     display: flex;

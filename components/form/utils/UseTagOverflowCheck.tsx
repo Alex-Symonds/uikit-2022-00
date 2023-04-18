@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE } from './Theme';
+import { PALETTE } from '../../../utils/Theme';
 
 export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : string, isOverflowing : boolean}>`
     align-items: center;

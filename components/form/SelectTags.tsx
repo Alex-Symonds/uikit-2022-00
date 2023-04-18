@@ -1,17 +1,21 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import {    SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps,
-            Tag, TagColor, TagSize,
-            } from './';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import { StyledScreenReaderOnly } from '../utils/utils';
-import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} from '../utils/UseTagOverflowCheck';
-import useUpdatingRef from '../utils/UseUpdatingRef';
-import useOptionsList from '../utils/UseOptionsList';
-import useFocusMonitor from '../utils/UseFocusMonitor';
 
-import { StyledLabel } from './StyledLabel';
+import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import { StyledScreenReaderOnly } from '../../utils/utils';
+import useFocusMonitor from '../../utils/UseFocusMonitor';
+import useUpdatingRef from '../../utils/UseUpdatingRef';
+
+import Tag, { TagColor, TagSize, } from '../Tag';
+
+import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} from './utils/UseTagOverflowCheck';
+import useOptionsList from './utils/UseOptionsList';
+
+import { 
+        SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps,
+        StyledLabel 
+        } from './subcomponents/';
 
 const StyledCentreLabel = styled(StyledLabel)`
     top: calc(50% - (1.25rem / 2) - 0.125rem);

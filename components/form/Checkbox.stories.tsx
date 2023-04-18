@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import {Checkbox} from './';
+import Checkbox from './Checkbox';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/Checkbox',
+    title: 'UI Kit/Form/Checkbox',
     component: Checkbox,
     args: {
         id: "testID",

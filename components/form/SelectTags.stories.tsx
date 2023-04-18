@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { SelectTags } from './';
+import SelectTags from './SelectTags';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/SelectTags',
+    title: 'UI Kit/Form/SelectTags',
     component: SelectTags,
     args: {
         label: "Your country",

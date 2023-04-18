@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Search } from './';
+import Search from './Search';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Search',
+    title: 'UI Kit/Form/Search',
     component: Search,
     args: {
         loading: false,

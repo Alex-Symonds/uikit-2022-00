@@ -19,16 +19,18 @@
 import React, {forwardRef} from 'react';
 import styled from 'styled-components';
 
+import { PALETTE } from '../../../utils/Theme';
+import customCursorImg from '../../../public/cursorHand.svg';
+
+import { Icon, IconMediumId } from '../../icons/';
+
+import Option from './Option';
+import OptionsListWithScreenreader from './OptionsContainer';
 import {   
-    StyledInputAndOptionsContainer, 
-    StyledInputContainerWithOutline as StyledInputContainer, 
-    StyledCloseButton,
-    Option,
-    Icon, IconMediumId,
-    OptionsContainer as OptionsListWithScreenreader,
-    } from './';
-import { PALETTE } from '../utils/Theme';
-import customCursorImg from '../public/cursorHand.svg';
+        StyledInputAndOptionsContainer, 
+        StyledInputContainerWithOutline as StyledInputContainer, 
+        StyledCloseButton,
+        } from './StyledInputWithOptions';
 
 /*
     Assumptions: 

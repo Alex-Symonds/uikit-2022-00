@@ -1,6 +1,7 @@
 export * from './contextMenu/';
 export * from './icons/';
 export * from './tooltip/';
+export * from './form/';
 
 export * from './Avatar';
 export {default as Avatar} from './Avatar';
@@ -8,55 +9,29 @@ export * from './Badge';
 export {default as Badge} from './Badge';
 export * from './Button';
 export {default as Button} from './Button';
-export * from './Checkbox';
-export {default as Checkbox} from './Checkbox';
 export * from './CircleAroundIcon';
 export {default as CircleAroundIcon} from './CircleAroundIcon';
-export * from './Files';
-export {default as Files} from './Files';
 export * from './Filter';
 export {default as Filter} from './Filter';
 export * from './Grid';
 export {default as Grid} from './Grid';
 export * from './Heading';
 export {default as Heading} from './Heading';
-export * from './InputContainer';
-export {default as InputContainer} from './InputContainer';
-export * from './InputTags';
-export {default as InputTags} from './InputTags';
-export * from './InputText';
-export {default as InputText} from './InputText';
 export * from './Island';
 export {default as Island} from './Island';
 export * from './Notification';
 export {default as Notification} from './Notification';
-export * from './Option';
-export {default as Option} from './Option';
-export * from './OptionsContainer';
-export {default as OptionsContainer} from './OptionsContainer';
 export * from './Paragraph';
 export {default as Paragraph} from './Paragraph';
 export * from './PopUp';
 export {default as PopUp} from './PopUp';
 export * from './PopUpPreset';
 export {default as PopUpPreset} from './PopUpPreset';
-export * from './Radio';
-export {default as Radio} from './Radio';
-export * from './Search';
-export {default as Search} from './Search';
-export * from './SelectTags';
-export {default as SelectTags} from './SelectTags';
-export * from './SelectText';
-export {default as SelectText} from './SelectText';
-export * from './SelectWrapper';
-// export { StyledLabel } from './StyledLabel';
-export * from './Styled_InputAndOptions';
 export * from './Tab';
 export {default as Tab} from './Tab';
 export * from './Tag';
 export {default as Tag} from './Tag';
-export * from './Toggle';
-export {default as Toggle} from './Toggle';
+
 
 
 

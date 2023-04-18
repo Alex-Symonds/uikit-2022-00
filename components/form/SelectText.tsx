@@ -1,12 +1,14 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import { SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps } from './';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import useOptionsList from '../utils/UseOptionsList';
-import useFocusMonitor from '../utils/UseFocusMonitor';
+import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import useFocusMonitor from '../../utils/UseFocusMonitor';
 
-import { StyledLabel } from './StyledLabel';
+import useOptionsList from './utils/UseOptionsList';
+import { 
+        SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps,
+        StyledLabel
+        } from './subcomponents';
 
 const StyledSelectedInput = styled.div`
     ${TYPOGRAPHY.p2}
@@ -43,13 +45,13 @@ const StyledFloatingLabel = styled(StyledLabel)<{floatUp : boolean}>`
 `;
 
 
-export type SelectTextProps =   singleSelectionProps &
-                                Pick<I_SelectWrapperProps, "disabled" | "options"> &{
-                                id?: string,
-                                label: string,
-                                placeholder: string,
-                                selectedOption: SelectOptionDataType | null,
-                                showOptions? : boolean,
+type SelectTextProps =  singleSelectionProps &
+                        Pick<I_SelectWrapperProps, "disabled" | "options"> &{
+                        id?: string,
+                        label: string,
+                        placeholder: string,
+                        selectedOption: SelectOptionDataType | null,
+                        showOptions? : boolean,
 }
 
 export default function SelectText({disabled, id, label, options, showOptions : optionsVisibleOnInit, placeholder, selectedOption, setSelectedOption} : SelectTextProps){

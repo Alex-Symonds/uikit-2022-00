@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Radio } from './';
+import Radio from './Radio';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/Radio',
+    title: 'UI Kit/Form/Radio',
     component: Radio,
     args: {
         label: "Text",

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyledScreenReaderOnly} from '../../utils/utils';
+import { StyledScreenReaderOnly } from '../../utils/utils';
 import { Icon, IconMediumId, } from '../icons/';
 
 import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';

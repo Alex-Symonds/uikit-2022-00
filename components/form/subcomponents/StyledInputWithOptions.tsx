@@ -19,8 +19,9 @@
 */
 
 import styled, {css} from 'styled-components';
-import customCursorImg from '../public/cursorHand.svg';
-import { PALETTE, LAYOUT, SHADOW } from '../utils/Theme';
+
+import customCursorImg from '../../../public/cursorHand.svg';
+import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
 
 export const StyledInputAndOptionsContainer = styled.div`
     width: 30.125rem;

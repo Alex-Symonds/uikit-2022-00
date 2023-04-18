@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {    Icon, IconMediumId,
-            StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton,
-            OptionsContainer as OptionsListWithScreenReader,
-            Option
-        } from './';
+import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import { StyledScreenReaderOnly } from '../../utils/utils';
 
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
-import { StyledScreenReaderOnly } from '../utils/utils';
-import { selectMenuKeyDown, selectMenuKeydownProps } from '../utils/UseOptionsList';
+import { Icon, IconMediumId, } from '../icons/';
+
+import { selectMenuKeyDown, selectMenuKeydownProps } from './utils/UseOptionsList';
+
+import {    
+        StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton,
+        OptionsContainer as OptionsListWithScreenReader,
+        Option
+        } from './subcomponents/';
 
 const StyledLayout = styled.div`
     display: grid;
@@ -111,7 +114,7 @@ function useResultsList({options, showOptions : showOptionsOnLoad, onOptionPick 
     }
 
     function onChange(e : React.ChangeEvent<HTMLInputElement>){
-        if(e.target.value !== null || e.target.value !== ""){
+        if(e.target.value !== null && e.target.value !== ""){
             openResultsList();
         }
         else {
@@ -160,7 +163,7 @@ function useInputKit({initialValue, handleSubmit, updateOptions} : UseInputKitPr
     function onChange(e : React.ChangeEvent<HTMLInputElement>){
         setInput(e.target.value);
 
-        if(e.target.value !== null || e.target.value !== ""){
+        if(e.target.value !== null && e.target.value !== ""){
             updateOptions(e.target.value);
         }
     }
@@ -206,7 +209,12 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
         inputKit.onChange(e);
         resultsListKit.onChange(e);
     }
-    
+
+    function clearAndClose(){
+        inputKit.clearInput(); 
+        resultsListKit.closeResultsList()
+    }
+
     const optionsMenuActions : OptionsMenuActions = {
         activeId: resultsListKit.activeId,
         optionIdPrefix: resultsListKit.optionIdPrefix,
@@ -237,7 +245,7 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
                         </StyledForm>
                         
                     { inputKit.hasInput &&
-                        <StyledCloseButton onClick={ inputKit.clearInput }>
+                        <StyledCloseButton onClick={ clearAndClose } >
                             <Icon idMedium={IconMediumId.close} />
                         </StyledCloseButton>
                     }

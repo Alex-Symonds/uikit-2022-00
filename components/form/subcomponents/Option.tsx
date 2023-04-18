@@ -21,10 +21,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 
-import { Icon, IconMediumId } from './';
-import customCursorImg from '../public/cursorHand.svg';
+import { PALETTE, TYPOGRAPHY } from '../../../utils/Theme';
+import customCursorImg from '../../../public/cursorHand.svg';
+
+import { Icon, IconMediumId } from '../../icons/';
+
 
 export const StyledOption = styled.div<{isHighlighted : boolean}>`
     ${TYPOGRAPHY.p2}

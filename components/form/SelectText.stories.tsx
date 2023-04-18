@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { SelectText } from './';
+import SelectText from './SelectText';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Input/SelectText',
+    title: 'UI Kit/Form/SelectText',
     component: SelectText,
     args: {
       id: "id_countrySelect",

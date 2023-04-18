@@ -1,11 +1,13 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Files, StyledFileUploader, DropZone, AvatarOptions } from './';
+import { AvatarOptions } from '../Avatar';
+
+import Files, { StyledFileUploader, DropZone } from './Files';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Files',
+    title: 'UI Kit/Form/Files',
     component: Files,
   } as ComponentMeta<typeof Files>;
 

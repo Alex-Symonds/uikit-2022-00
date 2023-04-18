@@ -1,7 +1,7 @@
 import React from 'react';
-import { moveWithinMenu } from './utils';
-import { SelectOptionDataType, I_SelectWrapperProps } from '../components/';
-import useCloseOnOutsideClick from './UseCloseOnOutsideClick';
+import { moveWithinMenu } from '../../../utils/utils';
+import { SelectOptionDataType, I_SelectWrapperProps } from '../';
+import useCloseOnOutsideClick from '../../../utils/UseCloseOnOutsideClick';
 
 interface I_useOptionsList{
     onOptionPick : (option: SelectOptionDataType) => void, 

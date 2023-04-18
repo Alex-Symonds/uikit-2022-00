@@ -10,7 +10,7 @@ import Tag, { TagColor, TagSize } from '../Tag';
 import { StyledLabel, InputContainer } from './subcomponents/';
 import useTagOverflowCheck, { StyledTagsContainer } from './utils/UseTagOverflowCheck';
 
-export const INPUT_MIN_WIDTH = "3rem";
+const INPUT_MIN_WIDTH = "3rem";
 const TAG_CONTAINER_GAP = "0.25rem";
 const TAG_CONTAINER_MAX_WIDTH = `calc(100% - ${INPUT_MIN_WIDTH} - ${TAG_CONTAINER_GAP})`;
 

@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { IconMediumId, Button, ButtonStyle } from './';
 import { PALETTE, SHADOW } from '../utils/Theme';
+
+import { IconMediumId } from './icons/';
+
+import Button, { ButtonStyle } from './Button';
 
 const StyledPopUp = styled.section<{height : string}>`
     background: ${PALETTE.white};

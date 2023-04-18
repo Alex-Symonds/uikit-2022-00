@@ -3,15 +3,15 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { AvatarOptions } from '../Avatar';
 
-import Files, { StyledFileUploader, DropZone } from './Files';
+import FileUploader, { StyledFileUploader, DropZone } from './FileUploader';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Form/Files',
-    component: Files,
-  } as ComponentMeta<typeof Files>;
+    title: 'UI Kit/Form/FileUploader',
+    component: FileUploader,
+  } as ComponentMeta<typeof FileUploader>;
 
-const Template: ComponentStory<typeof Files> = args => <Files {...args} />;
+const Template: ComponentStory<typeof FileUploader> = args => <FileUploader {...args} />;
 
 const TemplateDrag: ComponentStory<typeof StyledFileUploader> = args => {
     function setDrag(isDragging : boolean){

@@ -2,10 +2,12 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { Button, ButtonStyle, IconSmallId, IconMediumId, Paragraph } from './';
 import { TYPOGRAPHY, PALETTE } from '../utils/Theme';
 
+import { IconSmallId, IconMediumId } from './icons';
 
+import Button, { ButtonStyle } from './Button';
+import Paragraph from './Paragraph';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const LABEL = "Кнопка";

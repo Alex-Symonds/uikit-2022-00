@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { PopUp, PopUpPreset, PopUpPresetMode } from './';
+import PopUpPreset, { PopUpPresetMode } from './PopUpPreset';
+import PopUp from './PopUp';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

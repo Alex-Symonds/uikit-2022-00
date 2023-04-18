@@ -1,8 +1,13 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { Badge, BadgeType, Button, ButtonStyle, getIconMediumIdFromSubject, Subject, Icon, IconMediumId } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+
+import { Icon, Subject, IconMediumId, getIconMediumIdFromSubject, } from './icons/';
+
+import Button, { ButtonStyle } from './Button';
+import Badge, { BadgeType } from './Badge';
+
 
 const StyledIsland = styled.div`
     background: ${PALETTE.primary};

@@ -10,10 +10,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { StyledScreenReaderOnly } from '../../utils/utils';
 import { TYPOGRAPHY, PALETTE } from '../../utils/Theme';
 
 import { StyledOptionWithCheck } from '../form/';
+import { StyledScreenReaderOnly } from '../visuallyHidden';
 
 const StyledFieldSet = styled.fieldset`
     display: flex;

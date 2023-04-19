@@ -9,9 +9,9 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
-import { StyledScreenReaderOnly } from '../utils/utils';
 
 import { Icon, IconProps, IconMediumId } from './icons/';
+import { StyledScreenReaderOnly } from './visuallyHidden';
 
 // Colour Themes
 export enum ButtonStyle{

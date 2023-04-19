@@ -9,7 +9,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
-import { StyledScreenReaderOnly, getArrayLengthOrZero } from '../../../utils/utils';
+import { StyledScreenReaderOnly } from '../../visuallyHidden';
 
 import { StyledOptionLoading, StyledOptionNone } from './Option';
 
@@ -52,7 +52,7 @@ type OptionsListNoLoadingProps = I_OptionsList & {
     options : any[] | null | undefined,
 };
 function OptionsListNoLoading({id, options, role, children} : OptionsListNoLoadingProps){
-    const numOptions = getArrayLengthOrZero(options);
+    const numOptions = getNumOptions(options);
     let screenReaderMsg : string = `${numOptions} options found. Use up and down arrows to review.`;
 
     return  <OptionsListWrapper id={id} role={role} screenReaderMsg={screenReaderMsg}>
@@ -66,7 +66,7 @@ type OptionsListWithLoadingProps = OptionsListNoLoadingProps & {
 function OptionsListWithLoading({id, options, loading, role, children} : OptionsListWithLoadingProps){
     let autoChildren : JSX.Element | null;
     let screenReaderMsg : string;
-    const numOptions = getArrayLengthOrZero(options);
+    const numOptions = getNumOptions(options);
 
     if(loading === true){
         autoChildren = <LoadingOptions />
@@ -88,6 +88,13 @@ function OptionsListWithLoading({id, options, loading, role, children} : Options
                     : null
                 }
             </OptionsListWrapper>
+}
+
+function getNumOptions(options 
+    : any[] | null | undefined )
+    : number {
+
+    return options ? options.length : 0;
 }
 
 function LoadingOptions(): JSX.Element{

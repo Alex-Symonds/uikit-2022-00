@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
-import { StyledScreenReaderOnly } from '../../utils/utils';
 
 import { Icon, IconMediumId, } from '../icons/';
+import { StyledScreenReaderOnly } from '../visuallyHidden';
 
 import { selectMenuKeyDown, selectMenuKeydownProps } from './utils/UseOptionsList';
 

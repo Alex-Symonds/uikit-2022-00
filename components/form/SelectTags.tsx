@@ -3,10 +3,10 @@ import styled, {css} from 'styled-components';
 
 
 import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
-import { StyledScreenReaderOnly } from '../../utils/utils';
 import useFocusMonitor from '../../utils/UseFocusMonitor';
 import useUpdatingRef from '../../utils/UseUpdatingRef';
 
+import { StyledScreenReaderOnly } from '../visuallyHidden';
 import Tag, { TagColor, TagSize, } from '../Tag';
 
 import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} from './utils/UseTagOverflowCheck';

@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { TYPOGRAPHY } from '../../utils/Theme';
-import { visuallyHidden } from '../../utils/utils';
 import useUpdatingRef from '../../utils/UseUpdatingRef';
 
+import { visuallyHidden } from '../visuallyHidden';
 import Tag, { TagColor, TagSize } from '../Tag';
 
 import { StyledLabel, InputContainer } from './subcomponents/';

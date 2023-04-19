@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { StyledScreenReaderOnly } from '../../utils/utils';
 import { Icon, IconMediumId, } from '../icons/';
+import { StyledScreenReaderOnly } from '../visuallyHidden';
 
 import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
 import { RadioOptionDataType } from '../form/';

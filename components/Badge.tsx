@@ -2,17 +2,11 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { PALETTE, SHADOW, TYPOGRAPHY } from '../utils/Theme';
-import { isBlank } from '../utils/utils';
 
 export enum BadgeType{
     primary = "primary",
     secondary = "secondary",
     white = "white"
-}
-
-interface BadgeProps{
-    text?: string,
-    type?: BadgeType
 }
 
 interface BadgeTheme{
@@ -84,8 +78,12 @@ const StyledBadgeText = styled.p`
     max-width: 14rem;
 `;
 
+interface BadgeProps{
+    text?: string,
+    type?: BadgeType
+}
 export default function Badge({text, type} : BadgeProps){
-    if(isBlank(text)){
+    if(!text || text === ''){
         text = "Your text";
     }
     const theme = getTheme(type);

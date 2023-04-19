@@ -1,8 +1,9 @@
 import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
 
-import Paragraph from '../Paragraph';
 import { LAYOUT, PALETTE, SHADOW } from '../../utils/Theme';
+
+import Paragraph from '../Paragraph';
 
 import { T_PositionObj } from './utils/usePosition';
 

@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CircleAroundIcon as CircleContainer, Button, ButtonStyle, Icon, IconMediumId } from './';
 import { PALETTE, TYPOGRAPHY, SHADOW } from '../utils/Theme';
+
+import { Icon, IconMediumId } from './icons/';
+
+import Button, { ButtonStyle } from './Button';
+import CircleContainer from './CircleAroundIcon';
+
 
 const BREAKPOINT_MOBILE = "425px";
 

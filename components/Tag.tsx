@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 
-import { Icon, IconSmallId } from '.';
+import { Icon, IconSmallId } from './icons/';
 import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from '../utils/Theme';
 import customCursorImg from '../public/cursorHand.svg';
 

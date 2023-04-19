@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { CircleAroundIcon as Container } from './';
+import Container from './CircleAroundIcon';
 import { PALETTE } from '../utils/Theme';
 
 export const enum AvatarOptions{

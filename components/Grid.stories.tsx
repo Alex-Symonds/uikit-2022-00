@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
-import { Grid } from './';
+import Grid from './Grid';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof Grid> = args => {
 
     let illustrativeBlocks : React.ReactNode[] = [];
     for(let i = 0; i < 12; i++){
-        illustrativeBlocks.push(<StyledColouredBlock />);
+        illustrativeBlocks.push(<StyledColouredBlock key={i} />);
     }
 
     return  <Grid {...args}>

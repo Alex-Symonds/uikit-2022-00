@@ -1,8 +1,12 @@
 import React from 'react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { Icon, IconXLId, Button, ButtonStyle, CircleAroundIcon } from './';
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+
+import { Icon, IconXLId } from './icons/';
+
+import Button, { ButtonStyle } from './Button';
+import CircleAroundIcon from './CircleAroundIcon';
 
 export const enum PopUpPresetMode{
     success = "success",

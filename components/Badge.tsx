@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import { PALETTE, SHADOW, TYPOGRAPHY } from '../utils/Theme';
 import { isBlank } from '../utils/utils';

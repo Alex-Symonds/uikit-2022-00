@@ -1,10 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { changeCheckbox } from '../../utils/utils';
 import { COUNTRY_CHECKBOX_DATA as COUNTRY_DATA } from '../../utils/storyData';
 
-import ContextCheckboxGroup, { CheckboxOptionDataType } from './ContextMenuCheckbox';
+import { onChangeCheckbox, CheckboxOptionDataType } from '../form/';
+
+import ContextCheckboxGroup from './ContextMenuCheckbox';
 import { StyledContextMenu } from './ContextMenu';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -24,7 +25,7 @@ const ControlledTemplate: ComponentStory<typeof ContextCheckboxGroup> = args => 
     const [options, setOptions] = React.useState<CheckboxOptionDataType[]>(args.options);
 
     function onChange(id : string, checked : boolean){
-        changeCheckbox(id, checked, options, setOptions);
+        onChangeCheckbox(id, checked, options, setOptions);
     }
 
     const id = React.useId();

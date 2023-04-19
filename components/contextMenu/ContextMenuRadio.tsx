@@ -4,12 +4,7 @@ import { StyledScreenReaderOnly } from '../../utils/utils';
 import { Icon, IconMediumId, } from '../icons/';
 
 import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
-
-export type RadioOptionDataType = {
-    checked : boolean,      /* Controlled state of whether it's checked. */
-    displayText : string,   /* Human-readable text displayed to users */
-    id : string,            /* Used for "value". Unique identifier for this option (in case displayText is unsuitable) */
-};
+import { RadioOptionDataType } from '../form/';
 
 interface I_RadioProps extends I_ContextMenuFieldset{
     name : string,                                          /* Used for "name" (typing together these radio options) */

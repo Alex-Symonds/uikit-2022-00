@@ -1,4 +1,5 @@
 export * from './subcomponents';
+export * from './utils/onChangeX';
 
 // export * from './Checkbox';
 export {default as Checkbox} from './Checkbox';

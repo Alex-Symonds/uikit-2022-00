@@ -5,7 +5,7 @@ import InputTags from './InputTags';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'UI Kit/Form/Tags',
+    title: 'UI Kit/Form/InputTags',
     component: InputTags,
     args: {
       label: "Your name"

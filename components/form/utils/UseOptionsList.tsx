@@ -1,7 +1,8 @@
 import React from 'react';
-import { moveWithinMenu } from '../../../utils/utils';
-import { SelectOptionDataType, I_SelectWrapperProps } from '../';
+
 import useCloseOnOutsideClick from '../../../utils/UseCloseOnOutsideClick';
+
+import { SelectOptionDataType, I_SelectWrapperProps } from '../';
 
 interface I_useOptionsList{
     onOptionPick : (option: SelectOptionDataType) => void, 
@@ -97,8 +98,10 @@ export type selectMenuKeydownProps = Pick<I_SelectWrapperProps, "options"> & {
     openOptionsList : () => void,
     setActiveId : (value : React.SetStateAction<number | null>) => void,
 }
+export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOptionsList, onOptionPick, openOptionsList, setActiveId} 
+    : selectMenuKeydownProps
+    ){
 
-export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOptionsList, onOptionPick, openOptionsList, setActiveId} : selectMenuKeydownProps){
     if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
         e.preventDefault(); /* Prevent the cursor from moving to the start or end of the text when navigating the results */
         
@@ -121,4 +124,41 @@ export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOp
     if(e.key === 'Escape'){
         closeOptionsList();
     }
+}
+
+type MoveWithMenuPropsType = {
+    e: React.KeyboardEvent, 
+    options : any[] | null | undefined, 
+    activeId : number | null, 
+    setActiveId : (value: React.SetStateAction<number | null>) => void
+}
+function moveWithinMenu({e, options, activeId, setActiveId} 
+    : MoveWithMenuPropsType
+    ){
+
+    if(options === null || options === undefined){
+        return;
+    }
+
+    let newId = activeId;
+
+    if(e.key === 'ArrowUp'){
+        if(newId === null || newId <= 0 ){ /* Loop from top to bottom */
+            newId = options.length - 1;
+        }
+        else{
+            newId--;
+        }
+    }
+    
+    if(e.key === 'ArrowDown'){
+        if(newId === null || newId >= options.length - 1 ){ /* Loop from bottom to top */
+            newId = 0;
+        }
+        else{
+            newId++;
+        }
+    }
+
+    setActiveId(newId);
 }

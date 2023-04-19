@@ -1,10 +1,11 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { changeRadio } from '../../utils/utils';
 import { COUNTRY_RADIO_DATA as COUNTRY_DATA } from '../../utils/storyData';
 
-import ContextRadioGroup, { RadioOptionDataType } from './ContextMenuRadio';
+import { onChangeRadio, RadioOptionDataType } from '../form/';
+
+import ContextRadioGroup from './ContextMenuRadio';
 import { StyledContextMenu } from './ContextMenu';
 
 
@@ -26,7 +27,7 @@ const ControlledTemplate: ComponentStory<typeof ContextRadioGroup> = args => {
     const [options, setOptions] = React.useState<RadioOptionDataType[]>(args.options);
 
     function onChange(id : string, checked : boolean){
-        changeRadio(id, checked, options, setOptions);
+        onChangeRadio(id, checked, options, setOptions);
     }
 
     const id = React.useId();

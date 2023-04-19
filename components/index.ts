@@ -1,7 +1,7 @@
 export * from './contextMenu/';
+export * from './form/';
 export * from './icons/';
 export * from './tooltip/';
-export * from './form/';
 
 export * from './Avatar';
 export {default as Avatar} from './Avatar';

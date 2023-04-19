@@ -2,13 +2,14 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
-import { changeRadio, changeCheckbox } from '../../utils/utils';
 import { TYPOGRAPHY } from '../../utils/Theme';
 import { COUNTRY_RADIO_DATA, COUNTRY_CHECKBOX_DATA, TIMEUNIT_CHECKBOX_DATA, TIMEUNIT_RADIO_DATA } from '../../utils/storyData';
 
+import { onChangeRadio, RadioOptionDataType, onChangeCheckbox, CheckboxOptionDataType } from '../form/';
+
 import ContextMenu, { StyledContextMenu } from './ContextMenu';
-import ContextRadioGroup, { RadioOptionDataType } from './ContextMenuRadio';
-import ContextCheckboxGroup, { CheckboxOptionDataType } from './ContextMenuCheckbox';
+import ContextRadioGroup from './ContextMenuRadio';
+import ContextCheckboxGroup from './ContextMenuCheckbox';
 
 export default {
     title: 'UI Kit/ContextMenu',
@@ -36,7 +37,7 @@ export const RightClickRadio: ComponentStory<typeof ContextMenu> = args =>{
     const [countries, setCountries] = React.useState<RadioOptionDataType[]>(COUNTRY_RADIO_DATA);
 
     function changeCountries(id : string, checked : boolean){
-        changeRadio(id, checked, countries, setCountries);
+        onChangeRadio(id, checked, countries, setCountries);
     }
 
     const id_countries = React.useId();
@@ -61,11 +62,11 @@ export const MultipleRadio: ComponentStory<typeof ContextMenu> = args => {
     const [timeUnits, setTimeUnits] = React.useState<RadioOptionDataType[]>(TIMEUNIT_RADIO_DATA);
 
     function changeCountries(id : string, checked : boolean){
-        changeRadio(id, checked, countries, setCountries);
+        onChangeRadio(id, checked, countries, setCountries);
     }
 
     function changeTimeUnits(id : string, checked : boolean){
-        changeRadio(id, checked, timeUnits, setTimeUnits);
+        onChangeRadio(id, checked, timeUnits, setTimeUnits);
     }
 
     const id_countries = React.useId();
@@ -93,11 +94,11 @@ export const MultipleCheckbox: ComponentStory<typeof ContextMenu> = args => {
     const [timeUnits, setTimeUnits] = React.useState<CheckboxOptionDataType[]>(TIMEUNIT_CHECKBOX_DATA);
 
     function changeCountries(id : string, checked : boolean){
-        changeCheckbox(id, checked, countries, setCountries);
+        onChangeCheckbox(id, checked, countries, setCountries);
     }
 
     function changeTimeUnits(id : string, checked : boolean){
-        changeCheckbox(id, checked, timeUnits, setTimeUnits);
+        onChangeCheckbox(id, checked, timeUnits, setTimeUnits);
     }
 
     const id_countries = React.useId();

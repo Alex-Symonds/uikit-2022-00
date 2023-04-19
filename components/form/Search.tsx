@@ -210,7 +210,7 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
         resultsListKit.onChange(e);
     }
 
-    function clearAndClose(){
+    function cancel(){
         inputKit.clearInput(); 
         resultsListKit.closeResultsList()
     }
@@ -245,7 +245,7 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
                         </StyledForm>
                         
                     { inputKit.hasInput &&
-                        <StyledCloseButton onClick={ clearAndClose } >
+                        <StyledCloseButton onClick={ cancel } >
                             <Icon idMedium={IconMediumId.close} />
                         </StyledCloseButton>
                     }

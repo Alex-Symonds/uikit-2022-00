@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import {SHADOW, PALETTE, LAYOUT} from '../../utils/Theme';
 
-// This is exported for use in ContextMenu-related Stories, so you don't need to right-click every time
+// Exported for use in ContextMenu-related Stories so those stories can display the appearance
+// of the context menu without messing about with the right-clicking behaviour
 export const StyledContextMenu = styled.div<{x : number, y: number}>`
     background: ${PALETTE.white};
     border-radius: ${LAYOUT.borderRadius};

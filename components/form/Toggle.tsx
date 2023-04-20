@@ -4,11 +4,12 @@ import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
 
 import { getClassName } from '../../utils/utils';
 
-import { visuallyHidden } from '../visuallyHidden';
+import { StyledScreenReaderOnly } from '../visuallyHidden';
 import { Icon, IconSmallId } from '../icons';
 import Paragraph from '../Paragraph';
 
-const StyledToggleBase = styled.button<{hasLabel : boolean}>`
+
+const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
     align-items: center;
     border-width: 0.125rem;
     border-style: solid;
@@ -20,14 +21,6 @@ const StyledToggleBase = styled.button<{hasLabel : boolean}>`
     padding: 0.125rem;
     width: 3rem;
     
-    &:disabled{
-        opacity: 56%;
-    }
-
-    &:focus:not([disabled]){
-        border-color: ${PALETTE.black_faded};
-    }
-
     svg path{
         fill: ${PALETTE.white};
     }
@@ -38,45 +31,53 @@ const StyledToggleBase = styled.button<{hasLabel : boolean}>`
         content: '';
         display: block;  
     }
-`;
 
-const StyledToggleOn = styled(StyledToggleBase)`
-    background: ${PALETTE.primary};
-    border-color: ${PALETTE.primary};
-
-    &:after{
-        background: ${PALETTE.white};
-        height: 1rem;
-    }
-
-    &:hover:not([disabled]){
-        background: ${PALETTE.hover};
-        border-color: ${PALETTE.hover};
-    }
-`;
-
-const StyledToggleOff = styled(StyledToggleBase)`
-    background: ${PALETTE.white};
-    border-color: ${PALETTE.disabled};
-
-    &:before{
-        aspect-ratio: 1/1;
-        background: ${PALETTE.primary};
-        border-radius: 100%;
-        content: '';
-        display: block;
-        height: 1rem;
-    }
-
-    &:after{
-        background: transparent;
-        border: 0.125rem solid ${PALETTE.disabled};
-        height: 0.75rem;
-        margin-right: 0.25rem;
+    input:disabled + & {
         opacity: 56%;
     }
 
-    &:hover:not([disabled]){
+    input:not(:disabled) + &:focus {
+        border-color: ${PALETTE.black_faded};
+    }
+
+    input:checked + & {
+        background: ${PALETTE.primary};
+        border-color: ${PALETTE.primary};
+    
+        &:after{
+            background: ${PALETTE.white};
+            height: 1rem;
+        }
+    }
+
+    input:checked:not(:disabled) + &:hover{
+        background: ${PALETTE.hover};
+        border-color: ${PALETTE.hover};
+    }
+
+    input:not(:checked) + & {
+        background: ${PALETTE.white};
+        border-color: ${PALETTE.disabled};
+    
+        &:before{
+            aspect-ratio: 1/1;
+            background: ${PALETTE.primary};
+            border-radius: 100%;
+            content: '';
+            display: block;
+            height: 1rem;
+        }
+    
+        &:after{
+            background: transparent;
+            border: 0.125rem solid ${PALETTE.disabled};
+            height: 0.75rem;
+            margin-right: 0.25rem;
+            opacity: 56%;
+        }
+    }
+
+    input:not(:checked):not(:disabled) + &:hover {
         &:before{
             background: ${PALETTE.hover};
         }
@@ -87,7 +88,7 @@ const StyledToggleOff = styled(StyledToggleBase)`
 `;
 
 
-const StyledLayout = styled.div`
+const StyledLabel = styled.label`
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
@@ -98,80 +99,72 @@ const StyledLayout = styled.div`
     gap: 0.125rem 0.75rem;
 `;
 
+
 const StyledHeading = styled.h3`
     ${TYPOGRAPHY.p2}
     font-weight: normal;
     grid-area: heading;
 `;
 
+
 const StyledParagraph = styled(Paragraph)`
     grid-area: description;
 `;
 
-const StyledScreenReaderName = styled.span`
-    ${visuallyHidden}
-`;
 
-interface I_ToggleProps{
+type T_ToggleSharedProps = {
     disabled : boolean,
     isOn : boolean,
-    label? : LabelProps,
-    onScreenReader : string,
-    parentOnClick: () => void,
+    parentOnChange: () => void,
 }
 
-type LabelProps = {
+type T_HeadingWithDesc = {
     heading : string,
     description : string,
 }
 
-export default function Toggle({ disabled, isOn, label, onScreenReader, parentOnClick} : I_ToggleProps){  
-    const toggleButton = <ToggleButton  disabled={disabled} 
-                                        label={label}
-                                        isOn={isOn}
-                                        onScreenReader={onScreenReader}
-                                        parentOnClick={parentOnClick}
-                                        />
-
-    if(label === undefined){
-        return toggleButton;
-    }
-    return  <LabelWrapper label={label}>
-                {toggleButton}
-            </LabelWrapper>
+type T_ID = {
+    idForInput : string
 }
 
-function ToggleButton({disabled, isOn, label, onScreenReader, parentOnClick} : I_ToggleProps) {
+export function ToggleWithHeadingAndDesc({ description, disabled, heading, isOn, parentOnChange} 
+    : T_ToggleSharedProps & T_HeadingWithDesc)
+    {
 
-    const StyledToggleCurrent = isOn ? StyledToggleOn : StyledToggleOff;
+    const uid = React.useId();
+    const idForInput = `toggle-${uid}`;
 
-    return  <StyledToggleCurrent    aria-pressed={isOn}
-                                    onClick={parentOnClick}
-                                    disabled={disabled}
-                                    hasLabel={label === undefined}
-                                    >
-                <StyledScreenReaderName>
-                    {onScreenReader}
-                </StyledScreenReaderName>
-                { isOn &&
-                    <Icon idSmall={IconSmallId.check} />
-                }
-            </StyledToggleCurrent>
-}
-
-type LabelWrapperProps = {
-    label : LabelProps,
-    children : React.ReactNode,
-}
-
-function LabelWrapper({label, children} : LabelWrapperProps){
-    return <StyledLayout>
-                {children}
+    return  <StyledLabel htmlFor={idForInput}>
+                <ToggleInsides disabled={disabled} hasDesc={true} idForInput={idForInput} isOn={isOn} parentOnChange={parentOnChange} />
                 <StyledHeading>
-                    {label.heading}
+                    {heading}
                 </StyledHeading>
-                <StyledParagraph size={3} colour={PALETTE.black_faded} className={getClassName(StyledParagraph)}>
-                    {label.description}
+                <StyledParagraph className={getClassName(StyledParagraph)} colour={PALETTE.black_faded} size={3} >
+                    {description}
                 </StyledParagraph>
-            </StyledLayout>
+            </StyledLabel>
+}
+
+
+export function Toggle({ disabled, idForInput, isOn, parentOnChange}
+    : T_ToggleSharedProps & T_ID){
+
+    return  <label>
+                <ToggleInsides disabled={disabled} idForInput={idForInput} isOn={isOn} hasDesc={false} parentOnChange={parentOnChange} />
+            </label>
+}
+
+
+function ToggleInsides({ disabled, idForInput, isOn, hasDesc, parentOnChange} 
+    : { hasDesc : boolean } & T_ID & T_ToggleSharedProps)
+    {
+
+    return  <>
+                <StyledScreenReaderOnly as="input" type="checkbox" checked={isOn} disabled={disabled} id={idForInput} onChange={parentOnChange} />
+                <StyledToggleSpan hasLabel={hasDesc}>
+                { isOn &&
+                    <Icon idSmall={IconSmallId.check} aria-hidden={true} />
+                }
+                </StyledToggleSpan>
+            </>
 }

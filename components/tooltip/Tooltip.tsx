@@ -37,7 +37,7 @@ export default function TooltipWrapper({mode, lockVisible, pointTo, text, classN
     // For touchscreen users
     useCloseOnOutsideClick({
         isOpen : isVisible, 
-        containerEle : ref.current ? ref.current : null,
+        ref : ref,
         setIsOpen : setIsVisible
     });
 

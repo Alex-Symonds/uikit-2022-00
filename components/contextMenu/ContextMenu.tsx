@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 import {SHADOW, PALETTE, LAYOUT} from '../../utils/Theme';
+import useCloseOnOutsideClick from '../../utils/UseCloseOnOutsideClick';
 
 // Exported for use in ContextMenu-related Stories so those stories can display the appearance
 // of the context menu without messing about with the right-clicking behaviour
@@ -37,6 +38,12 @@ function useContextMenu({parentRef, contextMenuRef} : any){
     const [posX, setPosX] = useState(0);
     const [posY, setPosY] = useState(0);
 
+    useCloseOnOutsideClick({
+        isOpen : isVisible,
+        ref : contextMenuRef,
+        setIsOpen : setIsVisible
+    });
+
     useEffect(() => {
         if(parentRef === null){
             return;
@@ -53,20 +60,10 @@ function useContextMenu({parentRef, contextMenuRef} : any){
             setPosY(e.clientY);
         }
 
-        const closeMenu = (e : MouseEvent) => {
-            // Prevent the menu from closing prematurely when the user toggles an option
-            if(contextMenuRef.current !== null && e.composedPath().includes(contextMenuRef.current)){
-                return;
-            }
-            setIsVisible(false);
-        }
-
         parent.addEventListener('contextmenu', showMenu);
-        window.addEventListener('click', closeMenu);
 
         return function cleanup(){
             parent?.removeEventListener('contextmenu', showMenu);
-            window.removeEventListener('click', closeMenu);
         }
 
     });

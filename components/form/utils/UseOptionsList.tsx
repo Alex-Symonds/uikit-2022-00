@@ -6,20 +6,20 @@ import { SelectOptionDataType, I_SelectWrapperProps } from '../';
 
 interface I_useOptionsList{
     onOptionPick : (option: SelectOptionDataType) => void, 
-    refCurrent : HTMLElement | null, 
+    ref : React.MutableRefObject<any>, 
     id : string | null, 
     options: SelectOptionDataType[],  
     selectedOptions : SelectOptionDataType[] | null, 
     optionsVisibleOnInit : boolean,
 }
 
-export default function useOptionsList({onOptionPick, refCurrent, id, options, selectedOptions, optionsVisibleOnInit} : I_useOptionsList){
+export default function useOptionsList({onOptionPick, ref, id, options, selectedOptions, optionsVisibleOnInit} : I_useOptionsList){
     const [optionsVisible, setOptionsVisible] = React.useState<boolean>(optionsVisibleOnInit ?? false);
     const [activeId, setActiveId] = React.useState<number | null>(null);
 
     useCloseOnOutsideClick({
         isOpen : optionsVisible, 
-        containerEle : refCurrent,
+        ref,
         setIsOpen : setOptionsVisible
     });
 

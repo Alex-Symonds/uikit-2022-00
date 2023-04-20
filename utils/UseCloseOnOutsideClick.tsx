@@ -2,11 +2,11 @@ import React from 'react';
 
 interface I_useCloseOnOutsideClick{
     isOpen: boolean,
-    containerEle : HTMLElement | null,
+    ref : React.MutableRefObject<any>,
     setIsOpen : (value: React.SetStateAction<boolean>) => void,
 }
-export default function useCloseOnOutsideClick({isOpen, containerEle, setIsOpen} : I_useCloseOnOutsideClick){
-    React.useEffect(() => {
+export default function useCloseOnOutsideClick({isOpen, ref, setIsOpen} : I_useCloseOnOutsideClick){
+    React.useLayoutEffect(() => {
         if(isOpen){
             window.addEventListener('click', clickOutsideToClose);
         }
@@ -20,11 +20,11 @@ export default function useCloseOnOutsideClick({isOpen, containerEle, setIsOpen}
 
         function clickOutsideToClose(e : MouseEvent){
             // Prevent the menu from closing prematurely when the user toggles an option
-            if(containerEle && e.composedPath().includes(containerEle)){
+            if(ref.current && e.composedPath().includes(ref.current)){
                 return;
             }
             setIsOpen(false);
         }
 
-    }, [isOpen, containerEle, setIsOpen]);
+    }, [isOpen, ref, setIsOpen]);
 }

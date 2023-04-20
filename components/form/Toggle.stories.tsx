@@ -1,19 +1,16 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Toggle from './Toggle';
+import {Toggle, ToggleWithHeadingAndDesc} from './Toggle';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'UI Kit/Form/Toggle',
     component: Toggle,
-    args: {
-        onScreenReader: "toggle"
-    }
   } as ComponentMeta<typeof Toggle>;
 
 const Template: ComponentStory<typeof Toggle> = args => {
-    let [isPressed, setIsPressed] = React.useState(args.isOn ?? false);
+    let [isPressed, setIsPressed] = React.useState<boolean>(args.isOn ?? false);
 
     const onClick = () => {
         setIsPressed(prevState => {
@@ -23,7 +20,7 @@ const Template: ComponentStory<typeof Toggle> = args => {
 
     return <Toggle  {...args}
                     isOn = {isPressed}
-                    parentOnClick={onClick} />}
+                    parentOnChange={onClick} />}
 ;
 
 export const Off = Template.bind({});
@@ -71,20 +68,33 @@ OnFocus.parameters = {
 }
 
 // ----------------------------------
+const TemplateWithHeadingAndDesc: ComponentStory<typeof ToggleWithHeadingAndDesc> = args => {
+    let [isPressed, setIsPressed] = React.useState<boolean>(args.isOn ?? false);
+
+    const onClick = () => {
+        setIsPressed(prevState => {
+            return !prevState
+        });
+    };
+
+    return <ToggleWithHeadingAndDesc    {...args}
+                                        isOn = {isPressed}
+                                        parentOnChange={onClick} />}
+;
+
 const LABEL = {
     heading: "Заголовок",
     description: "Описание в несколько строк",
-    onScreenReader : "toggle",
 }
 
-export const OffWithLabel = Template.bind({});
+export const OffWithLabel = TemplateWithHeadingAndDesc.bind({});
 OffWithLabel.args = {
     ...Off.args,
-    label: LABEL
+    ...LABEL,
 }
 
-export const OnWithLabel = Template.bind({});
+export const OnWithLabel = TemplateWithHeadingAndDesc.bind({});
 OnWithLabel.args = {
     ...On.args,
-    label: LABEL
+    ...LABEL,
 }

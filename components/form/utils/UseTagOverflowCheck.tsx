@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import styled, {css} from 'styled-components';
 import { PALETTE } from '../../../utils/Theme';
 
@@ -42,19 +42,19 @@ export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : st
 
 interface I_useTagOverflowCheck{
     tags : string[] | null,
-    containerEle : HTMLElement | null,
+    ref : React.MutableRefObject<any>,
 }
 
-export default function useTagOverflowCheck({tags, containerEle} : I_useTagOverflowCheck){
+export default function useTagOverflowCheck({tags, ref} : I_useTagOverflowCheck){
     const [isOverflowing, setIsOverflowing] = React.useState(false);
 
-    useEffect(() => {
-        if( !(tags && containerEle)){
+    useLayoutEffect(() => {
+        if( !(tags && ref.current)){
             return;
         }
 
-        const width : number = containerEle.clientWidth;
-        const scrollWidth : number = containerEle.scrollWidth;
+        const width : number = ref.current.clientWidth;
+        const scrollWidth : number = ref.current.scrollWidth;
 
         //console.log(`Overflow checker: ${width} vs. ${scrollWidth}`);
 
@@ -63,8 +63,7 @@ export default function useTagOverflowCheck({tags, containerEle} : I_useTagOverf
             return;
         }
         setIsOverflowing(false);
-
-    }, [tags, containerEle]);
+    }, [tags, ref]);
 
     return isOverflowing;
 }

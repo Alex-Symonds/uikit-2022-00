@@ -4,7 +4,6 @@ import styled, {css} from 'styled-components';
 
 import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
 import useFocusMonitor from '../../utils/UseFocusMonitor';
-import useUpdatingRef from '../../utils/UseUpdatingRef';
 
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 import Tag, { TagColor, TagSize, } from '../Tag';
@@ -68,12 +67,12 @@ export default function SelectTags({disabled, id, label, options, selectedOption
     const selectionKit = multiSelectionFunctions({selectedOptions, addSelectedOption, removeSelectedOptions});
     const monitorFocusKit = useFocusMonitor();
     
-    const containerRef = React.useRef(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const optionsListKit = useOptionsList({
         id: id === undefined ? null : id, 
         options, 
         optionsVisibleOnInit: optionsVisibleOnInit ?? false,
-        refCurrent: containerRef?.current, 
+        ref: containerRef, 
         selectedOptions, 
         onOptionPick : selectionKit.onOptionPick, 
     });
@@ -145,8 +144,8 @@ type SelectedTagsContainerProps = {
 }
 
 function SelectedTagsContainer({selectedOptions, disabled, onOptionDelete} : SelectedTagsContainerProps){
-    const {ref, refCurrent} = useUpdatingRef();
-    const isOverflowing = useTagOverflowCheck({tags: selectedOptions, containerEle: refCurrent});
+    const ref = React.useRef(null);
+    const isOverflowing = useTagOverflowCheck({tags: selectedOptions, ref});
     const TAG_CONTAINER_MAX_WIDTH = `calc(100% - 0.75rem)`;
 
     return  <StyledTagsContainer    ref={ref}

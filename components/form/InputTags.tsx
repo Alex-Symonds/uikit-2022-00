@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { TYPOGRAPHY } from '../../utils/Theme';
-import useUpdatingRef from '../../utils/UseUpdatingRef';
 
 import { visuallyHidden } from '../visuallyHidden';
 import Tag, { TagColor, TagSize } from '../Tag';
@@ -94,8 +93,8 @@ type TagContainerProps = Pick<I_InputTagsProps, "disabled" | "readOnly" | "tags"
 }
 
 function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth} : TagContainerProps){
-    const {ref, refCurrent} = useUpdatingRef();
-    const isOverflowing = useTagOverflowCheck({tags: tags, containerEle: refCurrent});
+    const ref = React.useRef(null);
+    const isOverflowing = useTagOverflowCheck({tags, ref});
     const tagsAreClickable = !readOnly && !disabled && removeTag !== undefined;
 
     return  <StyledTagContainer ref={ref} 

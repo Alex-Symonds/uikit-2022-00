@@ -59,12 +59,12 @@ export default function SelectText({disabled, id, label, options, showOptions : 
     const selectionKit = singleSelectionFunctions({selectedOptions, setSelectedOption});
     const monitorFocusKit = useFocusMonitor();
 
-    const containerRef = React.useRef(null);
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const optionsListKit = useOptionsList({
         id: id === undefined ? null : id, 
         options, 
         optionsVisibleOnInit: optionsVisibleOnInit ?? false,
-        refCurrent: containerRef?.current, 
+        ref: containerRef, 
         selectedOptions, 
         onOptionPick : selectionKit.onOptionPick, 
     });

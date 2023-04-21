@@ -142,8 +142,8 @@ Button.defaultProps = {
 // Styled-Component
 type StyledButtonProps = {
     circle?: boolean,
-    widthOverride?: string,
     paddingStr : string,
+    widthOverride?: string,
 }
 const StyledButton = styled.button<StyledButtonProps>`
     ${TYPOGRAPHY.p2}
@@ -153,15 +153,15 @@ const StyledButton = styled.button<StyledButtonProps>`
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
     color: ${ props => props.theme.mainColor };
     display: flex;
+    gap: 0.28rem;
     justify-content: center;
     max-width: 100%;
     padding: ${ props  => props.paddingStr };
     width: ${ props => props.widthOverride ? props.widthOverride : "auto" };
 
-    gap: 0.28rem;
-
     svg {
-        height: 1.5rem;
+        aspect-ratio: 1/1;
+        max-width: 1.5rem;
         width: 1.5rem;
 
         path{

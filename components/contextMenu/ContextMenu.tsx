@@ -45,13 +45,11 @@ function useContextMenu({parentRef, contextMenuRef} : any){
     });
 
     useEffect(() => {
-        if(parentRef === null){
+        if(!parentRef || !parentRef.current){
             return;
         }
+
         let parent = parentRef.current;
-        if(!parent){
-            return;
-        }
 
         const showMenu = (e : MouseEvent) => {
             e.preventDefault();
@@ -66,6 +64,27 @@ function useContextMenu({parentRef, contextMenuRef} : any){
             parent?.removeEventListener('contextmenu', showMenu);
         }
 
+    });
+
+    React.useLayoutEffect(() => {
+        if(!contextMenuRef || !contextMenuRef.current){
+            return;
+        }
+        let pos = contextMenuRef.current.getBoundingClientRect();
+
+        if(pos.left < 0){
+            setPosX(0);
+        }
+        else if(pos.left > 0 && pos.right > window.innerWidth){
+            setPosX(window.innerWidth - (pos.right - pos.left));
+        }
+
+        if(pos.top < 0){
+            setPosY(0);
+        }
+        else if(pos.top > 0 && pos.bottom > window.innerHeight){
+            setPosY(window.innerHeight - (pos.bottom - pos.top));
+        }
     });
 
     return {

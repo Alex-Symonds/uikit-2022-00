@@ -4,6 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { AvatarOptions } from '../Avatar';
 
 import FileUploader, { StyledFileUploader, DropZone } from './FileUploader';
+import { convertRemToPixels } from '../../utils/utils';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -21,6 +22,7 @@ const TemplateDrag: ComponentStory<typeof StyledFileUploader> = args => {
     return (
         <StyledFileUploader>
             <DropZone   {...args}
+                        dropzoneHeightInPx = {convertRemToPixels(5.25)}
                         handleDrop = {args.handleDrop}
                         setDrag = {setDrag} />
         </StyledFileUploader>

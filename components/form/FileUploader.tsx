@@ -6,26 +6,14 @@ import { LAYOUT, PALETTE, SHADOW, TYPOGRAPHY } from '../../utils/Theme';
 import { Icon, IconMediumId } from '../icons/';
 import Avatar, { AvatarOptions } from '../Avatar';
 import CircleAroundIcon from '../CircleAroundIcon';
+import { convertRemToPixels } from '../../utils/utils';
+import { StyledScreenReaderOnly } from '../visuallyHidden';
 
 // TODO: get the user to pass in props for file types and sizes, then use for validation and
 // constructing this display sentence.
-const DEFAULT_MESSAGE = "PNG, jpg, gif files up to 10 MB in size are available for download";
-
-/*
-    If the size of the dragEnter element is > the size of the dragLeave element it creates 
-    a zone of contention where a dragged file is considered inside the drop zone by the element 
-    that fires dragEnter and outside the drop zone by the element that fires dragLeave.
-
-    Result = while the dragged file is over the contested zone, there will be a cycle 
-    of each element deactivating itself and activating the other, which means flickering
-    and sometimes getting stuck in the wrong display mode.
-
-    To prevent this issue, this const is used to set "max-height" on the dragEnter element and 
-    "height" on the dragLeave element.
-    Widths are the same anyway at the tme of writing, so no need to worry about that.
-*/
-const DROP_ZONE_HEIGHT_TO_PREVENT_FLICKERING_BUG = "5.25rem";
-
+function getDefaultMessage(){
+    return "PNG, jpg, gif files up to 10 MB in size are available for download";
+} 
 
 const StyledDeleteButton = styled.button`
     ${TYPOGRAPHY.p3}
@@ -72,31 +60,34 @@ const StyledFileIconCircleWrapper = styled.div`
     }
 `;
 
-const StyledLabelFile = styled.label`
+const StyledLabelFile = styled.label<{isFocused : boolean}>`
     color: ${PALETTE.primary};
     padding: 0 0.23rem 0 0;
 
-    input{
-        display: none;
-    }
+    ${props => {
+        if(props.isFocused){
+            return `border-bottom: 2px solid ${PALETTE.primary}`;
+        }
+    }}
 `;
 
 const StyledLayout = styled.div`
     display: grid;
     gap: 0.5rem;
     grid-template-areas: "heading icon" "message icon";
-    grid-template-columns: 34.8125rem 1fr;
+    grid-template-columns: min(34.8125rem, 1fr) 4rem;
     grid-template-rows: auto auto;
-    max-height: ${DROP_ZONE_HEIGHT_TO_PREVENT_FLICKERING_BUG};
     padding: 1.25rem 1.35rem 1rem 1.25rem;
 `;
 
-const StyledLayoutActiveDrag = styled.div`
+const StyledLayoutActiveDrag = styled.div<{dropzoneHeightInPx : number}>`
     align-items: center;
     background: ${PALETTE.primary};
     display: flex;
-    height: ${DROP_ZONE_HEIGHT_TO_PREVENT_FLICKERING_BUG};
+    height: ${props => props.dropzoneHeightInPx}px;
     justify-content: center;
+    max-height: ${props => props.dropzoneHeightInPx}px;
+    min-height: ${props => props.dropzoneHeightInPx}px;
     width: 100%;
 
     svg{
@@ -108,9 +99,13 @@ const StyledLayoutActiveDrag = styled.div`
     }
 `;
 
-const StyledPHeading = styled.p`
+const StyledDivHeading = styled.div`
     ${TYPOGRAPHY.p2}
     grid-area: heading;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const StyledPMessage = styled.p<{isError : boolean}>`
@@ -174,8 +169,20 @@ const enum DisplayState{
 }
 
 export default function Files({avatar, errorMsg, fileInfo, progress, handleFiles} : I_FileUploaderProps){
-    // Manage displayState
+    /*
+        The drag-and-drop functionality involves DefaultContent having the "detect drag start" function,
+        while DropZone has the "detect drag end" functions.
+
+        If DefaultContent is larger than the DropZone, this creates a "no man's land" where DefaultContent 
+        thinks the dragged content is inside (and so activates DropZone) and DropZone thinks the dragged
+        content is outside (and so actives DefaultContent). This creates a flickering effect, as the two
+        modes both activate one another in an endless loop.
+
+        Solution: when the drag begins, DefaultContent sets its current height in a state, which is 
+        then passed to DropZone. They are now always the same height. \o/
+    */
     const [displayState, setDisplayState] = React.useState(DisplayState.default);
+    const [dropzoneHeightInPx, setDropzoneHeightInPx] = React.useState<number>(0);
 
     useEffect(() => {
         if(errorMsg !== undefined){
@@ -227,7 +234,7 @@ export default function Files({avatar, errorMsg, fileInfo, progress, handleFiles
         switch (displayState){
 
             case DisplayState.dragging:
-                return <DropZone setDrag = {setDrag} handleDrop = {onDrop} />
+                return <DropZone setDrag = {setDrag} handleDrop = {onDrop} dropzoneHeightInPx = {dropzoneHeightInPx} />
 
             case DisplayState.finished:
                 return <Finished fileInfo = {fileInfo} />
@@ -236,7 +243,7 @@ export default function Files({avatar, errorMsg, fileInfo, progress, handleFiles
                 return <InProgress progress = {progress} />
 
             default:
-                return <DefaultContent errorMsg = {errorMsg} progress = {progress} avatar = {avatar} setDrag = {setDrag} handleFilePicker = {onFilePick}/>
+                return <DefaultContent errorMsg = {errorMsg} progress = {progress} avatar = {avatar} setDrag = {setDrag} handleFilePicker = {onFilePick} setDropzoneHeightInPx = {setDropzoneHeightInPx}/>
         }
     };
 
@@ -244,35 +251,62 @@ export default function Files({avatar, errorMsg, fileInfo, progress, handleFiles
 }
 
 
-type DefaultContentProps = DragStateUpdater & EnableFilePicker & Pick<I_FileUploaderProps, "avatar" | "errorMsg" | "progress">;
+type DefaultContentProps = DragStateUpdater & EnableFilePicker & Pick<I_FileUploaderProps, "avatar" | "errorMsg" | "progress"> & {
+    setDropzoneHeightInPx : React.Dispatch<React.SetStateAction<number>>;
+};
 
-function DefaultContent({avatar, errorMsg, progress, handleFilePicker, setDrag} : DefaultContentProps){
+function DefaultContent({avatar, errorMsg, progress, handleFilePicker, setDrag, setDropzoneHeightInPx} : DefaultContentProps){
+    const [fileInputIsFocused, setFileInputIsFocused] = React.useState<boolean>(false);
+    const ref = React.useRef<HTMLDivElement>(null);
+
     const isError = errorMsg !== undefined;
     const showPercentage = isError && progress !== undefined;
 
     const dragBegins = (e : React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
-
         setDrag(true);
+        updateDropzoneHeight();
     };
+
+    const updateDropzoneHeight = () => {
+        let refRectHeightInPx = 0;
+        if(ref.current){
+            const refRect = ref.current.getBoundingClientRect();
+            refRectHeightInPx = refRect.bottom - refRect.top;
+        }
+        else {
+            const FALLBACK_DROPZONE_HEIGHT_IN_REM = 5.25;
+            refRectHeightInPx = convertRemToPixels(FALLBACK_DROPZONE_HEIGHT_IN_REM);
+        }
+        setDropzoneHeightInPx(refRectHeightInPx);
+    }
+
+    function onInputFocus(){
+        setFileInputIsFocused(true);
+    }
+    function onInputBlur(){
+        setFileInputIsFocused(false);
+    }
 
     return(
         <>
-            <StyledLayout onDragEnter={ e => dragBegins(e) }>
+            <StyledLayout onDragEnter={ e => dragBegins(e) } ref={ref}>
 
-                <StyledPHeading >
-                    <StyledLabelFile>
+                <StyledDivHeading>
+                    <StyledLabelFile isFocused={fileInputIsFocused} onFocus={ onInputFocus } onBlur={ onInputBlur }>
+                        <StyledScreenReaderOnly>
+                            <input  type="file" 
+                                    multiple 
+                                    accept="image/png, image/jpeg, image/gif"
+                                    onChange={(e) => handleFilePicker(e)} />
+                        </StyledScreenReaderOnly>
                         Select a file
-                        <input  type="file" 
-                                multiple 
-                                accept="image/png, image/jpeg, image/gif"
-                                onChange={(e) => handleFilePicker(e)} />
                     </StyledLabelFile>
                     or drag in form
-                </StyledPHeading>
+                </StyledDivHeading>
                 <StyledPMessage isError = {isError}>
-                    { isError ? errorMsg : DEFAULT_MESSAGE }
+                    { isError ? errorMsg : getDefaultMessage() }
                 </StyledPMessage>
 
                 <StyledIconContainer>
@@ -295,9 +329,11 @@ function DefaultContent({avatar, errorMsg, progress, handleFilePicker, setDrag} 
 
 
 // Export for Storybook (so it can display drag mode without the viewer having to actually drag in a file)
-type DropZoneProps = Droppable & DragStateUpdater;
+type DropZoneProps = Droppable & DragStateUpdater & {
+    dropzoneHeightInPx : number
+};
 
-export function DropZone({setDrag, handleDrop} : DropZoneProps){
+export function DropZone({dropzoneHeightInPx, setDrag, handleDrop} : DropZoneProps){
     // No onDragEnter because this component is only displayed when the user has already begun dragging
     // over the default component.
 
@@ -318,9 +354,10 @@ export function DropZone({setDrag, handleDrop} : DropZoneProps){
         handleDrop(e);
     }
 
-    return  <StyledLayoutActiveDrag   onDrop={ dropped } 
-                                onDragOver={e => enableDropping(e)} 
-                                onDragLeave={e => dragEnds(e)} >
+    return  <StyledLayoutActiveDrag     dropzoneHeightInPx={dropzoneHeightInPx}
+                                        onDrop={ dropped } 
+                                        onDragOver={e => enableDropping(e)} 
+                                        onDragLeave={e => dragEnds(e)} >
                 <Icon idMedium={IconMediumId.file} />
             </StyledLayoutActiveDrag>
 }
@@ -332,11 +369,11 @@ function InProgress({progress} : Pick<I_FileUploaderProps, "progress">){
         <>
             <StyledLayout>
 
-                <StyledPHeading>
+                <StyledDivHeading>
                     Downloading
-                </StyledPHeading>
+                </StyledDivHeading>
                 <StyledPMessage isError = {false}>
-                    {DEFAULT_MESSAGE}
+                    {getDefaultMessage()}
                 </StyledPMessage>
 
                 <StyledIconContainer>
@@ -361,12 +398,12 @@ function Finished({fileInfo} : Pick<I_FileUploaderProps, "fileInfo">){
         <>
             <StyledLayout>
 
-                <StyledPHeading>
+                <StyledDivHeading>
                     { fileInfo !== undefined ? fileInfo.name : "File uploaded successfully" } 
                     { fileInfo !== undefined && fileInfo?.size !== "" &&
                             <StyledSpanFileSize>{fileInfo.size}</StyledSpanFileSize>
                     }
-                </StyledPHeading>
+                </StyledDivHeading>
 
                 { fileInfo !== undefined &&
                     <StyledDeleteButton onClick = {fileInfo.handleDelete}>

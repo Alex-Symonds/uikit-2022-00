@@ -13,9 +13,10 @@ const StyledIsland = styled.div`
     background: ${PALETTE.primary};
     border-radius: 0.5rem;
     min-height: 12.5rem;
+    max-width: 100%;
     overflow: hidden;
     position: relative;
-    width: 25.125rem;
+    width: ${getDefaultIslandWidth()};
 
     &::before{
         aspect-ratio: 1/1;
@@ -77,15 +78,28 @@ const StyledLayout = styled.div`
     display: grid;
     gap: ${props => props.theme.layoutGap};
     grid-template-areas: 
-        "badge badge badge"
-        "heading heading heading"
-        "desc desc desc"
-        "button studentReq penReq";
-    grid-template-columns: max-content max-content 1fr;
-    grid-template-rows: auto auto 1fr auto;
+        "badge badge"
+        "heading heading"
+        "desc desc"
+        "button studentReq"
+        "button penReq";
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
     margin-top: ${props => props.theme.layoutMarginTop};
+    max-width: 100%;
     min-height: ${props => props.theme.layoutHeight};
     padding: 0.75rem 1.25rem ${props => props.theme.layoutPaddingBottom} 1.25rem;
+
+
+    @media screen and (min-width: ${getDefaultIslandWidth()}){
+        grid-template-areas: 
+            "badge badge badge"
+            "heading heading heading"
+            "desc desc desc"
+            "button studentReq penReq";
+        grid-template-columns: max-content max-content 1fr;
+        grid-template-rows: auto auto 1fr auto;
+    }
 `;
 
 const StyledHead = styled.h6`
@@ -127,6 +141,10 @@ const StyledReqPen = styled(StyledReq)`
     gap: 0.2rem;
     grid-area: penReq;
 `;
+
+function getDefaultIslandWidth() : string{
+    return "25.125rem"
+}
 
 type ThemeProps = {
     layoutHeight : string,

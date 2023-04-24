@@ -35,3 +35,10 @@ LongDescription.args = {
     description: "Description that's long-winded. Loquacious. Rambling. Verbose. Garrulous. It just won't stop going on and on and on and on and on. It has an onion on its belt, as was the style at the time. It makes the island taller.",
 }
 
+export const Responsive = Template.bind({});
+Responsive.parameters = {
+    viewport: {
+        defaultViewport: 'iphone5',
+      },
+}
+

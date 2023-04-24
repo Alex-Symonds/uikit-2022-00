@@ -157,11 +157,10 @@ function SelectedTagsContainer({selectedOptions, disabled, onOptionDelete} : Sel
                 selectedOptions.map((text : SelectOptionDataType, index : number) => {
                     return <Tag key = {index}
                                 colour = { TagColor.primary }
-                                disabled = {disabled ?? false}
-                                showIcon = {true}
+                                disabled = { disabled }
                                 size = {TagSize.medium}
                                 text = {text}
-                                handleClick = { !disabled ? () => onOptionDelete(text) : undefined }
+                                removeTag = { () => onOptionDelete(text) }
                             />
                 })
             }

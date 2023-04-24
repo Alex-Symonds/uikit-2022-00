@@ -79,7 +79,7 @@ export default function InputTags({description, disabled, errorMsg, label, readO
                         : null
                     }
                     {   !readOnly ?
-                        <TagInput disabled={disabled} label={label} value={value} handleChange={handleChange} hasExistingTags={hasExistingTags}/>
+                        <TagInput disabled={disabled} readOnly={readOnly} label={label} value={value} handleChange={handleChange} hasExistingTags={hasExistingTags}/>
                         : null
                     }
                 </StyledLayout>
@@ -105,13 +105,12 @@ function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth}
                             >
                 {
                     tags.map((text, index) => {
-                    return <Tag key = {index}
+                    return <Tag key = { index }
                                 colour = { TagColor.primary }
-                                disabled = {disabled}
-                                text = {text}
-                                showIcon = {!readOnly}
-                                size = {TagSize.medium}
-                                handleClick = { tagsAreClickable ? () => removeTag(text) : undefined }
+                                disabled = { disabled }
+                                size = { TagSize.medium }
+                                text = { text }
+                                removeTag = { tagsAreClickable ? () => removeTag(text) : undefined }
                             />
                     })
                 }
@@ -119,11 +118,11 @@ function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth}
 }
 
 
-type TagInputProps = Pick<I_InputTagsProps, "disabled" | "label" | "value" | "handleChange"> & { 
+type TagInputProps = Pick<I_InputTagsProps, "disabled" | "label" | "readOnly" | "value" | "handleChange"> & { 
     hasExistingTags: boolean 
 };
 
-function TagInput({disabled, label, value, handleChange, hasExistingTags} : TagInputProps){
+function TagInput({disabled, label, value, readOnly, handleChange, hasExistingTags} : TagInputProps){
     const labelText = label ?? "Enter tags";
 
     function handleTagInput(newTag : string){
@@ -145,7 +144,8 @@ function TagInput({disabled, label, value, handleChange, hasExistingTags} : TagI
 
     return <>
         {/* The placeholder on this input helps the label identify when the input is in use, which is relevant for label formatting */}
-        <StyledTagInput     disabled={disabled} 
+        <StyledTagInput     disabled={disabled}
+                            readOnly={readOnly}
                             placeholder={" "} 
                             type={"text"} 
                             value={value} 

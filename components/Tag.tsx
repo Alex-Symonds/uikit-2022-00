@@ -91,12 +91,12 @@ const WhiteTheme : TagThemeProps = {
 }
 
 interface I_TagProps{
-    colour : TagColor,
-    disabled : boolean,
-    showIcon : boolean,
-    size : TagSize,
+    colour? : TagColor,
+    disabled? : boolean,
+    screenreaderLabel? : string,
+    size? : TagSize,
     text : string,
-    handleClick? : (e : React.MouseEvent<HTMLButtonElement>) => void
+    removeTag? : (e : React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export enum TagSize{
@@ -109,24 +109,24 @@ export enum TagColor{
     white = "white"
 }
 
-export default function Tag({colour, disabled, showIcon, size, text, handleClick} : I_TagProps){
+export default function Tag({colour, disabled, screenreaderLabel, size, text, removeTag} : I_TagProps){
+    colour = colour ?? TagColor.primary;
+    disabled = disabled ?? false;
+    screenreaderLabel = screenreaderLabel ?? "remove tag";
+    size = size ?? TagSize.small;
+
     const theme = colour === TagColor.primary ? PrimaryTheme : WhiteTheme;
-    showIcon = handleClick !== undefined ? true : showIcon;
+    const showRemoveButton = disabled || removeTag !== undefined;
 
     return  <ThemeProvider theme = { theme }>
-                <StyledTag size={size} disabled={disabled} hasOnClick={handleClick !== undefined}>
+                <StyledTag size={size} disabled={disabled} hasOnClick={showRemoveButton}>
                     {text}
                     {
-                        showIcon === true && handleClick !== undefined &&
-                            <StyledButton onClick={handleClick} >
+                        showRemoveButton ?
+                            <StyledButton aria-label={screenreaderLabel} onClick={removeTag} disabled={disabled}>
                                 <Icon idSmall={IconSmallId.close} />
                             </StyledButton>
-                    }
-                    {
-                        showIcon === true && handleClick === undefined &&
-                            <StyledButton as="div" >
-                                <Icon idSmall={IconSmallId.close} />
-                            </StyledButton>
+                            : null
                     }
                 </StyledTag>
             </ThemeProvider>

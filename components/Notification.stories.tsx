@@ -70,3 +70,13 @@ Mobile.parameters = {
       defaultViewport: 'iphone5',
     },
 };
+
+export const MobileWithButtons = Template.bind({});
+MobileWithButtons.args = {
+    ...Default.args
+}
+MobileWithButtons.parameters = {
+    viewport: {
+      defaultViewport: 'iphone5',
+    },
+};

@@ -7,15 +7,25 @@ import { IconMediumId } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 
-const StyledPopUp = styled.section<{height : string}>`
+
+const StyledPopUp = styled.section.attrs(() => ({
+    defaultWidth: "30.0625rem",
+    marginSpace: "0.25rem",
+}))<{height : string}>`
+
     background: ${PALETTE.white};
     border-radius: 0.5rem;
     box-shadow: ${SHADOW.default};
-    left: calc(50% - (30.0625rem / 2));
+    left: ${props => props.marginSpace};
+    max-width: calc(100% - 2 * ${props => props.marginSpace});
     padding: 1.8125rem 1rem;
     position: fixed;
     top: calc(50% - (${props => props.height} / 2));
-    width: 30.0625rem;
+    width: ${props => props.defaultWidth};
+
+    @media screen and (min-width: ${props => props.defaultWidth}){
+        left: calc(50% - (${props => props.defaultWidth} / 2));
+    }
 `;
 
 const StyledCloseButtonContainer = styled.div`
@@ -35,8 +45,15 @@ interface I_PopUpProps{
 
 export default function PopUp({close, children} : I_PopUpProps){
     const popUpRef = React.useRef<HTMLDivElement>(null);
+    const [height, setHeight] = React.useState<string>("20rem");
 
-    return <StyledPopUp ref={popUpRef} height={popUpRef !== null && popUpRef.current !== null ? popUpRef.current.clientHeight + "px" : "20rem"}>
+    React.useLayoutEffect(() => {
+        if(popUpRef !== null && popUpRef.current !== null){
+            setHeight(`${popUpRef.current.clientHeight}px`);
+        }
+    }, [popUpRef]);
+
+    return <StyledPopUp ref={popUpRef} height={height}>
         
         <StyledCloseButtonContainer>
             <Button circle label={"Close"} style={ButtonStyle.primary} onClick={close} icon = { {idMedium: IconMediumId.close} } />

@@ -29,7 +29,7 @@ import OptionsListWithScreenreader from './OptionsContainer';
 import {   
         StyledInputAndOptionsContainer, 
         StyledInputContainerWithOutline as StyledInputContainer, 
-        StyledCloseButton,
+        StyledClearButton,
         } from './StyledInputWithOptions';
 
 /*
@@ -46,8 +46,8 @@ export type SelectOptionDataType = string;
 const StyledSelectBar = styled.div`
     display: grid;
     gap: 0 0.25rem;
-    grid-template-areas: "selection closeIcon toggleIcon";
-    grid-template-columns: 1fr 1.5rem 1.5rem;
+    grid-template-areas: "selection clearIcon toggleIcon";
+    grid-template-columns: minmax(0, 1fr) 1.5rem 1.5rem;
     grid-template-rows: 1fr;
     height: 100%;
     padding: 0 0.75rem;
@@ -103,12 +103,18 @@ export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
                             {children}
 
                             { hasSelection &&
-                                <StyledCloseButton onClick={ clearInput }>
+                                <StyledClearButton  aria-label="clear selection"
+                                                    onClick={ clearInput } 
+                                                    >
                                     <Icon idMedium={IconMediumId.close} />
-                                </StyledCloseButton>
+                                </StyledClearButton>
                             }
 
-                            <StyledToggleButton onClick = { toggleOptionVisibility } isActive={(optionsVisible ?? false) && hasSelection}>
+                            <StyledToggleButton     aria-label="toggle options"
+                                                    aria-pressed={(optionsVisible ?? false) && hasSelection}
+                                                    onClick = { toggleOptionVisibility } 
+                                                    isActive={(optionsVisible ?? false) && hasSelection} 
+                                                    >
                                 <Icon idMedium = {toggleIconId} />
                             </StyledToggleButton>
                             

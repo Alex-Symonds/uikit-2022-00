@@ -87,9 +87,9 @@ export const StyledInputContainerWithOutline = styled(StyledInputContainer)<{inp
     }}
 `;
 
-export const StyledCloseButton = styled.button`
+export const StyledClearButton = styled.button`
     background: transparent;
-    grid-area: closeIcon;
+    grid-area: clearIcon;
     
     svg{ 
         opacity: 48%;

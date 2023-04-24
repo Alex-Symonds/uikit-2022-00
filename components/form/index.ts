@@ -17,5 +17,5 @@ export {default as Search} from './Search';
 export {default as SelectTags} from './SelectTags';
 // export * from './SelectText';
 export {default as SelectText} from './SelectText';
-// export * from './Toggle';
-export {default as Toggle} from './Toggle';
+export * from './Toggle';
+// export {default as Toggle} from './Toggle';

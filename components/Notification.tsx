@@ -9,7 +9,9 @@ import Button, { ButtonStyle } from './Button';
 import CircleContainer from './CircleAroundIcon';
 
 
-const BREAKPOINT_MOBILE = "425px";
+function getMobileBreakpoint() : string {
+    return "425px";
+}
 
 const StyledLayout = styled.div<{hasAll : boolean}>`
     display: grid;
@@ -20,7 +22,7 @@ const StyledLayout = styled.div<{hasAll : boolean}>`
         "buttons buttons";
     gap: ${props => props.hasAll ? "1.25rem" : "0"};
 
-    @media (max-width: ${BREAKPOINT_MOBILE}) {
+    @media (max-width: ${getMobileBreakpoint()}) {
         display: grid;
         grid-template-columns: auto;
         grid-template-rows: 3.5rem auto auto;
@@ -36,6 +38,10 @@ const StyledButtonsContainer = styled.div`
     display: flex;
     gap: 0.55rem;
     grid-area: buttons;
+
+    @media (max-width: ${getMobileBreakpoint()}){
+        padding-bottom: 0.75rem;
+    }
 `;
 
 const StyledDescription = styled.p`
@@ -69,10 +75,12 @@ const StyledNotification = styled.div`
     width: 24.625rem;
     z-index: 999;
 
-    @media (max-width: ${BREAKPOINT_MOBILE}){
+    @media (max-width: ${getMobileBreakpoint()}){
         padding: 0.8rem 4rem 0.05rem 0.8rem;
     }
 `;
+
+//padding: 0.8rem 4rem 0.05rem 0.8rem;
 
 const StyledTextContent = styled.div<{hasHeading : boolean}>`
     display: flex;

@@ -9,7 +9,7 @@ import { StyledScreenReaderOnly } from '../visuallyHidden';
 import { selectMenuKeyDown, selectMenuKeydownProps } from './utils/UseOptionsList';
 
 import {    
-        StyledInputAndOptionsContainer, StyledInputContainer, StyledCloseButton,
+        StyledInputAndOptionsContainer, StyledInputContainer, StyledClearButton,
         OptionsContainer as OptionsListWithScreenReader,
         Option
         } from './subcomponents/';
@@ -17,7 +17,7 @@ import {
 const StyledLayout = styled.div`
     display: grid;
     gap: 0 0.5rem;
-    grid-template-areas: "searchForm closeIcon";
+    grid-template-areas: "searchForm clearIcon";
     grid-template-columns: 1fr 1.5rem;
     grid-template-rows: 1fr;
     height: 100%;
@@ -245,9 +245,9 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
                         </StyledForm>
                         
                     { inputKit.hasInput &&
-                        <StyledCloseButton onClick={ cancel } >
+                        <StyledClearButton onClick={ cancel } aria-label={"clear and close"}>
                             <Icon idMedium={IconMediumId.close} />
-                        </StyledCloseButton>
+                        </StyledClearButton>
                     }
                     </StyledLayout>
                 </StyledInputContainer>

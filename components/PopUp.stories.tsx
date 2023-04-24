@@ -70,3 +70,10 @@ const StyledFormContainer = styled.div`
         max-width: 100%;
     }
 `;
+
+export const ExampleMobile = Template.bind({});
+ExampleMobile.parameters = {
+    viewport: {
+        defaultViewport: 'iphone5',
+      },
+}

@@ -24,34 +24,6 @@ export enum ButtonStyle{
     secondaryDark = "secondaryDark",
 }
 
-function themePicker(style : ButtonStyle | undefined) : ButtonThemeProps{
-    switch(style){
-        case ButtonStyle.primary:
-            return PrimaryTheme;
-
-        case ButtonStyle.primaryWhite:
-            return PrimaryWhiteTheme;
-
-        case ButtonStyle.secondary:
-            return SecondaryTheme;
-
-        case ButtonStyle.secondaryWhite:
-            return SecondaryWhiteTheme;
-
-        case ButtonStyle.secondaryDark:
-            return SecondaryDarkTheme;
-
-        case ButtonStyle.flat:
-            return FlatTheme;
-
-        case ButtonStyle.flatWhite:
-            return FlatWhiteTheme;
-
-        default:
-            return PrimaryTheme;
-    }
-};
-
 interface ButtonThemeProps{
     mainColor: string,
     mainBackground: string,
@@ -134,10 +106,19 @@ const SecondaryDarkTheme : ButtonThemeProps = {
     disabledColor: PALETTE.black
 }
 
+const ButtonThemes = {
+    [ButtonStyle.primary]: PrimaryTheme,
+    [ButtonStyle.secondary]: SecondaryTheme,
+    [ButtonStyle.flat]: FlatTheme,
+    [ButtonStyle.primaryWhite]: PrimaryWhiteTheme,
+    [ButtonStyle.secondaryWhite]: SecondaryWhiteTheme,
+    [ButtonStyle.flatWhite]: FlatWhiteTheme,
+    [ButtonStyle.secondaryDark]: SecondaryDarkTheme,
+}
+
 Button.defaultProps = {
     theme: PrimaryTheme
 }
-
 
 // Styled-Component
 type StyledButtonProps = {
@@ -332,13 +313,15 @@ export default function Button({circle, disabled, hideLabelVisually, icon : argI
         argLabel : argLabel,
         hideLabelVisually : hideLabelVisually ?? false,
     });
-    const theme : ButtonThemeProps = themePicker(style);
+
+    style = style ?? ButtonStyle.primary;
+    const theme : ButtonThemeProps = ButtonThemes[style];
 
     return  <ThemeProvider theme = { theme }>
-                <StyledButton   circle = { circle ?? false }
+                <StyledButton   disabled = { disabled }
+                                circle = { circle ?? false }
                                 paddingStr = {paddingStr}
                                 widthOverride = { widthOverride }
-                                disabled = { disabled }
                                 onClick = { onClick } >
                     { icon ?
                         <Icon {...icon} />

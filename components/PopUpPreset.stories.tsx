@@ -35,6 +35,16 @@ Attention.args = {
     }
 }
 
+export const AttentionMobile = Template.bind({});
+AttentionMobile.args = {
+    ...Attention.args,
+}
+AttentionMobile.parameters = {
+    viewport: {
+        defaultViewport: 'iphone5',
+      },
+}
+
 export const Success = Template.bind({});
 Success.args = {
     mode: PopUpPresetMode.success,
@@ -46,10 +56,30 @@ Success.args = {
     }
 }
 
+export const SuccessMobile = Template.bind({});
+SuccessMobile.args = {
+    ...Success.args,
+}
+SuccessMobile.parameters = {
+    viewport: {
+        defaultViewport: 'iphone5',
+      },
+}
+
 export const Error = Template.bind({});
 Error.args = {
     mode: PopUpPresetMode.error,
     heading: "Error",
     description: "Sorry",
+}
+
+export const ErrorMobile = Template.bind({});
+ErrorMobile.args = {
+    ...Error.args,
+}
+ErrorMobile.parameters = {
+    viewport: {
+        defaultViewport: 'iphone5',
+      },
 }
 

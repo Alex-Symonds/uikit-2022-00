@@ -83,6 +83,7 @@ const StyledLayout = styled.div`
 const StyledHeading = styled.h4`
     ${TYPOGRAPHY.h4}
     padding-top: .8rem;
+    text-align: center;
 `;
 
 const StyledDescription = styled.p`

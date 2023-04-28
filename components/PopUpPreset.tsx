@@ -1,9 +1,9 @@
 import React from 'react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+import { PALETTE, TYPOGRAPHY, } from '../utils/Theme';
 
-import { Icon, IconXLId } from './icons/';
+import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 import CircleAroundIcon from './CircleAroundIcon';
@@ -30,25 +30,25 @@ type ButtonProps = {
 type PresetThemeType = {
     background: PALETTE,
     colour: PALETTE,
-    iconId: IconXLId,
+    iconId: keyof typeof ICON_ID,
 }
 
 const successTheme : PresetThemeType = {
     background: PALETTE.greenPale,
     colour: PALETTE.green,
-    iconId: IconXLId.check,
+    iconId: ICON_ID.check,
 }
 
 const errorTheme : PresetThemeType = {
     background: PALETTE.red_fadedBackground,
     colour: PALETTE.redSuper,
-    iconId: IconXLId.false,
+    iconId: ICON_ID.false,
 }
 
 const attentionTheme : PresetThemeType = {
     background: PALETTE.star_fadedBackground,
     colour: PALETTE.star,
-    iconId: IconXLId.attention,
+    iconId: ICON_ID.attention,
 }
 
 function getTheme(type : PopUpPresetMode){
@@ -102,7 +102,7 @@ export default function PopUpPreset({description, heading, mode: type, buttonPri
     return <ThemeProvider theme={theme}>
         <StyledLayout>
             <CircleAroundIcon colour={theme.background} size={"6rem"}>
-                <Icon idXL={theme.iconId} />
+                <Icon id={theme.iconId} size={ICON_SIZES.extraLarge} />
             </CircleAroundIcon>
             <StyledHeading>
                 {heading}

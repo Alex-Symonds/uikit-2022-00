@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
 
-import { Icon, IconMediumId } from '../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 
 import { StyledLabel, InputContainer } from './subcomponents';
 
@@ -121,7 +121,7 @@ export default function InputText({description, disabled, errorMsg, isSuccess, n
             {
                 isSuccess ?
                 <StyledIconContainer>
-                    <Icon idMedium={IconMediumId.check} />
+                    <Icon id={ICON_ID.check} size={ICON_SIZES.medium} />
                 </StyledIconContainer>
                 : null
             }

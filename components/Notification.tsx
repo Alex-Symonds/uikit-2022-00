@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY, SHADOW } from '../utils/Theme';
+import { PALETTE, TYPOGRAPHY, SHADOW, } from '../utils/Theme';
 
-import { Icon, IconMediumId } from './icons/';
+import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 import CircleContainer from './CircleAroundIcon';
@@ -161,39 +161,39 @@ function NotificationIcon({type} : Pick<I_NotificationProps, "type">){
     const settings = getIconSettings(type);
     return  <StyledIconContainer fillColor = {settings.fillColor} >
                 <CircleContainer colour={ settings.background } size="3.5rem">
-                    <Icon idMedium={settings.iconId} />
+                    <Icon id={settings.iconId} size={ICON_SIZES.medium} />
                 </CircleContainer>
             </StyledIconContainer>
 }
 
-function getIconSettings(type : NotificationType) : { background : PALETTE, fillColor: PALETTE, iconId: IconMediumId }{
+function getIconSettings(type : NotificationType) : { background : PALETTE, fillColor: PALETTE, iconId: keyof typeof ICON_ID }{
     switch(type){
         case NotificationType.success:
             return {
                 background: PALETTE.green_fadedBackground,
                 fillColor: PALETTE.green,
-                iconId: IconMediumId.check,
+                iconId: ICON_ID.check,
             }
         
         case NotificationType.error:
             return {
                 background: PALETTE.redGirl,
                 fillColor: PALETTE.red,
-                iconId: IconMediumId.close,
+                iconId: ICON_ID.close,
             }
         
         case NotificationType.info:
             return {
                 background: PALETTE.disabled,
                 fillColor: PALETTE.primary,
-                iconId: IconMediumId.info,
+                iconId: ICON_ID.info,
             }
         
         default:
             return {
                 background: PALETTE.disabled,
                 fillColor: PALETTE.primary,
-                iconId: IconMediumId.info,
+                iconId: ICON_ID.info,
             }
     }
 }

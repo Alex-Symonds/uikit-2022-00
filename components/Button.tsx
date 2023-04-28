@@ -8,12 +8,12 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
+import { PALETTE, LAYOUT, TYPOGRAPHY, } from '../utils/Theme';
 
-import { Icon, IconProps, IconMediumId } from './icons/';
+import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 import { StyledScreenReaderOnly } from './visuallyHidden';
 
-// Colour Themes
+// Button colour Themes
 export enum ButtonStyle{
     primary = "primary",
     secondary = "secondary",
@@ -23,6 +23,7 @@ export enum ButtonStyle{
     flatWhite = "flatWhite",
     secondaryDark = "secondaryDark",
 }
+
 
 interface ButtonThemeProps{
     mainColor: string,
@@ -37,6 +38,7 @@ interface ButtonThemeProps{
     disabledBorder?: string
 }
 
+
 const PrimaryTheme : ButtonThemeProps = {
     mainColor: PALETTE.white,
     mainBackground: PALETTE.primary,
@@ -48,6 +50,7 @@ const PrimaryTheme : ButtonThemeProps = {
     disabledBackground: PALETTE.disabled
 };
 
+
 const PrimaryWhiteTheme : ButtonThemeProps = {
     mainColor: PALETTE.primary,
     mainBackground: PALETTE.white,
@@ -58,21 +61,24 @@ const PrimaryWhiteTheme : ButtonThemeProps = {
     disabledBackground: PALETTE.white
 }
 
-const FlatTheme : ButtonThemeProps = {
+
+const SecondaryTheme : ButtonThemeProps = {
     mainColor: PALETTE.primary,
     mainBackground: 'transparent',
-    mainBorder: 'transparent',
+    mainBorder: PALETTE.primary,
     hoverBackground: PALETTE.primary_fadedHover,
     fadeOnDisabled: true,
 
     activeBackground: PALETTE.primary_fadedActive,
-    disabledColor: PALETTE.primary
+    disabledBorder: PALETTE.primary,
+    disabledColor: PALETTE.primary  
 }
 
-const FlatWhiteTheme : ButtonThemeProps = {
+
+const SecondaryWhiteTheme : ButtonThemeProps = {
     mainColor: PALETTE.white,
     mainBackground: 'transparent',
-    mainBorder: 'transparent',
+    mainBorder: PALETTE.white,
     hoverBackground: PALETTE.white_fadedHover,
     fadeOnDisabled: true,
 
@@ -80,19 +86,20 @@ const FlatWhiteTheme : ButtonThemeProps = {
     disabledColor: PALETTE.white
 }
 
-const SecondaryTheme : ButtonThemeProps = {
-    ...FlatTheme,
-    mainBorder: PALETTE.primary,
 
-    disabledBorder: PALETTE.primary,
+const FlatTheme : ButtonThemeProps = {
+    ...SecondaryTheme,
+    mainBorder: 'transparent',
+
+    disabledBorder: undefined,
 }
 
-const SecondaryWhiteTheme : ButtonThemeProps = {
-    ...FlatWhiteTheme,
-    mainBorder: PALETTE.white,
 
-    disabledColor: PALETTE.white
+const FlatWhiteTheme : ButtonThemeProps = {
+    ...SecondaryWhiteTheme,
+    mainBorder: 'transparent',
 }
+
 
 const SecondaryDarkTheme : ButtonThemeProps = {
     mainColor: PALETTE.black,
@@ -105,6 +112,7 @@ const SecondaryDarkTheme : ButtonThemeProps = {
     disabledBorder: PALETTE.black,
     disabledColor: PALETTE.black
 }
+
 
 const ButtonThemes = {
     [ButtonStyle.primary]: PrimaryTheme,
@@ -141,7 +149,8 @@ const StyledButton = styled.button<StyledButtonProps>`
     width: ${ props => props.widthOverride ? props.widthOverride : "auto" };
 
     svg {
-        aspect-ratio: 1/1;
+        height: 1.5rem;
+        max-height: 1.5rem;
         max-width: 1.5rem;
         width: 1.5rem;
 
@@ -171,14 +180,17 @@ const StyledButton = styled.button<StyledButtonProps>`
 `;
 
 
-// Helpers
+// CSS Helpers
 type ButtonModeBools = {
     withLabel : boolean,
     withIcon : boolean,
 }
 
 // Design says that Buttons visually displaying a label require extra padding at the sides
-function getPadding({withLabel, withIcon} : ButtonModeBools) : string{
+function getPaddingString({withLabel, withIcon} 
+    : ButtonModeBools) 
+    : string {
+
     if(withLabel && withIcon){
        return "0.625rem 1.25rem";
     }
@@ -190,26 +202,13 @@ function getPadding({withLabel, withIcon} : ButtonModeBools) : string{
     return "0.625rem";
 }
 
-// Set a width when "loader === true" on a Label or Label+Icon Button, so it doesn't collapse down to an
-// Icon-Only button.
-function getWidthForLoaderButton({withLabel, withIcon} : ButtonModeBools) : string | undefined{
-    if(withLabel && withIcon){
-       return "7.75rem";
-    }
-
-    if(withLabel && !withIcon){
-        return "6rem";
-    }
-
-    return undefined;
-}
 
 /*
-    Button component covers four different modes (five, if count "loader"), so some validation, 
-    overrides and mode-specific CSS are needed.
+    Button component covers four different modes (more, if "loader" is counted 
+    separately), so some validation, overrides and mode-specific CSS are needed.
 */
 interface I_ContentSettingsProps{
-    argIcon? : IconProps,
+    argIcon? : keyof typeof ICON_ID | T_IconProps,
     argLabel : string,
     circle : boolean,
     loader : boolean,
@@ -217,69 +216,106 @@ interface I_ContentSettingsProps{
 }
 
 interface I_ContentSettings{
-    icon? : IconProps,
+    iconProps: T_IconProps | null
     label : string,
     labelIsVisible : boolean,
     paddingStr : string,
     widthOverride? : string,
 }
 
-function getValidContentSettings({argIcon, argLabel, circle, loader, hideLabelVisually} : I_ContentSettingsProps) : I_ContentSettings{
-    let settings : I_ContentSettings;
+function getValidContentSettings({argIcon, argLabel, circle, loader, hideLabelVisually} 
+    : I_ContentSettingsProps) 
+    : I_ContentSettings{
     
     const hasIconOnlyFlag : boolean = circle || hideLabelVisually;
     const iconIsDefined : boolean = argIcon !== undefined && argIcon !== null;
     const wantIcon : boolean = iconIsDefined || hasIconOnlyFlag;
 
     if(loader){
-        settings = getLoaderContentSettings({withLabel: !hasIconOnlyFlag, withIcon: wantIcon});
+        return getLoaderContentSettings({ withLabel: !hasIconOnlyFlag, withIcon: wantIcon });
     }
-    else{
-        settings = {
-            icon: argIcon,
-            label: argLabel,
-            labelIsVisible: !hasIconOnlyFlag,
-            paddingStr: getPadding({ withLabel: !hasIconOnlyFlag, withIcon: wantIcon }),
-        }
 
-        const errMsg = getContentErrorString({hasIconOnlyFlag, iconIsDefined, label : settings.label});
-        if(errMsg !== ""){
-            settings.labelIsVisible = true;
-            settings.label = errMsg;
-        }
+    let settings : I_ContentSettings = {
+        iconProps: getIconSettings({ argIcon, hasIconOnlyFlag }),
+        label: argLabel,
+        labelIsVisible: !hasIconOnlyFlag,
+        paddingStr: getPaddingString({ withLabel: !hasIconOnlyFlag, withIcon: wantIcon }),
+    }
+
+    const errMsg = getContentErrorString({hasIconOnlyFlag, label : settings.label});
+    if(errMsg !== ""){
+        settings.labelIsVisible = true;
+        settings.label = errMsg;
     }
 
     return settings;
 }
 
-function getLoaderContentSettings({withLabel, withIcon} : ButtonModeBools) : I_ContentSettings {
+
+function getLoaderContentSettings({withLabel, withIcon} 
+    : ButtonModeBools) 
+    : I_ContentSettings {
+
+    // Loaders only display the loading icon and so will "naturally" display as an icon-only button.
+    // This would be contrary to the design, where "label-y" loader buttons are wider.
+    // Set a greater width for label-y buttons here.
+    let width = withLabel && withIcon ?
+                    "7.75rem" :
+                    withLabel && !withIcon ?
+                        "6rem" :
+                        undefined;
+
     return {
-        icon: { idMedium: IconMediumId.loader },
+        iconProps: {
+            id: ICON_ID.loader,
+            size: ICON_SIZES.medium,
+        },
         label: "Loading...",
         labelIsVisible: false,
-        widthOverride: getWidthForLoaderButton({ withLabel, withIcon }),
-        paddingStr: getPadding({ withLabel, withIcon }),
+        widthOverride: width,
+        paddingStr: getPaddingString({ withLabel, withIcon }),
     }
 }
 
-function buttonLabelIsValid(label : string) : boolean{
-    return label.trim() !== "";
+
+function getIconSettings({argIcon, hasIconOnlyFlag} 
+    : Pick<I_ContentSettingsProps, "argIcon"> & { hasIconOnlyFlag : boolean }) 
+    : T_IconProps | null {
+
+    let validIconProps : T_IconProps | null = null;
+
+    if(argIcon){
+        if(typeof argIcon === 'object'){
+            validIconProps = argIcon
+        }
+        else{
+            validIconProps = {
+                id: argIcon,
+            }
+        }
+    }
+    else if(hasIconOnlyFlag){
+        validIconProps = {
+            id: ICON_ID.default,
+        }
+    }
+
+    return validIconProps;
 }
+
 
 type ErrorStringProps = {
     hasIconOnlyFlag : boolean,
-    iconIsDefined : boolean,
     label : string,
 }
-function getContentErrorString({hasIconOnlyFlag, iconIsDefined, label} : ErrorStringProps) : string {
+function getContentErrorString({hasIconOnlyFlag, label} 
+    : ErrorStringProps) 
+    : string {
+
     let errMsg : string = "";
 
-    if(hasIconOnlyFlag && !iconIsDefined){
-        errMsg += " #icon? ";
-    }
-
-    if(!buttonLabelIsValid(label)){
-        // Expectation: folks wanting an Icon or Circle button may attempt to achieve this via passing an empty string
+    if(label.trim() === ""){
+        // Expectation: folks wanting an Icon or Circle button may attempt to achieve this via passing an empty or whitespace string
         // into "label", rather than applying the "circle" or "hideLabelVisually" flags (as intended).
         // If this happens, it might be helpful to give them a hint as to why label is a required argument in the first place.
         if(hasIconOnlyFlag){
@@ -293,12 +329,16 @@ function getContentErrorString({hasIconOnlyFlag, iconIsDefined, label} : ErrorSt
     return errMsg.trim();
 }
 
+type T_IconProps = {
+    id: keyof typeof ICON_ID,
+    size?: typeof ICON_SIZES[keyof typeof ICON_SIZES],
+}
 
 interface I_ButtonProps{
     circle?: boolean,               /* true = Circle button (Note: automatically visually-hides the label. Circle-with-label is unavailable) */
     disabled?: boolean,
     hideLabelVisually? : boolean,   /* true = Icon button (Note: does nothing if circle === true. Circle-with-label is unavailable) */
-    icon?: IconProps,
+    icon?: keyof typeof ICON_ID | T_IconProps,
     label: string,                  /* Required because screenreaders need this even if the visual design doesn't */
     loader?: boolean,
     style?: ButtonStyle,
@@ -306,7 +346,7 @@ interface I_ButtonProps{
 }
 
 export default function Button({circle, disabled, hideLabelVisually, icon : argIcon, label : argLabel, loader, style, onClick} : I_ButtonProps){
-    const {icon, label, labelIsVisible, widthOverride, paddingStr} : I_ContentSettings = getValidContentSettings({
+    const {iconProps, label, labelIsVisible, widthOverride, paddingStr} : I_ContentSettings = getValidContentSettings({
         loader: loader ?? false,
         argIcon : argIcon,
         circle : circle ?? false,
@@ -323,8 +363,8 @@ export default function Button({circle, disabled, hideLabelVisually, icon : argI
                                 paddingStr = {paddingStr}
                                 widthOverride = { widthOverride }
                                 onClick = { onClick } >
-                    { icon ?
-                        <Icon {...icon} />
+                    { iconProps ?
+                        <Icon id={iconProps.id} size={iconProps?.size ?? ICON_SIZES.medium} />
                         : null
                     }
                     { labelIsVisible ?

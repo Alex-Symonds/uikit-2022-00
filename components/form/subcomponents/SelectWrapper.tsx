@@ -19,10 +19,10 @@
 import React, {forwardRef} from 'react';
 import styled from 'styled-components';
 
-import { PALETTE } from '../../../utils/Theme';
+import { PALETTE, } from '../../../utils/Theme';
 import customCursorImg from '../../../public/cursorHand.svg';
 
-import { Icon, IconMediumId } from '../../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../../icons/';
 
 import Option from './Option';
 import OptionsListWithScreenreader from './OptionsContainer';
@@ -94,7 +94,7 @@ type OptionsListInteractivity = {
 
 export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
     function SelectWrapper({disabled, hasSelection, inputHasFocus, options, optionsListId, optionsListInteractivity, optionsVisible, clearInput, toggleOptionVisibility, children} : I_SelectWrapperProps, containerRef){
-        const toggleIconId = optionsVisible ? IconMediumId.arrowUp : IconMediumId.arrowDown;
+        const toggleIconId = optionsVisible ? ICON_ID.arrowUp : ICON_ID.arrowDown;
 
         return  <StyledInputAndOptionsContainer ref={containerRef}>
                     <StyledInputContainer disabled={disabled ?? false} showOptions={optionsVisible ?? false} inputFocused={inputHasFocus ?? false}>
@@ -106,7 +106,7 @@ export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
                                 <StyledClearButton  aria-label="clear selection"
                                                     onClick={ clearInput } 
                                                     >
-                                    <Icon idMedium={IconMediumId.close} />
+                                    <Icon id={ICON_ID.close} size={ICON_SIZES.medium} />
                                 </StyledClearButton>
                             }
 
@@ -115,7 +115,7 @@ export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
                                                     onClick = { toggleOptionVisibility } 
                                                     isActive={(optionsVisible ?? false) && hasSelection} 
                                                     >
-                                <Icon idMedium = {toggleIconId} />
+                                <Icon id={toggleIconId} size={ICON_SIZES.medium} />
                             </StyledToggleButton>
                             
                         </StyledSelectBar>

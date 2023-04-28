@@ -2,23 +2,19 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { TYPOGRAPHY, PALETTE } from '../utils/Theme';
+import { TYPOGRAPHY, PALETTE, } from '../utils/Theme';
 
-import { IconSmallId, IconMediumId } from './icons';
+import { ICON_ID, ICON_SIZES } from './icons';
 
 import Button, { ButtonStyle } from './Button';
 import Paragraph from './Paragraph';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const LABEL = "Кнопка";
-const ICON = { idMedium: IconMediumId.plus };
-const LONG_LABEL : string = "Very very very long label text which goes on and on and on, probably exceeding the space available. Blah blah blah, see how this button label waffles. ";
-
 export default {
     title: 'UI Kit/Button',
     component: Button,
     args: {
-        label: LABEL,
+        label: "Кнопка",
         onClick: () => console.log("Click!")
     }
   } as ComponentMeta<typeof Button>;
@@ -27,6 +23,7 @@ const Template: ComponentStory<typeof Button> = args => <Button {...args} />;
 export const Default = Template.bind({});
 
 export const Responsive = Template.bind({});
+const LONG_LABEL : string = "Very very very long label text which goes on and on and on, probably exceeding the space available. Blah blah blah, see how this button label waffles. ";
 Responsive.args = {
     label: "A button is allowed to fill the width of its container, but then the label will line-wrap, because why not have a verbose button if you are so inclined? Perhaps it's explaining what it does in excruciating detail. " + LONG_LABEL + LONG_LABEL + LONG_LABEL + LONG_LABEL
 }
@@ -88,6 +85,9 @@ const TableTemplate: ComponentStory<typeof Button> = args => {
 };
 
 function RowOfButtons({args, id, rowLabel} : any){
+    const LABEL = "Кнопка";
+    const ICON = ICON_ID.plus;
+
     return  <tr id={id}>
                 <td>
                     <Button {...args} label={LABEL} />
@@ -212,6 +212,7 @@ const FallbackTemplate: ComponentStory<typeof Button> = args => {
                             <td>invalid</td>
                             <td>missing</td>
                             <td></td>
+
                         </tr>
                         <tr><td><Button {...args} hideLabelVisually label={""} /></td>
                             <td>invalid</td>
@@ -223,17 +224,17 @@ const FallbackTemplate: ComponentStory<typeof Button> = args => {
                             <td>missing</td>
                             <td>circle</td>
                         </tr>
-                        <tr><td><Button {...args} label={""} icon={{idSmall: IconSmallId.arrowLeft}}/></td>
+                        <tr><td><Button {...args} label={""} icon={{id: ICON_ID.arrowLeft, size: ICON_SIZES.small}}/></td>
                             <td>invalid</td>
                             <td>ok</td>
                             <td></td>
                         </tr>
-                        <tr><td><Button {...args} hideLabelVisually label={""} icon={{idSmall: IconSmallId.arrowLeft}}/></td>
+                        <tr><td><Button {...args} hideLabelVisually label={""} icon={{id: ICON_ID.arrowLeft, size: ICON_SIZES.small}}/></td>
                             <td>invalid</td>
                             <td>ok</td>
                             <td>hideLabelVisually</td>
                         </tr>
-                        <tr><td><Button {...args} circle label={""} icon={{idSmall: IconSmallId.arrowLeft}}/></td>
+                        <tr><td><Button {...args} circle label={""} icon={{id: ICON_ID.arrowLeft, size: ICON_SIZES.small}}/></td>
                             <td>invalid</td>
                             <td>ok</td>
                             <td>circle</td>

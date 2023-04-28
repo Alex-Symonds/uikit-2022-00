@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 
-import { Icon, IconSmallId } from './icons/';
-import { PALETTE, SHADOW, ICON_SIZES, TYPOGRAPHY, LAYOUT } from '../utils/Theme';
+import { Icon, ICON_ID, ICON_SIZES } from './icons/';
+import { PALETTE, SHADOW, TYPOGRAPHY, LAYOUT } from '../utils/Theme';
 import customCursorImg from '../public/cursorHand.svg';
 
 const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : Boolean }>`
@@ -124,7 +124,7 @@ export default function Tag({colour, disabled, screenreaderLabel, size, text, re
                     {
                         showRemoveButton ?
                             <StyledButton aria-label={screenreaderLabel} onClick={removeTag} disabled={disabled}>
-                                <Icon idSmall={IconSmallId.close} />
+                                <Icon id={ICON_ID.close} size={ICON_SIZES.small} />
                             </StyledButton>
                             : null
                     }

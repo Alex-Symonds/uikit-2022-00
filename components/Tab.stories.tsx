@@ -2,9 +2,10 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
-import { Icon, IconMediumId } from './icons/';
+import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
 import Tab, { TAB_TYPE} from './Tab';
+
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -29,7 +30,7 @@ const TemplateHorizontal: ComponentStory<typeof Tab> = args => {
     return  <StyledHUl>
                 <Tab {...args}>
                     Name of Tab
-                    <Icon idMedium={ IconMediumId.progressCircle25 } />
+                    <Icon id={ ICON_ID.progressCircle25 } size={ICON_SIZES.medium} />
                 </Tab>
             </StyledHUl>
 };

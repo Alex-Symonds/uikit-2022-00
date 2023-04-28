@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { Icon, IconMediumId } from '../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
-
-import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
 import { CheckboxOptionDataType } from '../form/';
 
+import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
 
 interface I_CheckboxProps extends I_ContextMenuFieldset{
     onChange : (id : string, checked : boolean) => void, /* ID to find the element; checked to update based on what the user can see */
@@ -43,7 +42,7 @@ function ContextCheckbox({checked, id, name, displayText, onChange, htmlId} : Ch
                 {displayText}
 
                 {checked ?
-                    <Icon idMedium={IconMediumId.check} />
+                    <Icon id={ICON_ID.check} size={ICON_SIZES.medium}/>
                     : null
                 }
                 <StyledScreenReaderOnly as="input"

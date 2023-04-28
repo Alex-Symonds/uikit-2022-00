@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { LAYOUT, PALETTE, SHADOW, TYPOGRAPHY } from '../../utils/Theme';
+import { LAYOUT, PALETTE, SHADOW, TYPOGRAPHY, } from '../../utils/Theme';
 
-import { Icon, IconMediumId } from '../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import Avatar, { AvatarOptions } from '../Avatar';
 import CircleAroundIcon from '../CircleAroundIcon';
 import { convertRemToPixels } from '../../utils/utils';
@@ -358,7 +358,7 @@ export function DropZone({dropzoneHeightInPx, setDrag, handleDrop} : DropZonePro
                                         onDrop={ dropped } 
                                         onDragOver={e => enableDropping(e)} 
                                         onDragLeave={e => dragEnds(e)} >
-                <Icon idMedium={IconMediumId.file} />
+                <Icon id={ICON_ID.file} size={ICON_SIZES.medium} />
             </StyledLayoutActiveDrag>
 }
 
@@ -414,7 +414,7 @@ function Finished({fileInfo} : Pick<I_FileUploaderProps, "fileInfo">){
                 <StyledIconContainer>
                     <StyledFileIconCircleWrapper>
                         <CircleAroundIcon colour={PALETTE.grayL} size={"3.5rem"}>
-                            <Icon idMedium={IconMediumId.file} />
+                            <Icon id={ICON_ID.file} size={ICON_SIZES.medium} />
                         </CircleAroundIcon>
                     </StyledFileIconCircleWrapper>
                 </StyledIconContainer>

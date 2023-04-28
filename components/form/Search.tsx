@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
 
-import { Icon, IconMediumId, } from '../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
 import { selectMenuKeyDown, selectMenuKeydownProps } from './utils/UseOptionsList';
@@ -239,14 +239,14 @@ export default function Search({initialValue, disabled, updateOptions, handleSub
                                             />
                             <StyledSearchLabel htmlFor={resultsListKit.inputId} isEmpty={!inputKit.hasInput}>
                                 Search
-                                <Icon idMedium={IconMediumId.search} />
+                                <Icon id={ICON_ID.search} size={ICON_SIZES.medium} />
                             </StyledSearchLabel>
                             <StyledScreenReaderOnly as="input" type="submit" value="Submit" disabled={disabled} />
                         </StyledForm>
                         
                     { inputKit.hasInput &&
                         <StyledClearButton onClick={ cancel } aria-label={"clear and close"}>
-                            <Icon idMedium={IconMediumId.close} />
+                            <Icon id={ICON_ID.close} size={ICON_SIZES.medium} />
                         </StyledClearButton>
                     }
                     </StyledLayout>

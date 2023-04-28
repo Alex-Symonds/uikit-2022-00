@@ -1,0 +1,18 @@
+export enum SUBJECT{
+    mathematics,
+    english,
+    sociology,
+    physics,
+    biology,
+    history,
+    chemistry,
+    computing,
+    literature,
+    geography,
+    languages_en,
+    languages_de,
+    languages_fr,
+    languages_es,
+    economics,
+    robotics,
+}

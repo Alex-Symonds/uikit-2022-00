@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
 
 import { getClassName } from '../../utils/utils';
 
 import { StyledScreenReaderOnly } from '../visuallyHidden';
-import { Icon, IconSmallId } from '../icons';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons';
 import Paragraph from '../Paragraph';
 
 
@@ -162,8 +162,9 @@ function ToggleInsides({ disabled, idForInput, isOn, hasDesc, parentOnChange}
     return  <>
                 <StyledScreenReaderOnly as="input" type="checkbox" checked={isOn} disabled={disabled} id={idForInput} onChange={parentOnChange} />
                 <StyledToggleSpan hasLabel={hasDesc}>
-                { isOn &&
-                    <Icon idSmall={IconSmallId.check} aria-hidden={true} />
+                { isOn ?
+                    <Icon id={ICON_ID.check} size={ICON_SIZES.small} aria-hidden={true} />
+                    : null
                 }
                 </StyledToggleSpan>
             </>

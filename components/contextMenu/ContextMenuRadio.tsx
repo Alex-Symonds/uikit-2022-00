@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Icon, IconMediumId, } from '../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
 import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
@@ -43,7 +43,7 @@ function ContextRadio({checked, id, displayText, onChange, name : groupName, htm
     return  <StyledContextOption as={"label"} isHighlighted={false}>
                 {displayText}
                 {checked ?
-                    <Icon idMedium={IconMediumId.check} />
+                    <Icon id={ICON_ID.check} size={ICON_SIZES.medium} />
                     : null
                 }
                 <StyledScreenReaderOnly     as="input"

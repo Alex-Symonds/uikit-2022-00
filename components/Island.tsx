@@ -2,8 +2,9 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
+import { SUBJECT } from '../utils/subjects';
 
-import { Icon, Subject, IconMediumId, getIconMediumIdFromSubject, } from './icons/';
+import { Icon, ICON_ID, ICON_SIZES, getIconIdFromSubject } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 import Badge, { BadgeType } from './Badge';
@@ -169,7 +170,7 @@ const InProgressTheme : ThemeProps = {
 
 interface I_IslandProps{
     progress? : number,
-    subject : Subject,
+    subject : SUBJECT,
     text : string,
     heading : string,
     description : string,
@@ -195,7 +196,7 @@ export default function Island({progress, subject, text, heading, description, b
             }
 
             <StyledSubjectContainer>
-                <Icon idMedium={getIconMediumIdFromSubject(subject)}/>
+                <Icon id={getIconIdFromSubject(subject)} size={ICON_SIZES.medium}/>
             </StyledSubjectContainer>
 
             <StyledLayout>
@@ -210,11 +211,11 @@ export default function Island({progress, subject, text, heading, description, b
                     />
                 </StyledButtonContainer>
                 <StyledReqStudent>
-                    <Icon idMedium={IconMediumId.student} />
+                    <Icon id={ICON_ID.student} size={ICON_SIZES.medium} />
                     {studentReq}
                 </StyledReqStudent>
                 <StyledReqPen>
-                    <Icon idMedium={IconMediumId.pen} />
+                    <Icon id={ICON_ID.pen} size={ICON_SIZES.medium} />
                     {penReq}
                 </StyledReqPen>
             </StyledLayout>

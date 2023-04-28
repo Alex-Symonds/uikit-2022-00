@@ -25,7 +25,7 @@ import styled from 'styled-components';
 import { PALETTE, TYPOGRAPHY } from '../../../utils/Theme';
 import customCursorImg from '../../../public/cursorHand.svg';
 
-import { Icon, IconMediumId } from '../../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../../icons/';
 
 
 export const StyledOption = styled.div<{isHighlighted : boolean}>`
@@ -114,7 +114,7 @@ export default function Option({enableCheck, isHighlighted, isSelected, optionId
                 <span>{text}</span>
 
             {enableCheck && isSelected && 
-                <Icon idMedium={IconMediumId.check} />
+                <Icon id={ICON_ID.check} size={ICON_SIZES.medium} />
             }
             </Styled>
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Subject } from './icons/';
+import {SUBJECT} from '../utils/subjects';
 
 import Island from './Island';
 
@@ -11,7 +11,7 @@ export default {
     title: 'UI Kit/Island',
     component: Island,
     args: {
-        subject: Subject.mathematics,
+        subject: SUBJECT.mathematics,
         text: "Your text",
         heading: "Head",
         description: "Description",

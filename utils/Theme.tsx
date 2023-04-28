@@ -64,14 +64,6 @@ export const LAYOUT = {
     breakpointXL: "1366px",
 }
 
-export const ICON_SIZES = {
-    small: "16px",
-    medium: "24px",
-    large: "32px",
-    extraLarge: "56px"
-}
-
-
 const FONT = {
     headingBlack: "MontserratBlack, Tahoma, sans-serif",
     headingBold: "MontserratBold, Tahoma, sans-serif",

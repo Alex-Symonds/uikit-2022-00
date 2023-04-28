@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import { Icon, IconSmallId } from '../icons/';
+import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { PALETTE, LAYOUT, TYPOGRAPHY } from '../../utils/Theme';
 
 const StyledLabel = styled.label<Pick<CheckboxProps, "disabled" | "error">>`
@@ -137,16 +137,19 @@ export default function Checkbox({checked, disabled, error, onChange, id, indete
     }, [indeterminate]);
 
 
+    const iconId = !indeterminate && checked ?
+                    ICON_ID.check
+                    : indeterminate ?
+                        ICON_ID.minus
+                        : null;
+
     return <StyledLabel disabled={disabled} error={error}>
             <StyledCheckbox checked={checked} ref={checkboxRef} type="checkbox" disabled={disabled} id={id} name={name} value={value} error={error} onChange={onChange}/>
             {text}
             {
-                !indeterminate && checked && 
-                <Icon idSmall={IconSmallId.check} />
-            }
-            {
-                indeterminate && 
-                <Icon idSmall={IconSmallId.minus} />
+                iconId ?
+                <Icon id={iconId} size={ICON_SIZES.small} />
+                : null
             }
         </StyledLabel>
 }

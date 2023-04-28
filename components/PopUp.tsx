@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { PALETTE, SHADOW } from '../utils/Theme';
 
-import { IconMediumId } from './icons/';
+import { ICON_ID } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 
@@ -56,7 +56,7 @@ export default function PopUp({close, children} : I_PopUpProps){
     return <StyledPopUp ref={popUpRef} height={height}>
         
         <StyledCloseButtonContainer>
-            <Button circle label={"Close"} style={ButtonStyle.primary} onClick={close} icon = { {idMedium: IconMediumId.close} } />
+            <Button circle label={"Close"} style={ButtonStyle.primary} onClick={close} icon={ICON_ID.close} />
         </StyledCloseButtonContainer>
 
         {children}

@@ -57,32 +57,38 @@ const StyledErrorMessage = styled(StyledDescription)`
     color: ${PALETTE.red};
 `;
 
-interface I_InputContainerProps{
+export interface I_InputContainerProps{
     description? : string,
     disabled : boolean,
     errorMsg? : string,
-    isSuccess : boolean,
+    isSuccess? : boolean,
     readOnly : boolean,
     children : React.ReactNode
 }
 
-export default function InputContainer({description, disabled, errorMsg, isSuccess, readOnly, children} : I_InputContainerProps){
+export default function InputContainer({description, disabled, errorMsg, isSuccess, readOnly, children} 
+    : I_InputContainerProps )
+    {
+
+    isSuccess = isSuccess ?? false;
     const isError = errorMsg !== undefined;
     return <div>
         <StyledInputContainer disabled={disabled} isError={isError} isSuccess={!isError && isSuccess} readOnly={readOnly}>
             {children}
         </StyledInputContainer>
         {
-            description !== undefined &&
+            description !== undefined ?
                 <StyledDescription>
                     {description}
                 </StyledDescription>
+                : null
         }
         {
-            isError &&
+            isError ?
                 <StyledErrorMessage>
                     {errorMsg}
                 </StyledErrorMessage>
+                : null
         }
     </div> 
 }

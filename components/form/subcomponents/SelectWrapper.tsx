@@ -88,12 +88,15 @@ export interface I_SelectWrapperProps{
 type OptionsListInteractivity = {
     activeId : number | null,
     optionIdPrefix : string,
-    onOptionPick: (newInput : string) => void,
     selectedOptions : SelectOptionDataType[] | null,
+    onOptionPick: (newInput : string) => void,
 }
 
 export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
-    function SelectWrapper({disabled, hasSelection, inputHasFocus, options, optionsListId, optionsListInteractivity, optionsVisible, clearInput, toggleOptionVisibility, children} : I_SelectWrapperProps, containerRef){
+    function SelectWrapper({disabled, hasSelection, inputHasFocus, options, optionsListId, optionsListInteractivity, optionsVisible, clearInput, toggleOptionVisibility, children} 
+        : I_SelectWrapperProps, containerRef)
+        {
+
         const toggleIconId = optionsVisible ? ICON_ID.arrowUp : ICON_ID.arrowDown;
 
         return  <StyledInputAndOptionsContainer ref={containerRef}>
@@ -121,16 +124,19 @@ export const SelectWrapper = forwardRef<HTMLDivElement, I_SelectWrapperProps>(
                         </StyledSelectBar>
                     </StyledInputContainer>
 
-                {optionsVisible &&
+                { optionsVisible ?
                     <OptionsList id={optionsListId}  options={options}  optionsMenuActions={optionsListInteractivity} />
+                    : null
                 }
                 </StyledInputAndOptionsContainer>
     }
 );
 
-type OptionsListPropsType = Pick<I_SelectWrapperProps, "options"> & {
-    id: string,
-    optionsMenuActions: OptionsListInteractivity,
+type OptionsListPropsType = 
+    Pick<I_SelectWrapperProps, "options"> 
+    & {
+        id: string,
+        optionsMenuActions: OptionsListInteractivity,
 };
 
 function OptionsList({id, options, optionsMenuActions} : OptionsListPropsType){
@@ -152,12 +158,16 @@ function OptionsList({id, options, optionsMenuActions} : OptionsListPropsType){
 }
 
 
-export type multiSelectionProps = Pick<OptionsListInteractivity, "selectedOptions"> & {
-    addSelectedOption: (data : SelectOptionDataType | null) => void,
-    removeSelectedOptions: (data : SelectOptionDataType[] | null) => void,
+export type T_MultiSelectionProps = 
+    Pick<OptionsListInteractivity, "selectedOptions"> 
+    & {
+        addSelectedOption: (data : SelectOptionDataType | null) => void,
+        removeSelectedOptions: (data : SelectOptionDataType[] | null) => void,
 }
+export function getMultiSelectionFunctions({selectedOptions, removeSelectedOptions, addSelectedOption} 
+    : T_MultiSelectionProps )
+    {
 
-export function multiSelectionFunctions({selectedOptions, removeSelectedOptions, addSelectedOption} : multiSelectionProps){
     function clearInput(){
         if(selectedOptions && selectedOptions.length === 0){
             return;
@@ -185,12 +195,16 @@ export function multiSelectionFunctions({selectedOptions, removeSelectedOptions,
 }
 
 
-export type singleSelectionProps = {
+export type T_SingleSelectionProps = {
     setSelectedOption : (data : SelectOptionDataType | null) => void,
 }
-type singleSelectionFunctionsProps = Pick<OptionsListInteractivity, "selectedOptions"> 
-                                    & singleSelectionProps;
-export function singleSelectionFunctions({selectedOptions, setSelectedOption} : singleSelectionFunctionsProps){
+type T_SingleSelectionFunctionsProps = 
+    Pick<OptionsListInteractivity, "selectedOptions"> 
+    & T_SingleSelectionProps;
+export function getSingleSelectionFunctions({selectedOptions, setSelectedOption} 
+    : T_SingleSelectionFunctionsProps)
+    {
+
     function clearInput(){
         setSelectedOption(null);
     }

@@ -419,9 +419,6 @@ function getEdgeOffsetOffsetPx({wrapperPos}
 }
 
 
-// Responsive support: check if the tooltip fits on the screen
-
-
 export type T_TooltipPositionedProps = 
     Pick<I_TooltipBubbleProps, "id" | "text"> 
     & Pick<T_DOMElementSettings, "wrapperPos"> 

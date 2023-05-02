@@ -277,9 +277,12 @@ function getLoaderContentSettings({withLabel, withIcon}
     }
 }
 
+type T_WithIconOnlyFlag = {
+    hasIconOnlyFlag : boolean
+}
 
 function getIconSettings({argIcon, hasIconOnlyFlag} 
-    : Pick<I_ContentSettingsProps, "argIcon"> & { hasIconOnlyFlag : boolean }) 
+    : Pick<I_ContentSettingsProps, "argIcon"> & T_WithIconOnlyFlag) 
     : T_IconProps | null {
 
     let validIconProps : T_IconProps | null = null;
@@ -304,12 +307,8 @@ function getIconSettings({argIcon, hasIconOnlyFlag}
 }
 
 
-type ErrorStringProps = {
-    hasIconOnlyFlag : boolean,
-    label : string,
-}
 function getContentErrorString({hasIconOnlyFlag, label} 
-    : ErrorStringProps) 
+    : T_WithIconOnlyFlag & Pick<I_ContentSettings, "label">) 
     : string {
 
     let errMsg : string = "";
@@ -329,8 +328,10 @@ function getContentErrorString({hasIconOnlyFlag, label}
     return errMsg.trim();
 }
 
+type T_IconId = keyof typeof ICON_ID;
+
 type T_IconProps = {
-    id: keyof typeof ICON_ID,
+    id: T_IconId,
     size?: typeof ICON_SIZES[keyof typeof ICON_SIZES],
 }
 
@@ -338,7 +339,7 @@ interface I_ButtonProps{
     circle?: boolean,               /* true = Circle button (Note: automatically visually-hides the label. Circle-with-label is unavailable) */
     disabled?: boolean,
     hideLabelVisually? : boolean,   /* true = Icon button (Note: does nothing if circle === true. Circle-with-label is unavailable) */
-    icon?: keyof typeof ICON_ID | T_IconProps,
+    icon?: T_IconId | T_IconProps,
     label: string,                  /* Required because screenreaders need this even if the visual design doesn't */
     loader?: boolean,
     style?: ButtonStyle,
@@ -364,7 +365,7 @@ export default function Button({circle, disabled, hideLabelVisually, icon : argI
                                 widthOverride = { widthOverride }
                                 onClick = { onClick } >
                     { iconProps ?
-                        <Icon id={iconProps.id} size={iconProps?.size ?? ICON_SIZES.medium} />
+                        <Icon id={iconProps.id} size={iconProps.size ?? ICON_SIZES.medium} />
                         : null
                     }
                     { labelIsVisible ?

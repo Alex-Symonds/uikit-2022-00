@@ -5,7 +5,7 @@ import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 
-import { StyledLabel, InputContainer } from './subcomponents';
+import { StyledLabel, InputContainer, I_InputContainerProps } from './subcomponents';
 
 
 const StyledTextInput = styled.input.attrs({ type: "text" })`
@@ -70,20 +70,16 @@ const StyledIconContainer = styled.div`
     }
 `;
 
-interface I_InputProps{
-    description? : string,
-    disabled? : boolean,
-    errorMsg? : string,
+
+
+interface I_InputProps extends Partial<I_InputContainerProps>{
     id? : string,
-    isSuccess? : boolean,
     label : string,
     name : string,
     placeholder?: string,
-    readOnly? : boolean,
     value : string | null,
     handleChange: (e : React.ChangeEvent<HTMLInputElement>) => void
 }
-
 export default function InputText({description, disabled, errorMsg, isSuccess, name, placeholder, readOnly, value, id, label, handleChange} : I_InputProps){
     const autoidInput = React.useId();
     const autoidPlaceholder = React.useId();

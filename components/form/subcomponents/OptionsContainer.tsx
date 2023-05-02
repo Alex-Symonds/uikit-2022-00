@@ -28,17 +28,14 @@ const StyledOptionsContainer = styled.div`
     z-index: 3;
 `;
 
-interface I_OptionsList{
-    id: string,
-    role?: string,
-    children: React.ReactNode,  
-}
 
-interface I_OptionsListWrapper extends I_OptionsList{
+type T_SRMessage = {
     screenReaderMsg: string,
 }
+function ScreenReaderWrapper({id, role, screenReaderMsg, children} 
+    : T_SRMessage & Omit<I_OptionList, "loading" | "options">)
+    {
 
-function OptionsListWrapper({id, role, screenReaderMsg, children} : I_OptionsListWrapper){
     return  <StyledOptionsContainer id={id} role={role}>
                 <StyledScreenReaderOnly id={"searchAnnouncement"} aria-live="assertive">
                     {screenReaderMsg}
@@ -48,22 +45,23 @@ function OptionsListWrapper({id, role, screenReaderMsg, children} : I_OptionsLis
 }
 
 
-type OptionsListNoLoadingProps = I_OptionsList & {
-    options : any[] | null | undefined,
-};
-function OptionsListNoLoading({id, options, role, children} : OptionsListNoLoadingProps){
+function OptionsListNoLoading({id, options, role, children} 
+    : Omit<I_OptionList, "loading"> )
+    {
+
     const numOptions = getNumOptions(options);
     let screenReaderMsg : string = `${numOptions} options found. Use up and down arrows to review.`;
 
-    return  <OptionsListWrapper id={id} role={role} screenReaderMsg={screenReaderMsg}>
+    return  <ScreenReaderWrapper id={id} role={role} screenReaderMsg={screenReaderMsg}>
                 {children}
-            </OptionsListWrapper>
+            </ScreenReaderWrapper>
 }
 
-type OptionsListWithLoadingProps = OptionsListNoLoadingProps & {
-    loading: boolean
-};
-function OptionsListWithLoading({id, options, loading, role, children} : OptionsListWithLoadingProps){
+
+function OptionsListWithLoading({id, options, loading, role, children} 
+    : I_OptionList & Required<Pick<I_OptionList, "loading">> )
+    {
+
     let autoChildren : JSX.Element | null;
     let screenReaderMsg : string;
     const numOptions = getNumOptions(options);
@@ -81,13 +79,13 @@ function OptionsListWithLoading({id, options, loading, role, children} : Options
         screenReaderMsg = `${numOptions} results found. Use up and down arrows to review.`;
     }
 
-    return  <OptionsListWrapper id={id} role={role} screenReaderMsg={screenReaderMsg}>
+    return  <ScreenReaderWrapper id={id} role={role} screenReaderMsg={screenReaderMsg}>
                 {autoChildren}
                 {autoChildren === null ?
                     children
                     : null
                 }
-            </OptionsListWrapper>
+            </ScreenReaderWrapper>
 }
 
 function getNumOptions(options 
@@ -112,11 +110,19 @@ function NoOptions() : JSX.Element{
 }
 
 
-interface I_OptionsListDefault extends OptionsListNoLoadingProps{
-    loading? : boolean,
+interface I_OptionList{
+    id: string,
+    loading?: boolean,
+    options : any[] | null | undefined,
+    role?: string,
+    children: React.ReactNode,  
 }
 
-export default function OptionsList({id, options, loading, role, children} : I_OptionsListDefault) : JSX.Element{
+
+export default function OptionsList({id, options, loading, role, children} 
+    : I_OptionList ) 
+    : JSX.Element {
+
     if(loading !== undefined){
         return  <OptionsListWithLoading id={id} role={role} options={options} loading={loading}>
                     {children}

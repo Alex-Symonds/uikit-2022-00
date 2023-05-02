@@ -117,12 +117,12 @@ interface CheckboxProps{
     checked: boolean,
     disabled: boolean,
     error: boolean,
-    onChange: () => void,
     id: string,
     indeterminate: boolean,
     name: string,
     text: string,
-    value: string 
+    value: string,
+    onChange: () => void,
 }
 
 export default function Checkbox({checked, disabled, error, onChange, id, indeterminate, name, text, value} : CheckboxProps){

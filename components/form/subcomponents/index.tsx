@@ -1,4 +1,4 @@
-// export * from './InputOnlyContainer';
+export type { I_InputContainerProps } from './InputOnlyContainer';
 export { default as InputContainer } from './InputOnlyContainer';
 export * from './Option';
 export { default as Option } from './Option';

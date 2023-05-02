@@ -6,7 +6,7 @@ import useFocusMonitor from '../../utils/UseFocusMonitor';
 
 import useOptionsList from './utils/UseOptionsList';
 import { 
-        SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, singleSelectionFunctions, singleSelectionProps,
+        SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, getSingleSelectionFunctions, T_SingleSelectionProps,
         StyledLabel
         } from './subcomponents';
 
@@ -45,7 +45,7 @@ const StyledFloatingLabel = styled(StyledLabel)<{floatUp : boolean}>`
 `;
 
 
-type SelectTextProps =  singleSelectionProps &
+type SelectTextProps =  T_SingleSelectionProps &
                         Pick<I_SelectWrapperProps, "disabled" | "options"> &{
                         id?: string,
                         label: string,
@@ -56,7 +56,7 @@ type SelectTextProps =  singleSelectionProps &
 
 export default function SelectText({disabled, id, label, options, showOptions : optionsVisibleOnInit, placeholder, selectedOption, setSelectedOption} : SelectTextProps){
     const selectedOptions = selectedOption === null ? [] : [selectedOption];
-    const selectionKit = singleSelectionFunctions({selectedOptions, setSelectedOption});
+    const selectionKit = getSingleSelectionFunctions({selectedOptions, setSelectedOption});
     const monitorFocusKit = useFocusMonitor();
 
     const containerRef = React.useRef<HTMLDivElement>(null);

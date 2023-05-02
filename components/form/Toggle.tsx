@@ -147,7 +147,8 @@ export function ToggleWithHeadingAndDesc({ description, disabled, heading, isOn,
 
 
 export function Toggle({ disabled, idForInput, isOn, parentOnChange}
-    : T_ToggleSharedProps & T_ID){
+    : T_ToggleSharedProps & T_ID )
+    : JSX.Element {
 
     return  <label>
                 <ToggleInsides disabled={disabled} idForInput={idForInput} isOn={isOn} hasDesc={false} parentOnChange={parentOnChange} />
@@ -157,7 +158,7 @@ export function Toggle({ disabled, idForInput, isOn, parentOnChange}
 
 function ToggleInsides({ disabled, idForInput, isOn, hasDesc, parentOnChange} 
     : { hasDesc : boolean } & T_ID & T_ToggleSharedProps)
-    {
+    : JSX.Element {
 
     return  <>
                 <StyledScreenReaderOnly as="input" type="checkbox" checked={isOn} disabled={disabled} id={idForInput} onChange={parentOnChange} />

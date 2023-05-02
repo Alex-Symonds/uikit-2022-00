@@ -12,7 +12,7 @@ import useTagOverflowCheck, { StyledTagsContainer as StyledTagsContainer_Base} f
 import useOptionsList from './utils/UseOptionsList';
 
 import { 
-        SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, multiSelectionFunctions, multiSelectionProps,
+        SelectWrapper, I_SelectWrapperProps, SelectOptionDataType, getMultiSelectionFunctions, T_MultiSelectionProps,
         StyledLabel 
         } from './subcomponents/';
 
@@ -56,7 +56,7 @@ const StyledTagSelect = styled.div`
     width: 100%;
 `;
 
-type SelectTagsProps =  multiSelectionProps &
+type SelectTagsProps =  T_MultiSelectionProps &
                         Pick<I_SelectWrapperProps, "disabled" | "options" > & {
                             id?: string,
                             label: string,
@@ -64,7 +64,7 @@ type SelectTagsProps =  multiSelectionProps &
 };
 
 export default function SelectTags({disabled, id, label, options, selectedOptions, addSelectedOption, removeSelectedOptions, showOptions : optionsVisibleOnInit} : SelectTagsProps){
-    const selectionKit = multiSelectionFunctions({selectedOptions, addSelectedOption, removeSelectedOptions});
+    const selectionKit = getMultiSelectionFunctions({selectedOptions, addSelectedOption, removeSelectedOptions});
     const monitorFocusKit = useFocusMonitor();
     
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -137,16 +137,20 @@ export default function SelectTags({disabled, id, label, options, selectedOption
             </SelectWrapper>
 }
 
-type SelectedTagsContainerProps = {
-    disabled : boolean,
-    selectedOptions : SelectOptionDataType[],
-    onOptionDelete : (data : SelectOptionDataType) => void,
-}
 
+type SelectedTagsContainerProps = 
+    Required<Pick<SelectTagsProps, "disabled" | "selectedOptions">>
+    & {
+        onOptionDelete : (data : SelectOptionDataType) => void,
+};
 function SelectedTagsContainer({selectedOptions, disabled, onOptionDelete} : SelectedTagsContainerProps){
     const ref = React.useRef(null);
     const isOverflowing = useTagOverflowCheck({tags: selectedOptions, ref});
     const TAG_CONTAINER_MAX_WIDTH = `calc(100% - 0.75rem)`;
+
+    if(selectedOptions === null){
+        return null;
+    }
 
     return  <StyledTagsContainer    ref={ref}
                                     isOverflowing={isOverflowing}

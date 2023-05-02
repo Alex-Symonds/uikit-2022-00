@@ -6,7 +6,7 @@ import { TYPOGRAPHY } from '../../utils/Theme';
 import { visuallyHidden } from '../visuallyHidden';
 import Tag, { TagColor, TagSize } from '../Tag';
 
-import { StyledLabel, InputContainer } from './subcomponents/';
+import { StyledLabel, InputContainer, I_InputContainerProps } from './subcomponents/';
 import useTagOverflowCheck, { StyledTagsContainer } from './utils/UseTagOverflowCheck';
 
 const INPUT_MIN_WIDTH = "3rem";
@@ -56,42 +56,44 @@ const StyledTagLabel = styled(StyledLabel)<{hide : boolean}>`
     }}
 `;
 
-interface I_InputTagsProps{
-    description : string,
-    disabled : boolean,
-    errorMsg? : string,
-    label? : string,
-    readOnly: boolean,
-    tags: string[],
-    value: string,
-    removeTag?: (tagText : string) => void,
-    handleChange?: (value : string) => void
-}
 
-export default function InputTags({description, disabled, errorMsg, label, readOnly, tags, value, removeTag, handleChange} : I_InputTagsProps){
+type T_InputTagsProps = 
+    Omit<I_InputContainerProps, "children">
+    & Required<Pick<I_InputContainerProps, "description">>
+    & {
+        label? : string,
+        tags: string[],
+        value: string,
+        handleChange?: (value : string) => void,
+        removeTag?: (tagText : string) => void,
+};
+export default function InputTags({description, disabled, errorMsg, label, readOnly, tags, value, removeTag, handleChange} 
+    : T_InputTagsProps )
+    {
+
     const hasExistingTags = tags !== undefined && tags.length !== 0;
 
-    return  <InputContainer description={description} disabled={disabled} errorMsg={errorMsg} isSuccess={false} readOnly={readOnly}> 
+    return  <InputContainer description={description} disabled={disabled} errorMsg={errorMsg} readOnly={readOnly}> 
                 <StyledLayout>
                     {   
-                        hasExistingTags ? 
+                    hasExistingTags ? 
                         <TagContainer disabled={disabled} readOnly={readOnly} tags={tags} removeTag={removeTag} />
                         : null
                     }
-                    {   !readOnly ?
+                    {   
                         <TagInput disabled={disabled} readOnly={readOnly} label={label} value={value} handleChange={handleChange} hasExistingTags={hasExistingTags}/>
-                        : null
                     }
                 </StyledLayout>
             </InputContainer>
 }
 
 
-type TagContainerProps = Pick<I_InputTagsProps, "disabled" | "readOnly" | "tags" | "removeTag" > &{
-    className? : string,
-    maxWidth? : string,
-}
-
+type TagContainerProps = 
+    Pick<T_InputTagsProps, "disabled" | "readOnly" | "tags" | "removeTag" > 
+    & {
+        className? : string,
+        maxWidth? : string,
+};
 function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth} : TagContainerProps){
     const ref = React.useRef(null);
     const isOverflowing = useTagOverflowCheck({tags, ref});
@@ -118,10 +120,11 @@ function TagContainer({className, disabled, readOnly, tags, removeTag, maxWidth}
 }
 
 
-type TagInputProps = Pick<I_InputTagsProps, "disabled" | "label" | "readOnly" | "value" | "handleChange"> & { 
-    hasExistingTags: boolean 
+type TagInputProps = 
+    Pick<T_InputTagsProps, "disabled" | "label" | "readOnly" | "value" | "handleChange"> 
+    & { 
+        hasExistingTags: boolean 
 };
-
 function TagInput({disabled, label, value, readOnly, handleChange, hasExistingTags} : TagInputProps){
     const labelText = label ?? "Enter tags";
 

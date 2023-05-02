@@ -168,7 +168,10 @@ const enum DisplayState{
     finished = "finished"
 }
 
-export default function Files({avatar, errorMsg, fileInfo, progress, handleFiles} : I_FileUploaderProps){
+export default function Files({avatar, errorMsg, fileInfo, progress, handleFiles} 
+    : I_FileUploaderProps)
+    {
+
     /*
         The drag-and-drop functionality involves DefaultContent having the "detect drag start" function,
         while DropZone has the "detect drag end" functions.
@@ -311,12 +314,14 @@ function DefaultContent({avatar, errorMsg, progress, handleFilePicker, setDrag, 
 
                 <StyledIconContainer>
                     {
-                        showPercentage &&
+                    showPercentage ?
                         <ProgressPercentage progress={ progress }/>
+                        : null
                     }
                     {
-                        !showPercentage && avatar !== undefined &&
+                    !showPercentage && avatar !== undefined ?
                         <Avatar emoji={avatar}/>
+                        : null
                     }
                 </StyledIconContainer>
 
@@ -355,7 +360,7 @@ export function DropZone({dropzoneHeightInPx, setDrag, handleDrop} : DropZonePro
     }
 
     return  <StyledLayoutActiveDrag     dropzoneHeightInPx={dropzoneHeightInPx}
-                                        onDrop={ dropped } 
+                                        onDrop={ e => dropped(e) } 
                                         onDragOver={e => enableDropping(e)} 
                                         onDragLeave={e => dragEnds(e)} >
                 <Icon id={ICON_ID.file} size={ICON_SIZES.medium} />
@@ -400,15 +405,17 @@ function Finished({fileInfo} : Pick<I_FileUploaderProps, "fileInfo">){
 
                 <StyledDivHeading>
                     { fileInfo !== undefined ? fileInfo.name : "File uploaded successfully" } 
-                    { fileInfo !== undefined && fileInfo?.size !== "" &&
+                    { fileInfo !== undefined && fileInfo?.size !== "" ?
                             <StyledSpanFileSize>{fileInfo.size}</StyledSpanFileSize>
+                            : null
                     }
                 </StyledDivHeading>
 
-                { fileInfo !== undefined &&
+                { fileInfo !== undefined ?
                     <StyledDeleteButton onClick = {fileInfo.handleDelete}>
                         Delete file
                     </StyledDeleteButton>
+                    : null
                 }
 
                 <StyledIconContainer>

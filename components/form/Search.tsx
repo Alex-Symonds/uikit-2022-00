@@ -6,7 +6,7 @@ import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
-import { selectMenuKeyDown, selectMenuKeydownProps } from './utils/UseOptionsList';
+import { selectMenuKeyDown, T_SelectMenuKeydownProps } from './utils/UseOptionsList';
 
 import {    
         StyledInputAndOptionsContainer, StyledInputContainer, StyledClearButton,
@@ -77,11 +77,11 @@ const StyledSearchLabel = styled.label<{isEmpty : boolean}>`
 
 interface I_SearchProps{
     disabled? : boolean,
-    showOptions? : boolean,                      /* Override results display to force it on/off on load */
-    handleSubmit: (newInput? : string) => void,
     initialValue? : string,
     loading : boolean,
     options? : SearchResultData[] | null,
+    showOptions? : boolean,                      /* Override results display to force it on/off on load */
+    handleSubmit: (newInput? : string) => void,
     updateOptions: (data : SearchResultData) => void,
 }
 
@@ -123,7 +123,7 @@ function useResultsList({options, showOptions : showOptionsOnLoad, onOptionPick 
     }
 
     function onKeyDown(e : React.KeyboardEvent<HTMLInputElement>){
-        const props : selectMenuKeydownProps = {
+        const props : T_SelectMenuKeydownProps = {
             e,
             activeId: activeId,
             options: options !== null && options !== undefined ? options : [],
@@ -156,8 +156,8 @@ function useResultsList({options, showOptions : showOptionsOnLoad, onOptionPick 
     }
 }
 
-type UseInputKitProps = Pick<I_SearchProps, "initialValue" | "handleSubmit" | "updateOptions">;
-function useInputKit({initialValue, handleSubmit, updateOptions} : UseInputKitProps){
+type T_UseInputKitProps = Pick<I_SearchProps, "initialValue" | "handleSubmit" | "updateOptions">;
+function useInputKit({initialValue, handleSubmit, updateOptions} : T_UseInputKitProps){
     const [input, setInput] = React.useState<string | null>(initialValue ?? null);
 
     function onChange(e : React.ChangeEvent<HTMLInputElement>){

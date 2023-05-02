@@ -5,15 +5,18 @@ import useCloseOnOutsideClick from '../../../utils/UseCloseOnOutsideClick';
 import { SelectOptionDataType, I_SelectWrapperProps } from '../';
 
 interface I_useOptionsList{
-    onOptionPick : (option: SelectOptionDataType) => void, 
-    ref : React.MutableRefObject<any>, 
     id : string | null, 
     options: SelectOptionDataType[],  
-    selectedOptions : SelectOptionDataType[] | null, 
     optionsVisibleOnInit : boolean,
+    selectedOptions : SelectOptionDataType[] | null, 
+    onOptionPick : (option: SelectOptionDataType) => void, 
+    ref : React.MutableRefObject<any>,    
 }
 
-export default function useOptionsList({onOptionPick, ref, id, options, selectedOptions, optionsVisibleOnInit} : I_useOptionsList){
+export default function useOptionsList({onOptionPick, ref, id, options, selectedOptions, optionsVisibleOnInit} 
+    : I_useOptionsList )
+    {
+
     const [optionsVisible, setOptionsVisible] = React.useState<boolean>(optionsVisibleOnInit ?? false);
     const [activeId, setActiveId] = React.useState<number | null>(null);
 
@@ -58,7 +61,7 @@ export default function useOptionsList({onOptionPick, ref, id, options, selected
     }
 
     function onKeyDown(e : React.KeyboardEvent<HTMLDivElement>){
-        const props : selectMenuKeydownProps = {
+        const props : T_SelectMenuKeydownProps = {
             e,
             optionsVisible,
             closeOptionsList,
@@ -89,17 +92,19 @@ export default function useOptionsList({onOptionPick, ref, id, options, selected
     }
 }
 
-export type selectMenuKeydownProps = Pick<I_SelectWrapperProps, "options"> & {
-    e : React.KeyboardEvent<HTMLDivElement>,
-    activeId : number | null,
-    optionsVisible : boolean,
-    closeOptionsList : () => void,
-    onOptionPick: (str : string) => void,
-    openOptionsList : () => void,
-    setActiveId : (value : React.SetStateAction<number | null>) => void,
+export type T_SelectMenuKeydownProps = 
+    Pick<I_SelectWrapperProps, "options"> 
+    & {
+        e : React.KeyboardEvent<HTMLDivElement>,
+        activeId : number | null,
+        optionsVisible : boolean,
+        closeOptionsList : () => void,
+        onOptionPick: (str : string) => void,
+        openOptionsList : () => void,
+        setActiveId : (value : React.SetStateAction<number | null>) => void,
 }
 export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOptionsList, onOptionPick, openOptionsList, setActiveId} 
-    : selectMenuKeydownProps
+    : T_SelectMenuKeydownProps
     ){
 
     if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
@@ -126,14 +131,9 @@ export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOp
     }
 }
 
-type MoveWithMenuPropsType = {
-    e: React.KeyboardEvent, 
-    options : any[] | null | undefined, 
-    activeId : number | null, 
-    setActiveId : (value: React.SetStateAction<number | null>) => void
-}
+
 function moveWithinMenu({e, options, activeId, setActiveId} 
-    : MoveWithMenuPropsType
+    : Pick<T_SelectMenuKeydownProps, "e" | "activeId" | "options" | "setActiveId">
     ){
 
     if(options === null || options === undefined){

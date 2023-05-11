@@ -19,7 +19,6 @@
 import React, {forwardRef} from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, } from '../../../utils/Theme';
 import customCursorImg from '../../../public/cursorHand.svg';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../../icons/';
@@ -59,9 +58,9 @@ const StyledToggleButton = styled.button<{isActive : boolean}>`
     grid-area: toggleIcon;
 
     svg {
-        opacity: ${ props => props.isActive ? "100%" : "48%" };
+        opacity: ${ props => props.isActive ? "100%" : props.theme.opacity.subtleMainText };
         path{
-            fill: ${ PALETTE.black };
+            fill: ${ ({theme}) => theme.color.mainText };
         }
     }
 

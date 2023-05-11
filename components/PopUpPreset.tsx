@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY, } from '../utils/Theme';
-
+import { addOpacityToColor } from '../utils/utils';
+import { theme as themeObj } from '../styles/theme';
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
@@ -28,26 +28,26 @@ type ButtonProps = {
 }
 
 type PresetThemeType = {
-    background: PALETTE,
-    colour: PALETTE,
+    background: string,
+    colour: string,
     iconId: keyof typeof ICON_ID,
 }
 
 const successTheme : PresetThemeType = {
-    background: PALETTE.greenPale,
-    colour: PALETTE.green,
+    background: themeObj.color.successBackground,
+    colour: themeObj.color.success,
     iconId: ICON_ID.check,
 }
 
 const errorTheme : PresetThemeType = {
-    background: PALETTE.red_fadedBackground,
-    colour: PALETTE.redSuper,
+    background: addOpacityToColor(themeObj.color.error, themeObj.opacity.translucentBackground),
+    colour: themeObj.color.errorEmphasis,
     iconId: ICON_ID.false,
 }
 
 const attentionTheme : PresetThemeType = {
-    background: PALETTE.star_fadedBackground,
-    colour: PALETTE.star,
+    background: addOpacityToColor(themeObj.color.attention, themeObj.opacity.translucentBackground),
+    colour: themeObj.color.attention,
     iconId: ICON_ID.attention,
 }
 
@@ -81,13 +81,13 @@ const StyledLayout = styled.div`
 `;  
 
 const StyledHeading = styled.h4`
-    ${TYPOGRAPHY.h4}
+    ${ ({theme}) => theme.typography.h4 }
     padding-top: .8rem;
     text-align: center;
 `;
 
 const StyledDescription = styled.p`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
 `;
 
 const StyledButtonContainer = styled.div`
@@ -96,14 +96,18 @@ const StyledButtonContainer = styled.div`
     padding-top: 1rem;
 `;
 
+const StyledCircleAroundIcon = styled(CircleAroundIcon)<{bg : string}>`
+    background: ${ props => props.bg }
+`;
+
 export default function PopUpPreset({description, heading, mode: type, buttonPrimary, buttonSecondary} : PopUpPresetProps){
     const theme = getTheme(type);
 
     return <ThemeProvider theme={theme}>
         <StyledLayout>
-            <CircleAroundIcon colour={theme.background} size={"6rem"}>
+            <StyledCircleAroundIcon bg={theme.background} size={"6rem"}>
                 <Icon id={theme.iconId} size={ICON_SIZES.extraLarge} />
-            </CircleAroundIcon>
+            </StyledCircleAroundIcon>
             <StyledHeading>
                 {heading}
             </StyledHeading>

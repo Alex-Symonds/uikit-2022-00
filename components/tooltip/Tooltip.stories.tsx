@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+// import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
+
+
+import { theme as themeObj } from '../../styles/theme';
 
 import TooltipWrapper from './Tooltip';
 import { TOOLTIP_MODE, POINTS_TO } from './TooltipPositioned';
@@ -28,12 +31,12 @@ const StyledBox = styled.div`
     justify-content: center;
     width: 10rem;
     height: 4rem;
-    background: ${PALETTE.primary};
+    background: ${ themeObj.color.primary };
     padding: 1rem;
   
     span{
-        ${TYPOGRAPHY.p2}
-        color: ${PALETTE.white};
+        ${ themeObj.typography.p2 }
+        color: ${ themeObj.color.textOnPrimary };
         text-align: center;
     }
 `;
@@ -159,12 +162,12 @@ const StyledFillerBox = styled.div.attrs<
     justify-content: center;
     min-width: calc(100vw - ${STORYBOOK_PADDING} - ${props => props.tooltipSpaceX ? `${props.tooltipSpaceX}rem` : "0px"});
     min-height: calc(100vh - ${STORYBOOK_PADDING} - ${props => props.tooltipSpaceY ? `${props.tooltipSpaceY}rem` : "0px"});
-    background: ${PALETTE.primary};
+    background: ${ themeObj.color.primary };
     padding: 1rem;
   
     span{
-        ${TYPOGRAPHY.p2}
-        color: ${PALETTE.white};
+        ${ themeObj.typography.p2}
+        color: ${ themeObj.color.textOnPrimary };
         text-align: center;
     }
 `;

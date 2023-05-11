@@ -1,7 +1,9 @@
 import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
 
-import { LAYOUT, PALETTE, SHADOW } from '../../utils/Theme';
+// import { LAYOUT, PALETTE, SHADOW } from '../../utils/Theme';
+
+import { theme as themeObj } from '../../styles/theme';
 
 import Paragraph from '../Paragraph';
 
@@ -84,7 +86,7 @@ const ARROW_DOWN_SHADOW = "4px 4px 4px 0 rgb(51 51 51 / 4%), 0 4px 16px 0 rgb(51
 type TooltipArrowThemeProps = {
     pos : ArrowPositionProps,   /* Set of x,y positioning values for the elements needed to make the arrow effect */
     rotation : string,          /* rotation for the direction of the arrow. 0 = up */
-    shadow : string,            /* Shadow for the arrow shadow element */
+    mainShadow : string,            /* Shadow for the arrow shadow element */
     xKey : string,              /* left||right key for X coords */
     yKey : string,              /* top||bottom key for Y coords */
 }
@@ -92,7 +94,7 @@ type TooltipArrowThemeProps = {
 const bottomLeftTheme : TooltipArrowThemeProps = {
     pos : ARROW_POSITIONS_BY_DIRECTION.upOrDown,
     rotation: "180",
-    shadow : ARROW_DOWN_SHADOW,
+    mainShadow : ARROW_DOWN_SHADOW,
     xKey: "left",
     yKey: "bottom",
 }
@@ -100,7 +102,7 @@ const bottomLeftTheme : TooltipArrowThemeProps = {
 const bottomRightTheme : TooltipArrowThemeProps = {
     pos : ARROW_POSITIONS_BY_DIRECTION.upOrDown,
     rotation: "180",
-    shadow: ARROW_DOWN_SHADOW,
+    mainShadow: ARROW_DOWN_SHADOW,
     xKey: "right",
     yKey: "bottom",
 }
@@ -108,7 +110,7 @@ const bottomRightTheme : TooltipArrowThemeProps = {
 const leftTheme : TooltipArrowThemeProps = {
     pos : ARROW_POSITIONS_BY_DIRECTION.leftOrRight,
     rotation: "-90",
-    shadow : SHADOW.default,
+    mainShadow : themeObj.shadow.default,
     xKey: "left",
     yKey: "top",
 }
@@ -116,7 +118,7 @@ const leftTheme : TooltipArrowThemeProps = {
 const topLeftTheme : TooltipArrowThemeProps = {
     pos : ARROW_POSITIONS_BY_DIRECTION.upOrDown,
     rotation: "0",
-    shadow : SHADOW.default,
+    mainShadow : themeObj.shadow.default,
     xKey: "left",
     yKey: "top",
 }
@@ -124,7 +126,7 @@ const topLeftTheme : TooltipArrowThemeProps = {
 const topRightTheme : TooltipArrowThemeProps = {
     pos : ARROW_POSITIONS_BY_DIRECTION.upOrDown,
     rotation: "0",
-    shadow : SHADOW.default,
+    mainShadow : themeObj.shadow.default,
     xKey: "right",
     yKey: "top",
 }
@@ -132,7 +134,7 @@ const topRightTheme : TooltipArrowThemeProps = {
 const rightTheme : TooltipArrowThemeProps = {
     pos : ARROW_POSITIONS_BY_DIRECTION.leftOrRight,
     rotation: "90",
-    shadow : SHADOW.default,
+    mainShadow : themeObj.shadow.default,
     xKey: "right",
     yKey: "top",
 }
@@ -164,23 +166,23 @@ function getTooltipTheme(arrowPos? : TOOLTIP_ARROW_POSITION) : TooltipArrowTheme
 
 // Used to ensure the background and border colours on the arrow match those on the rectangle
 type TooltipAttrsProps = {
-    backgroundColor : PALETTE,
-    borderColor : PALETTE,
+    backgroundColor : keyof typeof themeObj,
+    borderColor : keyof typeof themeObj,
 }
 
 const StyledTooltipBase = styled.div.attrs<
     ThemeProps<TooltipArrowThemeProps>, 
     TooltipAttrsProps
-    >(() => {
+    >(props => {
         return {
-            backgroundColor: PALETTE.white,
-            borderColor: PALETTE.grayL,
+            backgroundColor: props.theme.color.mainBackground,
+            borderColor: props.theme.color.mainBackgroundBorder,
         }
 })`
     background: ${props => props.backgroundColor};
     border: 0.0625rem solid ${props => props.borderColor};
-    border-radius: ${LAYOUT.borderRadius};
-    box-shadow: ${SHADOW.default};
+    border-radius: ${ ({theme}) => theme.borderRadius };
+    box-shadow: ${ ({theme}) => theme.shadow.default };
     max-width: min(calc(100vw - 1rem), 100%);
     padding: 0.6875rem 1rem 0.6875rem 0.9375rem;
     width: fit-content;
@@ -247,6 +249,10 @@ const StyledArrowShadow = styled.div`
     ${props => props.theme.yKey}: ${props => props.theme.pos.y.shadow};
 `;
 
+const StyledTooltipParagraph = styled(Paragraph)`
+    color: ${ ({theme}) => theme.color.mainText };
+`;
+
 function getCssForFullscreenTop({wrapperPos, height} : {wrapperPos : T_PositionObj | undefined, height : number | undefined}){
     if(wrapperPos && height){
         const padding = 8;
@@ -295,7 +301,7 @@ export default function TooltipBubble({arrowPos, fullscreenMode, id, text, wrapp
 }
 
 function TooltipContents({text} : Pick<I_TooltipBubbleProps, "text">){
-    return  <Paragraph size={3} colour={PALETTE.black}>
+    return  <StyledTooltipParagraph size={3}>
                 {text}
-            </Paragraph>
+            </StyledTooltipParagraph>
 }

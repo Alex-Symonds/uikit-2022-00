@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { LAYOUT } from '../utils/Theme';
 
 const StyledGridWrapper = styled.div<{leftAlign : boolean}>`
     display: flex;
@@ -10,7 +9,7 @@ const StyledGridWrapper = styled.div<{leftAlign : boolean}>`
     ${ props => {
         if(props.leftAlign){
             return css`
-                @media screen and (min-width: ${LAYOUT.breakpointXL}){
+                @media screen and (min-width: ${ props.theme.breakpoint.XL }){
                     justify-content: left;
                 }
             `;
@@ -28,17 +27,17 @@ const StyledGrid = styled.div`
     --g: 32px;
     --num: 2;
     
-    @media screen and (min-width: ${LAYOUT.breakpointM}){
+    @media screen and (min-width: ${ ({theme}) => theme.breakpoint.M }){
         --num: 6;
         --cw: 88px;
     }
 
-    @media screen and (min-width: ${LAYOUT.breakpointL}){
+    @media screen and (min-width: ${ ({theme}) => theme.breakpoint.L }){
         --num: 12;
         --cw: 50px;
     }
 
-    @media screen and (min-width: ${LAYOUT.breakpointXL}){
+    @media screen and (min-width: ${ ({theme}) => theme.breakpoint.XL }){
         --num: 12;
         --cw: 76px;
     }

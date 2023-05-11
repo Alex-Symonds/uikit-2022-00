@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, SHADOW } from '../utils/Theme';
-
 import { ICON_ID } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
@@ -13,9 +11,9 @@ const StyledPopUp = styled.section.attrs(() => ({
     marginSpace: "0.25rem",
 }))<{height : string}>`
 
-    background: ${PALETTE.white};
+    background: ${ ({theme}) => theme.color.mainBackground };
     border-radius: 0.5rem;
-    box-shadow: ${SHADOW.default};
+    box-shadow: ${ ({theme}) => theme.shadow.default};
     left: ${props => props.marginSpace};
     max-width: calc(100% - 2 * ${props => props.marginSpace});
     padding: 1.8125rem 1rem;
@@ -28,14 +26,10 @@ const StyledPopUp = styled.section.attrs(() => ({
     }
 `;
 
-const StyledCloseButtonContainer = styled.div`
+const StyledButtonContainer = styled.div`
     position: absolute;
     right: 0.75rem;
-    top: 0.75rem;
-    
-    svg path{
-        fill: ${PALETTE.white};
-    }
+    top: 0.75rem;  
 `;
 
 interface I_PopUpProps{
@@ -54,11 +48,9 @@ export default function PopUp({close, children} : I_PopUpProps){
     }, [popUpRef]);
 
     return <StyledPopUp ref={popUpRef} height={height}>
-        
-        <StyledCloseButtonContainer>
+        <StyledButtonContainer>
             <Button circle label={"Close"} style={ButtonStyle.primary} onClick={close} icon={ICON_ID.close} />
-        </StyledCloseButtonContainer>
-
+        </StyledButtonContainer>
         {children}
     </StyledPopUp>
 }

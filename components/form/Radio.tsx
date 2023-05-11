@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
 import { visuallyHidden } from '../visuallyHidden';
 
 const VisuallyHiddenRadio = styled.input.attrs({type: "radio"})`
@@ -13,12 +12,12 @@ const StyledRadio = styled.span<Pick<I_Radio, "checked" | "disabled">>`
 
     align-items: center;
     aspect-ratio: 1/1;
-    background: ${props => props.checked ? PALETTE.primary : PALETTE.disabled};
+    background: ${ props => props.checked ? props.theme.color.primary : props.theme.color.primaryPale };
     border: none;
     border-radius: var(--radioWidth);
     display: flex;
     justify-content: center;
-    opacity: ${props => props.disabled ? "56%" : "100%"};
+    opacity: ${props => props.disabled ? props.theme.opacity.alphaStronger : "100%"};
     width: var(--radioWidth);
 
     ${props => {
@@ -27,7 +26,7 @@ const StyledRadio = styled.span<Pick<I_Radio, "checked" | "disabled">>`
         }
         return css`
             &:hover{
-                background: ${props.checked ? PALETTE.hover : PALETTE.primary};
+                background: ${props.checked ? props.theme.color.primaryHover : props.theme.color.primary};
                 opacity: ${props.checked ? "100%" : "50%"};
             }
         `;
@@ -40,7 +39,7 @@ const StyledRadio = styled.span<Pick<I_Radio, "checked" | "disabled">>`
 
                 &::before{
                     aspect-ratio: 1/1;
-                    background: ${PALETTE.white};
+                    background: ${ ({theme}) => theme.color.white};
                     border: none;
                     border-radius: var(--fillerWidth);
                     content: '';
@@ -54,21 +53,21 @@ const StyledRadio = styled.span<Pick<I_Radio, "checked" | "disabled">>`
 `;
 
 const StyledLabel = styled.label<Pick<I_Radio, "disabled">>`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
 
-    color: ${ PALETTE.black };
+    color: ${ ({theme}) => theme.color.mainText };
     display: flex;
     gap: 0.75rem;
-    opacity: ${ props => props.disabled ? "48%" : "100%" };
+    opacity: ${ props => props.disabled ? props.theme.opacity.alphaStrong : "100%" };
 
     &:focus{
         ${StyledRadio}::after{
             aspect-ratio: 1/1;
-            border: 2px solid ${PALETTE.black};
+            border: 2px solid ${ ({theme}) => theme.color.focusOutline };
             border-radius: var(--radioWidth);
             content: '';
             display: block;
-            opacity: 48%;
+            opacity: ${ ({theme}) => theme.opacity.focusOutline };
             position: absolute;
             pointer-events: none;
             width: var(--radioWidth);

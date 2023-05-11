@@ -2,8 +2,6 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
-import { TYPOGRAPHY } from '../utils/Theme';
-
 import { InputText as TextInput } from './form/';
 
 import PopUp from './PopUp';
@@ -48,11 +46,11 @@ const StyledExampleLayout = styled.div`
     gap: 0.5rem;
 
     h4{
-        ${TYPOGRAPHY.h4}
+        ${ ({theme}) => theme.typography.h4 }
     }
 
     p{
-        ${TYPOGRAPHY.p2}
+        ${ ({theme}) => theme.typography.p2 }
     }
 `;
 

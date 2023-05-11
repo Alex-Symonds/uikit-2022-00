@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
 import useFocusMonitor from '../../utils/UseFocusMonitor';
 
 import useOptionsList from './utils/UseOptionsList';
@@ -11,9 +10,9 @@ import {
         } from './subcomponents';
 
 const StyledSelectedInput = styled.div`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     background: transparent;
-    color: ${PALETTE.black};
+    color: ${ ({theme}) => theme.color.mainText };
     grid-area: selection;
     outline: none;
     overflow: hidden;
@@ -35,7 +34,7 @@ const StyledFloatingLabel = styled(StyledLabel)<{floatUp : boolean}>`
     ${props => {
         if(props.floatUp){
             return css`
-                ${TYPOGRAPHY.p3}
+                ${ ({theme}) => theme.typography.p3 }
                 left: 1rem;
                 opacity: 1;
                 top: 0.375rem;

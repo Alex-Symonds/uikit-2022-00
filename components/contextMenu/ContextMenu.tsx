@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
-import {SHADOW, PALETTE, LAYOUT} from '../../utils/Theme';
 import useCloseOnOutsideClick from '../../utils/UseCloseOnOutsideClick';
 
 // Exported for use in ContextMenu-related Stories so those stories can display the appearance
 // of the context menu without messing about with the right-clicking behaviour
 export const StyledContextMenu = styled.div<{x : number, y: number}>`
-    background: ${PALETTE.white};
-    border-radius: ${LAYOUT.borderRadius};
-    box-shadow: ${ SHADOW.contextMenu };
+    background: ${ ({theme}) => theme.color.mainBackground };
+    border-radius: ${ ({theme}) => theme.borderRadius };
+    box-shadow: ${ ({theme}) => theme.shadow.contextMenu };
     left: ${props => props.x}px;
     max-width: 100vw;
     overflow: hidden;

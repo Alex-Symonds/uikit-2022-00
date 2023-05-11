@@ -10,8 +10,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TYPOGRAPHY, PALETTE } from '../../utils/Theme';
-
 import { StyledOptionWithCheck } from '../form/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
@@ -21,8 +19,8 @@ const StyledFieldSet = styled.fieldset`
 `;
 
 const StyledLegend = styled.legend`
-    ${ TYPOGRAPHY.p3Bold }
-    background: ${PALETTE.grayM};
+    ${ ({theme}) => theme.typography.p3Bold }
+    background: ${({theme}) => theme.color.grayM};
     padding: 0.6rem 0.75rem 0.65rem 1rem;
     width: 100%;
 `;

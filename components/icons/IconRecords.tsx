@@ -84,7 +84,7 @@ export const ICON_ID = {
     volumeOn: "volumeOn",
     web: "web",
     whatsapp: "whatsapp",
-    } as const;
+} as const;
     
 
 export type T_IconSVGComponent = (size : string) => JSX.Element;

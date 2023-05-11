@@ -2,7 +2,6 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled from 'styled-components';
 
-import { TYPOGRAPHY } from '../../utils/Theme';
 import { COUNTRY_RADIO_DATA, COUNTRY_CHECKBOX_DATA, TIMEUNIT_CHECKBOX_DATA, TIMEUNIT_RADIO_DATA } from '../../utils/storyData';
 
 import { onChangeRadio, RadioOptionDataType, onChangeCheckbox, CheckboxOptionDataType } from '../form/';
@@ -19,7 +18,7 @@ export default {
 // Wrapper for the "RightClickToView" story
 const PARENT_COLOUR = "yellow"; // This is also inserted in the middle of a human-readable sentence, so maybe avoid hex/RGB etc.
 const StyledContainer = styled.div`
-    ${TYPOGRAPHY.p2}
+    ${({theme}) => theme.typography.p2}
     width: 50vw;
     height: 10vh;
     background: ${PARENT_COLOUR};

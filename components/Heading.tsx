@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TYPOGRAPHY } from '../utils/Theme';
-
 const StyledH = styled.div<{level : number}>`
     ${
         (props) => {
             const key = `h${props.level}`;
-            return TYPOGRAPHY[key as keyof typeof TYPOGRAPHY];
+            return props.theme.typography[key as keyof typeof props.theme.typography];
         }
     }
 `;

@@ -8,16 +8,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
 import { StyledScreenReaderOnly } from '../../visuallyHidden';
 
 import { StyledOptionLoading, StyledOptionNone } from './Option';
 
 const StyledOptionsContainer = styled.div`
     align-items: stretch;
-    background: ${PALETTE.white};
-    border-radius: ${LAYOUT.borderRadius};
-    box-shadow: ${SHADOW.contextMenu};
+    background: ${ ({theme}) => theme.color.mainBackground };
+    border-radius: ${ ({theme}) => theme.borderRadius };
+    box-shadow: ${ ({theme}) => theme.shadow.contextMenu };
     display: flex;
     flex-direction: column;
     margin: 0.25rem 0 0 0;

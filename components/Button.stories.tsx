@@ -2,8 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { TYPOGRAPHY, PALETTE, } from '../utils/Theme';
-
+import { addOpacityToColor } from '../utils/utils';
 import { ICON_ID, ICON_SIZES } from './icons';
 
 import Button, { ButtonStyle } from './Button';
@@ -29,18 +28,21 @@ Responsive.args = {
 }
 
 const ButtonStoryHeading = styled.h1`
-    ${TYPOGRAPHY.h5}
-    color: ${props => props.theme.darkMode ? PALETTE.white : PALETTE.black };
+    ${ props => props.theme.typography.h5 }
+    color: ${ props => props.theme.darkMode ? props.theme.color.white : props.theme.color.black };
 `;
 
-const StyledStoryTable = styled.table`
+const StyledStoryTable = styled.table.attrs((props) => ({
+    textColor: props.theme.darkMode ? props.theme.color.textOnPrimary : props.theme.color.mainText,
+    textOpacity: props.theme.darkMode ? props.theme.opacity.subtleTextOnPrimary : props.theme.opacity.subtleMainText,
+}))`
   margin-top: 1rem;
 
   th{
-    ${TYPOGRAPHY.h6}
+    ${ props => props.theme.typography.h6 }
     font-size: 0.75rem;
     font-weight: 400;
-    color: ${props => props.theme.darkMode ? PALETTE.white_faded : PALETTE.black_faded };
+    color: ${ props => addOpacityToColor(props.textColor, props.textOpacity) };
     text-align: left;
     padding: 0.375rem;
   }
@@ -55,9 +57,9 @@ const StyledStoryTable = styled.table`
 `;
 
 const StyledSideLabel = styled.td`
-    ${TYPOGRAPHY.h6}
+    ${ props => props.theme.typography.h6 }
     font-size: 0.75rem;
-    color: ${props => props.theme.darkMode ? PALETTE.white_faded : PALETTE.black_faded };
+    color: ${ ({theme}) => theme.darkMode ? theme.color.textOnPrimary : theme.color.mainText };
 `;
 
 const TableTemplate: ComponentStory<typeof Button> = args => {
@@ -172,12 +174,12 @@ SecondaryDark.parameters = {
 
 const StyledStoryTableFallbacks = styled(StyledStoryTable)`
     th, td{
-        border: 2px solid ${PALETTE.black_faded};
+        border: 2px solid ${ ({theme}) => addOpacityToColor(theme.color.black, theme.opacity.alphaStrong) };
         padding: 0.375rem 0.5rem;
     }
 
     td{
-        ${TYPOGRAPHY.p3}
+        ${ ({theme}) => theme.typography.p3 }
     }
 
     tr td:nth-of-type(3){
@@ -186,12 +188,6 @@ const StyledStoryTableFallbacks = styled(StyledStoryTable)`
 
 `;
 
-const StyledBullets = styled.ul`
-    ${TYPOGRAPHY.p3}
-    list-style-type: disc;
-
-    margin-left: 1rem;
-`;
 
 const FallbackTemplate: ComponentStory<typeof Button> = args => {
 

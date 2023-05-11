@@ -1,15 +1,17 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 
+import { addOpacityToColor } from '../utils/utils';
+import { theme as themeObj } from '../styles/theme';
+
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
-import { PALETTE, SHADOW, TYPOGRAPHY, LAYOUT } from '../utils/Theme';
 import customCursorImg from '../public/cursorHand.svg';
 
 const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : Boolean }>`
     align-items: center;
     background: ${ props => props.disabled && props.theme.disabledBackground !== undefined ? props.theme.disabledBackground : props.theme.background };
     border: 1px solid ${ props => props.disabled && props.theme.disabledBackground !== undefined ? props.theme.disabledBackground : props.theme.border};
-    border-radius: ${ LAYOUT.borderRadius };
+    border-radius: ${ ({theme}) => theme.borderRadius };
     box-shadow: ${ props => props.theme.shadow === undefined ? "none" : props.theme.shadow };
     color: ${ props => props.theme.text };
     display: flex;
@@ -24,9 +26,9 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
     ${
         props => {
             if(props.size === TagSize.small){
-                return TYPOGRAPHY.p3Bold
+                return props.theme.typography.p3Bold
             }
-            return TYPOGRAPHY.p2;
+            return props.theme.typography.p2;
         }
     };
 
@@ -60,34 +62,34 @@ const StyledButton = styled.button`
 `;
 
 interface TagThemeProps{
-    background : PALETTE,
-    text : PALETTE,
-    close : PALETTE,
-    hoverBackground : PALETTE,
-    hoverClose : PALETTE,
+    background : string,
+    text : string,
+    close : string,
+    hoverBackground : string,
+    hoverClose : string,
     shadow? : string,
-    border : PALETTE,
-    disabledBackground? : PALETTE
+    border : string,
+    disabledBackground? : string
 }
 
 const PrimaryTheme : TagThemeProps = {
-    background: PALETTE.primary,
-    text: PALETTE.white_faded,
-    close: PALETTE.white_faded,
-    hoverBackground: PALETTE.hover,
-    hoverClose: PALETTE.white_faded,
-    border: PALETTE.primary,
-    disabledBackground: PALETTE.disabled
+    background: themeObj.color.primary,
+    text: addOpacityToColor(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
+    close: addOpacityToColor(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
+    hoverBackground: themeObj.color.primaryHover,
+    hoverClose: addOpacityToColor(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
+    border: themeObj.color.primary,
+    disabledBackground: themeObj.color.primaryDisabled
 }
 
 const WhiteTheme : TagThemeProps = {
-    background: PALETTE.white,
-    text: PALETTE.primary,
-    close: PALETTE.black_faded,
-    hoverBackground: PALETTE.grayL,
-    hoverClose: PALETTE.black,
-    shadow: SHADOW.default,
-    border: PALETTE.grayL
+    background: themeObj.color.white,
+    text: themeObj.color.primaryTextOnWhite,
+    close: addOpacityToColor(themeObj.color.black, themeObj.opacity.alphaStrong),
+    hoverBackground: themeObj.color.grayL,
+    hoverClose: themeObj.color.black,
+    shadow: themeObj.shadow.default,
+    border: themeObj.color.grayL
 }
 
 interface I_TagProps{

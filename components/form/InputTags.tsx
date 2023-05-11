@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TYPOGRAPHY } from '../../utils/Theme';
-
 import { visuallyHidden } from '../visuallyHidden';
 import Tag, { TagColor, TagSize } from '../Tag';
 
@@ -25,7 +23,7 @@ const StyledTagContainer = styled(StyledTagsContainer)`
 `;
 
 const StyledTagInput = styled.input.attrs({ type: "text" })`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
 
     background: transparent;
     height: 1.75rem;

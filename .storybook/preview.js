@@ -51,3 +51,16 @@ export const parameters = {
   },
 }
 
+import { ThemeProvider } from 'styled-components'
+import { theme } from '../styles/theme'
+
+const withTheme = (StoryFn) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <StoryFn />
+    </ThemeProvider>
+  )
+}
+
+// export all decorators that should be globally applied in an array
+export const decorators = [withTheme]

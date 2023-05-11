@@ -21,7 +21,7 @@
 import styled, {css} from 'styled-components';
 
 import customCursorImg from '../../../public/cursorHand.svg';
-import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
+// import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
 
 export const StyledInputAndOptionsContainer = styled.div`
     width: 30.125rem;
@@ -29,9 +29,9 @@ export const StyledInputAndOptionsContainer = styled.div`
 `;
 
 export const StyledInputContainer = styled.div<{disabled : boolean, showOptions : boolean}>`
-    background: ${PALETTE.white};
-    box-shadow: ${props => props.showOptions && !props.disabled ? SHADOW.hoverFile : SHADOW.default};
-    border-radius: ${LAYOUT.borderRadius};
+    background: ${ ({theme}) => theme.color.inputBackground};
+    box-shadow: ${props => props.showOptions && !props.disabled ? props.theme.shadow.hoverFile : props.theme.shadow.default};
+    border-radius: ${ ({theme}) => theme.borderRadius };
     height: 3.5rem;
     max-width: 100%;
     overflow: hidden;
@@ -43,7 +43,7 @@ export const StyledInputContainer = styled.div<{disabled : boolean, showOptions 
         }
         return css`   
             &:hover {
-                box-shadow: ${SHADOW.hover};
+                box-shadow: ${ ({theme}) => theme.shadow.hover};
             }
         `;
     }}
@@ -71,13 +71,13 @@ export const StyledInputContainerWithOutline = styled(StyledInputContainer)<{inp
 
         return css`
             &:before{
-                border: 0.125rem solid ${PALETTE.black};
-                border-radius: ${LAYOUT.borderRadius};
+                border: 0.125rem solid ${({theme}) => theme.color.focusOutline};
+                border-radius: ${({theme}) => theme.borderRadius};
                 content: '';
                 display: block;
                 height: 100%;
                 left: 0;
-                opacity: 48%;
+                opacity: ${({theme}) => theme.opacity.focusOutline};
                 position: absolute;
                 top: 0;
                 width: 100%;
@@ -92,9 +92,9 @@ export const StyledClearButton = styled.button`
     grid-area: clearIcon;
     
     svg{ 
-        opacity: 48%;
+        opacity: ${({theme}) => theme.opacity.subtleMainText};
         path{
-            fill: ${ PALETTE.black };
+            fill: ${ ({theme}) => theme.color.mainText };
         }
     }
 
@@ -102,7 +102,7 @@ export const StyledClearButton = styled.button`
         cursor: url(${customCursorImg}), auto;
 
         svg path{
-            fill: ${ PALETTE.black };
+            fill: ${ ({theme}) => theme.color.mainText };
         }
     }
 `;

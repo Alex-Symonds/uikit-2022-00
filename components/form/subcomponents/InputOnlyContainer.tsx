@@ -1,9 +1,9 @@
 import styled, {css} from 'styled-components';
 
-import { PALETTE, LAYOUT, SHADOW, TYPOGRAPHY } from '../../../utils/Theme';
+import { addOpacityToColor } from '../../../utils/utils';
 
 const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, isSuccess : boolean, readOnly : boolean}>`
-    border-radius: ${LAYOUT.borderRadius};
+    border-radius: ${ ({theme}) => theme.borderRadius };
     height: 3.5rem;
     overflow: hidden;
     position: relative;
@@ -13,25 +13,25 @@ const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, 
     ${ props => {
         if(props.isError){
             return css`
-                background: ${PALETTE.redGirl};
-                box-shadow: ${SHADOW.inputErrorSmall};
+                background: ${ props.theme.color.errorBackground };
+                box-shadow: ${ props.theme.shadow.inputErrorSmall };
 
                 &:active{
-                    box-shadow: ${SHADOW.inputError};
+                    box-shadow: ${ props.theme.shadow.inputError };
                 }
             `;
         }
 
         if(props.isSuccess){
             return css`
-                background: ${PALETTE.greenPale};
-                box-shadow: ${SHADOW.inputSuccess};
+                background: ${ props.theme.color.successBackground };
+                box-shadow: ${ props.theme.shadow.inputSuccess };
             `;
         }
 
         return css`
-            background: ${PALETTE.white};
-            box-shadow: ${SHADOW.default};
+            background: ${ props.theme.color.inputBackground };
+            box-shadow: ${ props.theme.shadow.default };
         `;
     }};
 
@@ -41,20 +41,20 @@ const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, 
         }
         return css`        
             &:hover {
-                box-shadow: ${SHADOW.hover};
+                box-shadow: ${ props.theme.shadow.hover };
             }
         `;
     }}
 `;
 
 const StyledDescription = styled.p`
-    ${TYPOGRAPHY.p2}
-    color: ${PALETTE.black_faded};
+    ${ ({theme}) => theme.typography.p2 }
+    color: ${({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
     margin-top: 0.5rem;
 `;
 
 const StyledErrorMessage = styled(StyledDescription)`
-    color: ${PALETTE.red};
+    color: ${ ({theme}) => theme.color.error };
 `;
 
 export interface I_InputContainerProps{

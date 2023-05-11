@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
+import { addOpacityToColor } from '../../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 
@@ -9,7 +9,7 @@ import { StyledLabel, InputContainer, I_InputContainerProps } from './subcompone
 
 
 const StyledTextInput = styled.input.attrs({ type: "text" })`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
 
     background: transparent;
     height: 100%;
@@ -29,8 +29,8 @@ const StyledTextInput = styled.input.attrs({ type: "text" })`
     &:-webkit-autofill,
     &:-webkit-autofill:hover, 
     &:-webkit-autofill:focus {
-      -webkit-text-fill-color: ${PALETTE.black};
-      -webkit-box-shadow: 0 0 0px 40rem ${PALETTE.autofill} inset;
+      -webkit-text-fill-color: ${ ({theme}) => theme.color.mainText };
+      -webkit-box-shadow: 0 0 0px 40rem ${ ({theme}) => theme.color.autofill } inset;
     } 
 `;
 
@@ -39,14 +39,14 @@ const StyledFloatingLabel = styled(StyledLabel)`
 
     ${StyledTextInput}:focus ~ & ,
     ${StyledTextInput}:not(:placeholder-shown) ~ &{
-        ${TYPOGRAPHY.p3}
+        ${ ({theme}) => theme.typography.p3 }
         left: 1rem;
         top: 0.375rem;
     }
 `;
 
 const StyledPlaceholder = styled.span`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     bottom: 0.35rem;
     color: transparent;
     display: block;
@@ -55,7 +55,7 @@ const StyledPlaceholder = styled.span`
     position: absolute;
 
     ${StyledTextInput}:focus:placeholder-shown ~ &{
-        color: ${PALETTE.black_faded};
+        color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.placeholderText) };
     }
 `;
 
@@ -66,7 +66,7 @@ const StyledIconContainer = styled.div`
     right: 0.8rem;
 
     svg path {
-        fill: ${PALETTE.green};
+        fill: ${ ({theme}) => theme.color.success };
     }
 `;
 

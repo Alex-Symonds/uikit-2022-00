@@ -9,7 +9,7 @@ export default {
     component: Tag,
     args: {
         text: "Tag",
-        handleClick: (e : React.MouseEvent<HTMLButtonElement>) => { console.log("clicked!") }
+        removeTag: (e : React.MouseEvent<HTMLButtonElement>) => { console.log("clicked!") }
     }
   } as ComponentMeta<typeof Tag>;
 

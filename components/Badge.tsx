@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { PALETTE, SHADOW, TYPOGRAPHY } from '../utils/Theme';
+import { theme as themeObj } from '../styles/theme';
 
 export enum BadgeType{
     primary = "primary",
@@ -18,25 +18,25 @@ interface BadgeTheme{
 }
 
 const PrimaryTheme : BadgeTheme = {
-    background: PALETTE.primary,
-    borderColor: PALETTE.primary,
-    colour: PALETTE.white,
+    background: themeObj.color.primary,
+    borderColor: themeObj.color.primary,
+    colour: themeObj.color.textOnPrimary,
     shadow: 'none' 
 }
 
 const SecondaryTheme : BadgeTheme = {
     background: 'transparent',
-    borderColor: PALETTE.primary,
-    colour: PALETTE.primary,
+    borderColor: themeObj.color.primary,
+    colour: themeObj.color.primary,
     shadow: 'none',
     filter: 'drop-shadow(0 4px 4px rgba(51,51,51,0.04)) drop-shadow(0 4px 16px rgba(51,51,51,0.08))'
 }
 
 const WhiteTheme : BadgeTheme = {
-    background: PALETTE.white,
-    borderColor: PALETTE.grayL,
-    colour: PALETTE.primary,
-    shadow: SHADOW.default
+    background: themeObj.color.white,
+    borderColor: themeObj.color.grayL,
+    colour: themeObj.color.primaryTextOnWhite,
+    shadow: themeObj.shadow.default
 }
 
 function getTheme(type : BadgeType | undefined){
@@ -70,7 +70,7 @@ const StyledBadge = styled.div.attrs(props => ({
 `;
 
 const StyledBadgeText = styled.p`
-    ${TYPOGRAPHY.p3Bold}
+    ${ ({theme}) => theme.typography.p3Bold}
     color: ${props => props.theme.colour};
     overflow: hidden;
     text-overflow: ellipsis;

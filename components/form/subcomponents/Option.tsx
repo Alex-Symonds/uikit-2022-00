@@ -22,17 +22,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../../../utils/Theme';
 import customCursorImg from '../../../public/cursorHand.svg';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../../icons/';
 
 
 export const StyledOption = styled.div<{isHighlighted : boolean}>`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     align-text: left;
-    background: ${props => props.isHighlighted ? PALETTE.grayL : "transparent"};
-    color: ${PALETTE.black};
+    background: ${props => props.isHighlighted ? props.theme.color.inputBackgroundHoverDark : "transparent"};
+    color: ${ ({theme}) => theme.color.mainText };
     padding: 0.5rem 0.75rem 0.5rem 1rem;
     
     span{
@@ -44,7 +43,7 @@ export const StyledOption = styled.div<{isHighlighted : boolean}>`
     }
 
     &:hover{
-        background: ${PALETTE.grayL};
+        background: ${ ({theme}) => theme.color.inputBackgroundHoverDark };
         cursor: url(${customCursorImg}), auto;
     }
 `;
@@ -62,7 +61,7 @@ export const StyledOptionWithCheck = styled(StyledOption)`
         right: 12px;
 
         path{
-            fill: ${PALETTE.black};
+            fill: ${ ({theme}) => theme.color.mainText };
         }
     }
 `;
@@ -73,7 +72,7 @@ export const StyledOptionLoading = styled.div`
     &:before{
         display: block;
         content: '';
-        background: ${PALETTE.grayL};
+        background: ${ ({theme}) => theme.color.mainTextPaleLight };
         height: 1.625rem;
         width: 100%;
     }
@@ -84,8 +83,8 @@ export const StyledOptionLoading = styled.div`
 `;
 
 export const StyledOptionNone = styled.div`
-    ${TYPOGRAPHY.p2}
-    color: ${PALETTE.black};
+    ${ ({theme}) => theme.typography.p2 }
+    color: ${ ({theme}) => theme.color.mainText };
     opacity: 48%;
     padding: 0.5rem 1rem 0.5rem 1rem;
 `;

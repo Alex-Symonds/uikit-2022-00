@@ -8,7 +8,8 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { PALETTE, LAYOUT, TYPOGRAPHY, } from '../utils/Theme';
+import { theme as themeObj } from '../styles/theme';
+import { addOpacityToColor } from '../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 import { StyledScreenReaderOnly } from './visuallyHidden';
@@ -40,50 +41,50 @@ interface ButtonThemeProps{
 
 
 const PrimaryTheme : ButtonThemeProps = {
-    mainColor: PALETTE.white,
-    mainBackground: PALETTE.primary,
+    mainColor: themeObj.color.textOnPrimary,
+    mainBackground: themeObj.color.primary,
     mainBorder: 'transparent',
-    hoverBackground: PALETTE.hover,
+    hoverBackground: themeObj.color.primaryHover,
     fadeOnDisabled: false,
 
-    activeBackground: PALETTE.active,
-    disabledBackground: PALETTE.disabled
+    activeBackground: themeObj.color.primaryActive,
+    disabledBackground: themeObj.color.primaryDisabled
 };
 
 
 const PrimaryWhiteTheme : ButtonThemeProps = {
-    mainColor: PALETTE.primary,
-    mainBackground: PALETTE.white,
+    mainColor: themeObj.color.primaryTextOnWhite,
+    mainBackground: themeObj.color.white,
     mainBorder: 'transparent',
-    hoverBackground: PALETTE.white_faded,
+    hoverBackground: addOpacityToColor(themeObj.color.white, themeObj.opacity.alphaStrongest),
     fadeOnDisabled: true,
 
-    disabledBackground: PALETTE.white
+    disabledBackground: themeObj.color.white
 }
 
 
 const SecondaryTheme : ButtonThemeProps = {
-    mainColor: PALETTE.primary,
+    mainColor: themeObj.color.primary,
     mainBackground: 'transparent',
-    mainBorder: PALETTE.primary,
-    hoverBackground: PALETTE.primary_fadedHover,
+    mainBorder: themeObj.color.primary,
+    hoverBackground: addOpacityToColor(themeObj.color.primary, themeObj.opacity.alphaFaintest),
     fadeOnDisabled: true,
 
-    activeBackground: PALETTE.primary_fadedActive,
-    disabledBorder: PALETTE.primary,
-    disabledColor: PALETTE.primary  
+    activeBackground: addOpacityToColor(themeObj.color.primary, themeObj.opacity.alphaFainter),
+    disabledBorder: themeObj.color.primary,
+    disabledColor: themeObj.color.primary
 }
 
 
 const SecondaryWhiteTheme : ButtonThemeProps = {
-    mainColor: PALETTE.white,
+    mainColor: themeObj.color.white,
     mainBackground: 'transparent',
-    mainBorder: PALETTE.white,
-    hoverBackground: PALETTE.white_fadedHover,
+    mainBorder: themeObj.color.white,
+    hoverBackground: addOpacityToColor(themeObj.color.white, themeObj.opacity.alphaFainter),
     fadeOnDisabled: true,
 
-    activeBackground: PALETTE.white_fadedActive,
-    disabledColor: PALETTE.white
+    activeBackground: addOpacityToColor(themeObj.color.white, themeObj.opacity.alphaFaint),
+    disabledColor: themeObj.color.white
 }
 
 
@@ -102,17 +103,16 @@ const FlatWhiteTheme : ButtonThemeProps = {
 
 
 const SecondaryDarkTheme : ButtonThemeProps = {
-    mainColor: PALETTE.black,
+    mainColor: themeObj.color.black,
     mainBackground: 'transparent',
-    mainBorder: PALETTE.black,
-    hoverBackground: PALETTE.black_fadedHover,
+    mainBorder: themeObj.color.black,
+    hoverBackground: addOpacityToColor(themeObj.color.black, themeObj.opacity.alphaFaintest),
     fadeOnDisabled: true,
 
-    activeBackground: PALETTE.black_fadedActive,
-    disabledBorder: PALETTE.black,
-    disabledColor: PALETTE.black
+    activeBackground: addOpacityToColor(themeObj.color.black, themeObj.opacity.alphaFainter),
+    disabledBorder: themeObj.color.black,
+    disabledColor: themeObj.color.black
 }
-
 
 const ButtonThemes = {
     [ButtonStyle.primary]: PrimaryTheme,
@@ -135,10 +135,10 @@ type StyledButtonProps = {
     widthOverride?: string,
 }
 const StyledButton = styled.button<StyledButtonProps>`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2}
     align-items: center;
     background: ${ props => props.theme.mainBackground };
-    border-radius: ${ props  => props.circle ? "9999px" :  LAYOUT.borderRadius };
+    border-radius: ${ props  => props.circle ? "9999px" : props.theme.borderRadius };
     box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.mainBorder };
     color: ${ props => props.theme.mainColor };
     display: flex;
@@ -167,11 +167,11 @@ const StyledButton = styled.button<StyledButtonProps>`
         background: ${ props => props.theme.disabledBackground ? props.theme.disabledBackground : props.theme.mainBackground };
         box-shadow: inset 0px 0px 0px 0.125rem ${ props => props.theme.disabledBorder ? props.theme.disabledBorder : props.theme.mainBorder };
         color: ${ props => props.theme.disabledColor ? props.theme.disabledColor : props.theme.mainColor };
-        opacity: ${ props => props.theme.fadeOnDisabled ? "56%" : "100%" };
+        opacity: ${ props => props.theme.fadeOnDisabled ? props.theme.opacity.alphaStronger : "100%" };
     }
 
     &:focus {
-        box-shadow: inset 0px 0px 0px 0.125rem rgba(0, 0, 0, 0.48);
+        box-shadow: inset 0px 0px 0px 0.125rem ${ ({theme}) => addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline) };
     }
 
     &:not(:disabled):hover {
@@ -342,7 +342,7 @@ interface I_ButtonProps{
     icon?: T_IconId | T_IconProps,
     label: string,                  /* Required because screenreaders need this even if the visual design doesn't */
     loader?: boolean,
-    style?: ButtonStyle,
+    style?: string,
     onClick: () => void,
 }
 
@@ -356,11 +356,11 @@ export default function Button({circle, disabled, hideLabelVisually, icon : argI
     });
 
     style = style ?? ButtonStyle.primary;
-    const theme : ButtonThemeProps = ButtonThemes[style];
+    const theme : ButtonThemeProps = ButtonThemes[style as keyof typeof ButtonThemes];
 
     return  <ThemeProvider theme = { theme }>
-                <StyledButton   disabled = { disabled }
-                                circle = { circle ?? false }
+                <StyledButton   circle = { circle ?? false }
+                                disabled = { disabled }
                                 paddingStr = {paddingStr}
                                 widthOverride = { widthOverride }
                                 onClick = { onClick } >

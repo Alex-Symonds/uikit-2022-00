@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY, SHADOW, } from '../utils/Theme';
+import { theme as themeObj } from '../styles/theme';
+import { addOpacityToColor } from '../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
@@ -45,18 +46,20 @@ const StyledButtonsContainer = styled.div`
 `;
 
 const StyledDescription = styled.p`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     align-items: center;
     display: flex;
 `;
 
 const StyledHeading = styled.h3`
-    ${TYPOGRAPHY.p1}
+    ${ ({theme}) => theme.typography.p1 }
     font-weight: bold;
 `;
 
-const StyledIconContainer = styled.div<{fillColor : PALETTE}>`
+const StyledIconContainer = styled(CircleContainer)<{fillColor : string, bgColor : string}>`
     grid-area: icon;
+
+    background: ${ props => props.bgColor };
 
     svg path{
         fill: ${props => props.fillColor}
@@ -66,7 +69,7 @@ const StyledIconContainer = styled.div<{fillColor : PALETTE}>`
 const StyledNotification = styled.div`
     background: white;
     border-radius: 0.5rem;
-    box-shadow: ${SHADOW.default};
+    box-shadow: ${ ({theme}) => theme.shadow.default};
     left: 0.4375rem;
     max-width: calc(100vw - (0.4375rem * 2));
     padding: 1.25rem;
@@ -79,8 +82,6 @@ const StyledNotification = styled.div`
         padding: 0.8rem 4rem 0.05rem 0.8rem;
     }
 `;
-
-//padding: 0.8rem 4rem 0.05rem 0.8rem;
 
 const StyledTextContent = styled.div<{hasHeading : boolean}>`
     display: flex;
@@ -107,7 +108,6 @@ type ButtonActionsType = {
     clickClose: () => void,
     clickHelp: () => void
 }
-
 
 export default function Notification({type, heading, description, buttonActions} : I_NotificationProps){
     const hasHeading = heading !== undefined && heading !== "";
@@ -159,40 +159,38 @@ function Buttons({clickClose, clickHelp} : ButtonActionsType){
 
 function NotificationIcon({type} : Pick<I_NotificationProps, "type">){
     const settings = getIconSettings(type);
-    return  <StyledIconContainer fillColor = {settings.fillColor} >
-                <CircleContainer colour={ settings.background } size="3.5rem">
-                    <Icon id={settings.iconId} size={ICON_SIZES.medium} />
-                </CircleContainer>
+    return  <StyledIconContainer fillColor = {settings.fillColor} bgColor = { settings.background } size="3.5rem">
+                <Icon id={settings.iconId} size={ICON_SIZES.medium} />
             </StyledIconContainer>
 }
 
-function getIconSettings(type : NotificationType) : { background : PALETTE, fillColor: PALETTE, iconId: keyof typeof ICON_ID }{
+function getIconSettings(type : NotificationType) : { background : string, fillColor: string, iconId: keyof typeof ICON_ID }{
     switch(type){
         case NotificationType.success:
             return {
-                background: PALETTE.green_fadedBackground,
-                fillColor: PALETTE.green,
+                background: addOpacityToColor(themeObj.color.success, themeObj.opacity.translucentBackground),
+                fillColor: themeObj.color.success,
                 iconId: ICON_ID.check,
             }
         
         case NotificationType.error:
             return {
-                background: PALETTE.redGirl,
-                fillColor: PALETTE.red,
+                background: themeObj.color.errorBackground,
+                fillColor: themeObj.color.error,
                 iconId: ICON_ID.close,
             }
         
         case NotificationType.info:
             return {
-                background: PALETTE.disabled,
-                fillColor: PALETTE.primary,
+                background: themeObj.color.primaryPale,
+                fillColor: themeObj.color.primary,
                 iconId: ICON_ID.info,
             }
         
         default:
             return {
-                background: PALETTE.disabled,
-                fillColor: PALETTE.primary,
+                background: themeObj.color.primaryPale,
+                fillColor: themeObj.color.primary,
                 iconId: ICON_ID.info,
             }
     }

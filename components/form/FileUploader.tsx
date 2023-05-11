@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { LAYOUT, PALETTE, SHADOW, TYPOGRAPHY, } from '../../utils/Theme';
+import { addOpacityToColor } from '../../utils/utils';
+import { theme as themeObj } from '../../styles/theme';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import Avatar, { AvatarOptions } from '../Avatar';
@@ -16,9 +17,9 @@ function getDefaultMessage(){
 } 
 
 const StyledDeleteButton = styled.button`
-    ${TYPOGRAPHY.p3}
+    ${ ({theme}) => theme.typography.p3 }
     background: transparent;
-    color: ${PALETTE.primary};
+    color: ${ ({theme}) => theme.color.primary };
     grid-area: message;
     position: relative;
     top: -0.2rem;
@@ -27,15 +28,15 @@ const StyledDeleteButton = styled.button`
 
 // Export for Storybook (so it can display drag mode without having to actually drag in a file)
 export const StyledFileUploader = styled.div`
-    background: ${PALETTE.white};
-    border-radius: ${LAYOUT.borderRadius};
-    box-shadow: ${SHADOW.default};
+    background: ${ ({theme}) => theme.color.mainBackground };
+    border-radius: ${ ({theme}) => theme.borderRadius };
+    box-shadow: ${ ({theme}) => theme.shadow.default };
     max-width: 42.1875rem;
     overflow: hidden;
     padding: 0;
     
     &:hover{
-        box-shadow: ${SHADOW.hoverFile};
+        box-shadow: ${ ({theme}) => theme.shadow.hoverFile };
     }
 `;
 
@@ -49,24 +50,25 @@ const StyledIconContainer = styled.div`
     width: 100%;
 `;
 
-const StyledFileIconCircleWrapper = styled.div`
+const StyledCircleAroundIcon = styled(CircleAroundIcon)`
+    background: ${ ({theme}) => theme.color.grayL };
     left: 0.25rem;
     pointer-events: none;
     position: relative;
     top: -0.125rem;
 
     svg path{
-        fill: ${PALETTE.primary};
+        fill: ${ ({theme}) => theme.color.primary };
     }
 `;
 
 const StyledLabelFile = styled.label<{isFocused : boolean}>`
-    color: ${PALETTE.primary};
+    color: ${ ({theme}) => theme.color.primary };
     padding: 0 0.23rem 0 0;
 
     ${props => {
         if(props.isFocused){
-            return `border-bottom: 2px solid ${PALETTE.primary}`;
+            return `border-bottom: 2px solid ${ props.theme.color.primary }`;
         }
     }}
 `;
@@ -82,7 +84,7 @@ const StyledLayout = styled.div`
 
 const StyledLayoutActiveDrag = styled.div<{dropzoneHeightInPx : number}>`
     align-items: center;
-    background: ${PALETTE.primary};
+    background: ${ ({theme}) => theme.color.primary };
     display: flex;
     height: ${props => props.dropzoneHeightInPx}px;
     justify-content: center;
@@ -94,13 +96,13 @@ const StyledLayoutActiveDrag = styled.div<{dropzoneHeightInPx : number}>`
         pointer-events: none;
 
         path{
-            fill: ${PALETTE.white};
+            fill: ${ ({theme}) => theme.color.textOnPrimary };
         }
     }
 `;
 
 const StyledDivHeading = styled.div`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     grid-area: heading;
 
     white-space: nowrap;
@@ -109,14 +111,14 @@ const StyledDivHeading = styled.div`
 `;
 
 const StyledPMessage = styled.p<{isError : boolean}>`
-    ${TYPOGRAPHY.p3}
-    color: ${props => props.isError ? PALETTE.red : PALETTE.black_faded};
+    ${ ({theme}) => theme.typography.p3 }
+    color: ${props => props.isError ? props.theme.color.error : addOpacityToColor(props.theme.color.mainText, props.theme.opacity.subtleMainText) };
     grid-area: message;
     pointer-events: none;
 `;
 
 const StyledProgressBar = styled.div<Pick<I_FileUploaderProps, "progress">>`
-    background: ${PALETTE.primary};
+    background: ${ ({theme}) => theme.color.primary };
     height: 0.25rem;
     margin: 0.25rem 0 0 0;
     pointer-events: none;
@@ -124,16 +126,15 @@ const StyledProgressBar = styled.div<Pick<I_FileUploaderProps, "progress">>`
 `;
 
 const StyledProgressPerc = styled.div`
-    ${TYPOGRAPHY.h5}
-    color: ${PALETTE.disabled};
+    ${ ({theme}) => theme.typography.h5}
+    color: ${ ({theme}) => theme.color.primaryPale };
 `;
 
 const StyledSpanFileSize = styled.span`
-    color: ${PALETTE.black_faded};
+    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
     padding: 0 0 0 0.5rem;
     pointer-events: none;
 `;
-
 
 type FileInfo = {
     name: string,
@@ -419,11 +420,11 @@ function Finished({fileInfo} : Pick<I_FileUploaderProps, "fileInfo">){
                 }
 
                 <StyledIconContainer>
-                    <StyledFileIconCircleWrapper>
-                        <CircleAroundIcon colour={PALETTE.grayL} size={"3.5rem"}>
+
+                        <StyledCircleAroundIcon size={"3.5rem"}>
                             <Icon id={ICON_ID.file} size={ICON_SIZES.medium} />
-                        </CircleAroundIcon>
-                    </StyledFileIconCircleWrapper>
+                        </StyledCircleAroundIcon>
+
                 </StyledIconContainer>
 
             </StyledLayout>

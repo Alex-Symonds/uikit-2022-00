@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE, LAYOUT, TYPOGRAPHY } from '../utils/Theme';
 
 const StyledFilter = styled.div<{numOptions : number}>`
     display: inline-grid;
@@ -8,9 +7,9 @@ const StyledFilter = styled.div<{numOptions : number}>`
 `;
 
 const StyledFilterOption = styled.div<{isSelected : boolean}>`
-    ${TYPOGRAPHY.p2}
-    background: ${PALETTE.white};
-    border-color: ${ props => props.isSelected ? PALETTE.primary : PALETTE.grayS };
+    ${ ({theme}) => theme.typography.p2}
+    background: ${ ({theme}) => theme.color.mainBackground };
+    border-color: ${ props => props.isSelected ? props.theme.color.primary : props.theme.color.grayS };
     border-style: solid;
     border-width: 0.125rem;
     display: flex;
@@ -31,19 +30,19 @@ const StyledFilterOption = styled.div<{isSelected : boolean}>`
     }
 
     &:first-child{
-        border-top-left-radius: ${LAYOUT.borderRadius};
-        border-bottom-left-radius: ${LAYOUT.borderRadius};
+        border-top-left-radius: ${ ({theme}) => theme.borderRadius };
+        border-bottom-left-radius: ${ ({theme}) => theme.borderRadius };
     }
 
     &:hover{
-        border-color: ${props => props.isSelected ? PALETTE.hover : PALETTE.grayK};
+        border-color: ${props => props.isSelected ? props.theme.color.primaryHover : props.theme.color.grayK };
         position: relative;
         z-index: 2;
     }
 
     &:last-child{
-        border-top-right-radius: ${LAYOUT.borderRadius};
-        border-bottom-right-radius: ${LAYOUT.borderRadius};
+        border-top-right-radius: ${ ({theme}) => theme.borderRadius };
+        border-bottom-right-radius: ${ ({theme}) => theme.borderRadius };
     }
 `;
 

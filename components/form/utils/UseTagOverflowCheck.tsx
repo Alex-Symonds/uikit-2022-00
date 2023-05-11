@@ -1,8 +1,12 @@
 import React, {useLayoutEffect} from 'react';
 import styled, {css} from 'styled-components';
-import { PALETTE } from '../../../utils/Theme';
 
-export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : string, isOverflowing : boolean}>`
+import { addOpacityToColor } from '../../../utils/utils';
+
+export const StyledTagsContainer = styled.div.attrs(props => ({
+    thumbColor: addOpacityToColor(props.theme.color.mainText, props.theme.opacity.alphaStrong),
+    trackColor: addOpacityToColor(props.theme.color.mainText, props.theme.opacity.alphaFainter),
+}))<{readOnly : boolean, maxWidth : string, isOverflowing : boolean}>`
     align-items: center;
     display: flex;
     gap: 0.25rem;
@@ -16,7 +20,7 @@ export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : st
                 overflow-y: hidden;
             
                 // Firefox doesn't support the webkit prefixed properties, but does support these two
-                scrollbar-color: ${PALETTE.black_faded} ${PALETTE.black_fadedActive};
+                scrollbar-color: ${ props.thumbColor } ${ props.trackColor};
                 scrollbar-width: thin;
             
                 &::-webkit-scrollbar {
@@ -24,14 +28,14 @@ export const StyledTagsContainer = styled.div<{readOnly : boolean, maxWidth : st
                 }
             
                 &::-webkit-scrollbar-track {
-                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.black_fadedActive};
+                    -webkit-box-shadow: inset 0 0 6px ${ props.trackColor};
                     border-radius: 10px;
                     border: 0.125rem solid transparent;
                 }
             
                 &::-webkit-scrollbar-thumb {
                     border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 6px ${PALETTE.black_faded};
+                    -webkit-box-shadow: inset 0 0 6px ${ props.thumbColor };
                     border: 0.125rem solid transparent;
                 }  
             `;

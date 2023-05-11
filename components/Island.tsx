@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 import { SUBJECT } from '../utils/subjects';
+import { addOpacityToColor } from '../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES, getIconIdFromSubject } from './icons/';
 
@@ -10,8 +10,10 @@ import Button, { ButtonStyle } from './Button';
 import Badge, { BadgeType } from './Badge';
 
 
-const StyledIsland = styled.div`
-    background: ${PALETTE.primary};
+const StyledIsland = styled.div.attrs({
+    decorativeCircleDia: 13.875,
+})`
+    background: ${ ({theme}) => theme.color.primary };
     border-radius: 0.5rem;
     min-height: 12.5rem;
     max-width: 100%;
@@ -21,15 +23,15 @@ const StyledIsland = styled.div`
 
     &::before{
         aspect-ratio: 1/1;
-        background: ${PALETTE.white};
+        background: ${ ({theme}) => theme.color.white };
         border-radius: 100%;
         content: '';
         display: block;
         opacity: 24%;
         position: absolute;
-        top: -6.9375rem;
-        right: -6.9375rem;
-        width: 13.875rem;        
+        top: -${({decorativeCircleDia}) => decorativeCircleDia / 2}rem;
+        right: -${({decorativeCircleDia}) => decorativeCircleDia / 2}rem;
+        width: ${({decorativeCircleDia}) => decorativeCircleDia}rem;        
     }
 `;
 
@@ -42,7 +44,7 @@ const StyledProgressBar = styled.div<Pick<I_IslandProps, "progress">>`
     z-index: 2;
     
     &::before{
-        background: ${PALETTE.green};
+        background: ${ ({theme}) => theme.color.progressOnPrimary };
         content: '';
         display: block;
         height: 100%;
@@ -55,8 +57,8 @@ const StyledProgressBar = styled.div<Pick<I_IslandProps, "progress">>`
 `;
 
 const StyledProgressText = styled.p`
-    ${TYPOGRAPHY.p3};
-    color: ${PALETTE.white};
+    ${ ({theme}) => theme.typography.p3 };
+    color: ${ ({theme}) => theme.color.textOnPrimary };
 `;
 
 const StyledSubjectContainer = styled.div`
@@ -70,7 +72,7 @@ const StyledSubjectContainer = styled.div`
         width: 36px;
         
         path{
-            fill: ${PALETTE.white};
+            fill: ${ ({theme}) => theme.color.textOnPrimary };
         }
     }
 `;
@@ -104,14 +106,14 @@ const StyledLayout = styled.div`
 `;
 
 const StyledHead = styled.h6`
-    ${TYPOGRAPHY.h6}
-    color: ${PALETTE.white};
+    ${ ({theme}) => theme.typography.h6 }
+    color: ${ ({theme}) => theme.color.textOnPrimary };
     grid-area: heading;
 `;
 
 const StyledDescription = styled.p`
-    ${TYPOGRAPHY.p2}
-    color: ${PALETTE.white_faded};
+    ${ ({theme}) => theme.typography.p2 }
+    color: ${ ({theme}) => addOpacityToColor(theme.color.textOnPrimary, theme.opacity.subtleTextOnPrimary) };
     grid-area: desc;
     height: 100%;
     overflow: hidden;
@@ -122,14 +124,16 @@ const StyledButtonContainer = styled.div`
     padding-right: 0.75rem;
 `;
 
-const StyledReq = styled.div`
-    ${TYPOGRAPHY.p2}
+const StyledReq = styled.div.attrs( props => ({
+    textColor: addOpacityToColor(props.theme.color.textOnPrimary, props.theme.opacity.subtleTextOnPrimary),
+}))`
+    ${ ({theme}) => theme.typography.p2 }
     align-items: center;
-    color: ${PALETTE.white_faded};
+    color: ${ props => props.textColor };
     display: flex;
     height: 100%;
     svg path{
-        fill: ${PALETTE.white_faded};
+        fill: ${ props => props.textColor };
     }
 `;
 

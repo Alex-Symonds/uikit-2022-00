@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
-
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
@@ -37,7 +35,7 @@ const StyledForm = styled.form`
 `;
 
 const StyledSearch = styled.input.attrs({ type: "text" })`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
 
     background: transparent;
     grid-area: searchBar;
@@ -62,14 +60,14 @@ const StyledSearchLabel = styled.label<{isEmpty : boolean}>`
     text-indent: -9999px;
 
     svg path{
-        fill: ${ PALETTE.black };
-        opacity: ${ props => props.isEmpty ? "48%" : "100%" };
+        fill: ${ ({theme}) => theme.color.mainText };
+        opacity: ${ props => props.isEmpty ? props.theme.opacity.subtleMainText : "100%" };
     }
 
     ${StyledSearch}:focus ~ &,
     ${StyledSearch}:not(:placeholder-shown) ~ &{
         svg path{
-            fill: ${ PALETTE.black };
+            fill: ${ ({theme}) => theme.color.mainText };
         }
     }
 `;

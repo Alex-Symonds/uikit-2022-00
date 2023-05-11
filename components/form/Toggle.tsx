@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PALETTE, TYPOGRAPHY, } from '../../utils/Theme';
 
-import { getClassName } from '../../utils/utils';
+import { getClassName, addOpacityToColor } from '../../utils/utils';
 
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 import { Icon, ICON_ID, ICON_SIZES } from '../icons';
@@ -22,7 +21,7 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
     width: 3rem;
     
     svg path{
-        fill: ${PALETTE.white};
+        fill: ${ ({theme}) => theme.color.textOnPrimary };
     }
 
     &:after{
@@ -37,31 +36,31 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
     }
 
     input:not(:disabled) + &:focus {
-        border-color: ${PALETTE.black_faded};
+        border-color: ${ ({theme}) => addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline) };
     }
 
     input:checked + & {
-        background: ${PALETTE.primary};
-        border-color: ${PALETTE.primary};
+        background: ${ ({theme}) => theme.color.primary };
+        border-color: ${ ({theme}) => theme.color.primary };
     
         &:after{
-            background: ${PALETTE.white};
+            background: ${ ({theme}) => theme.color.textOnPrimary };
             height: 1rem;
         }
     }
 
     input:checked:not(:disabled) + &:hover{
-        background: ${PALETTE.hover};
-        border-color: ${PALETTE.hover};
+        background: ${ ({theme}) => theme.color.primaryHover };
+        border-color: ${ ({theme}) => theme.color.primaryHover };
     }
 
     input:not(:checked) + & {
-        background: ${PALETTE.white};
-        border-color: ${PALETTE.disabled};
+        background: ${ ({theme}) => theme.color.mainBackground };
+        border-color: ${ ({theme}) => theme.color.primaryPale };
     
         &:before{
             aspect-ratio: 1/1;
-            background: ${PALETTE.primary};
+            background: ${ ({theme}) => theme.color.primary };
             border-radius: 100%;
             content: '';
             display: block;
@@ -70,7 +69,7 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
     
         &:after{
             background: transparent;
-            border: 0.125rem solid ${PALETTE.disabled};
+            border: 0.125rem solid ${ ({theme}) => theme.color.primaryPale };
             height: 0.75rem;
             margin-right: 0.25rem;
             opacity: 56%;
@@ -79,7 +78,7 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
 
     input:not(:checked):not(:disabled) + &:hover {
         &:before{
-            background: ${PALETTE.hover};
+            background: ${ ({theme}) => theme.color.primaryHover };
         }
         &:after{
             border-color: #BBACE2;
@@ -101,7 +100,7 @@ const StyledLabel = styled.label`
 
 
 const StyledHeading = styled.h3`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     font-weight: normal;
     grid-area: heading;
 `;
@@ -109,6 +108,7 @@ const StyledHeading = styled.h3`
 
 const StyledParagraph = styled(Paragraph)`
     grid-area: description;
+    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
 `;
 
 
@@ -139,7 +139,7 @@ export function ToggleWithHeadingAndDesc({ description, disabled, heading, isOn,
                 <StyledHeading>
                     {heading}
                 </StyledHeading>
-                <StyledParagraph className={getClassName(StyledParagraph)} colour={PALETTE.black_faded} size={3} >
+                <StyledParagraph className={getClassName(StyledParagraph)} size={3} >
                     {description}
                 </StyledParagraph>
             </StyledLabel>

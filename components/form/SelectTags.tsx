@@ -1,8 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-
-import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
 import useFocusMonitor from '../../utils/UseFocusMonitor';
 
 import { StyledScreenReaderOnly } from '../visuallyHidden';
@@ -43,9 +41,9 @@ const StyledTagsContainer = styled(StyledTagsContainer_Base)`
 `;
 
 const StyledTagSelect = styled.div`
-    ${TYPOGRAPHY.p2}
+    ${ ({theme}) => theme.typography.p2 }
     background: transparent;
-    color: ${PALETTE.black};
+    color: ${ ({theme}) => theme.color.mainText };
     height: 100%;
     outline: none;
     overflow: hidden;

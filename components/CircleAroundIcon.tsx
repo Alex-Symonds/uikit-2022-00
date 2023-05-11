@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PALETTE } from '../utils/Theme';
+// import { PALETTE } from '../utils/Theme';
 
-const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "colour" | "size">>`
+const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "size">>`
     border-radius: 50%;
-    background: ${ props => props.colour };
-    height: ${ props => props.size };
-    width: ${ props => props.size };
+    background: ${ ({theme}) => theme.color.avatarBackground };
+    height: ${ ({size}) => size ?? "3.25rem" };
+    width: ${ ({size}) => size ?? "3.25rem" };
 
     display: flex;
     align-items: center;
@@ -15,19 +15,14 @@ const StyledCircleContainer = styled.div<Pick<CircleAroundIconProps, "colour" | 
 `;
 
 interface CircleAroundIconProps{
-    colour?: string,
+    className?: string,
     size?: string,
     children: React.ReactNode
 }
 
-export default function CircleAroundIcon({colour, size, children} : CircleAroundIconProps){
-    colour = colour === undefined ? PALETTE.grayL : colour;
-    size = size === undefined ? "3.25rem" : size;
-
-    return (
-        <StyledCircleContainer size={size} colour={colour}>
-            {children}
-        </StyledCircleContainer>
-    )
+export default function CircleAroundIcon({className, size, children} : CircleAroundIconProps){
+    return  <StyledCircleContainer className = {className} size={size} >
+                {children}
+            </StyledCircleContainer>
 }
 

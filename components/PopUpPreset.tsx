@@ -7,6 +7,8 @@ import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 import CircleAroundIcon from './CircleAroundIcon';
+import Heading from './Heading';
+import Paragraph from './Paragraph';
 
 export const enum PopUpPresetMode{
     success = "success",
@@ -80,14 +82,9 @@ const StyledLayout = styled.div`
     }
 `;  
 
-const StyledHeading = styled.h4`
-    ${ ({theme}) => theme.typography.h4 }
+const StyledHeading = styled(Heading)`
     padding-top: .8rem;
     text-align: center;
-`;
-
-const StyledDescription = styled.p`
-    ${ ({theme}) => theme.typography.p2 }
 `;
 
 const StyledButtonContainer = styled.div`
@@ -108,12 +105,12 @@ export default function PopUpPreset({description, heading, mode: type, buttonPri
             <StyledCircleAroundIcon bg={theme.background} size={"6rem"}>
                 <Icon id={theme.iconId} size={ICON_SIZES.extraLarge} />
             </StyledCircleAroundIcon>
-            <StyledHeading>
+            <StyledHeading level={4}>
                 {heading}
             </StyledHeading>
-            <StyledDescription>
+            <Paragraph size={2}>
                 {description}
-            </StyledDescription>
+            </Paragraph>
             {(buttonPrimary !== undefined || buttonSecondary !== undefined) &&
                 <ButtonContainer buttonPrimary={buttonPrimary} buttonSecondary={buttonSecondary} />
             }

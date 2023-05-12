@@ -8,6 +8,8 @@ import { Icon, ICON_ID, ICON_SIZES, getIconIdFromSubject } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 import Badge, { BadgeType } from './Badge';
+import Heading from './Heading';
+import Paragraph from './Paragraph';
 
 
 const StyledIsland = styled.div.attrs({
@@ -56,8 +58,7 @@ const StyledProgressBar = styled.div<Pick<I_IslandProps, "progress">>`
     }
 `;
 
-const StyledProgressText = styled.p`
-    ${ ({theme}) => theme.typography.p3 };
+const StyledProgressText = styled(Paragraph)`
     color: ${ ({theme}) => theme.color.textOnPrimary };
 `;
 
@@ -105,14 +106,12 @@ const StyledLayout = styled.div`
     }
 `;
 
-const StyledHead = styled.h6`
-    ${ ({theme}) => theme.typography.h6 }
+const StyledHead = styled(Heading)`
     color: ${ ({theme}) => theme.color.textOnPrimary };
     grid-area: heading;
 `;
 
-const StyledDescription = styled.p`
-    ${ ({theme}) => theme.typography.p2 }
+const StyledDescription = styled(Paragraph)`
     color: ${ ({theme}) => addOpacityToColor(theme.color.textOnPrimary, theme.opacity.subtleTextOnPrimary) };
     grid-area: desc;
     height: 100%;
@@ -205,8 +204,8 @@ export default function Island({progress, subject, text, heading, description, b
 
             <StyledLayout>
                 <Badge text={text} type={BadgeType.white} />
-                <StyledHead>{heading}</StyledHead>
-                <StyledDescription>{description}</StyledDescription>
+                <StyledHead level={6}>{heading}</StyledHead>
+                <StyledDescription size={2}>{description}</StyledDescription>
                 <StyledButtonContainer>
                     <Button style={ButtonStyle.secondaryWhite}
                             disabled={false}
@@ -231,7 +230,7 @@ export default function Island({progress, subject, text, heading, description, b
 
 function ProgressBar({progress} : Pick<I_IslandProps, "progress">){
     return  <StyledProgressBar progress={progress}>
-                <StyledProgressText>
+                <StyledProgressText size={3}>
                     Progress {progress}%
                 </StyledProgressText>
             </StyledProgressBar>

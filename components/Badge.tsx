@@ -3,6 +3,8 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import { theme as themeObj } from '../styles/theme';
 
+import Paragraph from './Paragraph';
+
 export enum BadgeType{
     primary = "primary",
     secondary = "secondary",
@@ -69,8 +71,7 @@ const StyledBadge = styled.div.attrs(props => ({
     width: fit-content;
 `;
 
-const StyledBadgeText = styled.p`
-    ${ ({theme}) => theme.typography.p3Bold}
+const StyledBadgeText = styled(Paragraph)`
     color: ${props => props.theme.colour};
     overflow: hidden;
     text-overflow: ellipsis;
@@ -89,7 +90,7 @@ export default function Badge({text, type} : BadgeProps){
     const theme = getTheme(type);
     return <ThemeProvider theme = {theme}>
                 <StyledBadge>
-                    <StyledBadgeText>
+                    <StyledBadgeText size={3} bold={true}>
                         {text}
                     </StyledBadgeText>
                 </StyledBadge>

@@ -8,6 +8,7 @@ import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
 import Button, { ButtonStyle } from './Button';
 import CircleContainer from './CircleAroundIcon';
+import Paragraph from './Paragraph';
 
 
 function getMobileBreakpoint() : string {
@@ -45,8 +46,7 @@ const StyledButtonsContainer = styled.div`
     }
 `;
 
-const StyledDescription = styled.p`
-    ${ ({theme}) => theme.typography.p2 }
+const StyledDescription = styled(Paragraph)`
     align-items: center;
     display: flex;
 `;
@@ -130,7 +130,7 @@ export default function Notification({type, heading, description, buttonActions}
                     }
                     {
                         (hasDescription || !hasHeading) && 
-                        <StyledDescription>
+                        <StyledDescription size={2}>
                             {description}
                         </StyledDescription>
                     }

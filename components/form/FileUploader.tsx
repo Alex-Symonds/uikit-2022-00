@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { addOpacityToColor } from '../../utils/utils';
-import { theme as themeObj } from '../../styles/theme';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import Avatar, { AvatarOptions } from '../Avatar';
 import CircleAroundIcon from '../CircleAroundIcon';
+import Paragraph from '../Paragraph';
 import { convertRemToPixels } from '../../utils/utils';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
@@ -110,8 +110,7 @@ const StyledDivHeading = styled.div`
     text-overflow: ellipsis;
 `;
 
-const StyledPMessage = styled.p<{isError : boolean}>`
-    ${ ({theme}) => theme.typography.p3 }
+const StyledPMessage = styled(Paragraph)<{isError : boolean}>`
     color: ${props => props.isError ? props.theme.color.error : addOpacityToColor(props.theme.color.mainText, props.theme.opacity.subtleMainText) };
     grid-area: message;
     pointer-events: none;
@@ -309,7 +308,7 @@ function DefaultContent({avatar, errorMsg, progress, handleFilePicker, setDrag, 
                     </StyledLabelFile>
                     or drag in form
                 </StyledDivHeading>
-                <StyledPMessage isError = {isError}>
+                <StyledPMessage isError = {isError} size={3}>
                     { isError ? errorMsg : getDefaultMessage() }
                 </StyledPMessage>
 
@@ -378,7 +377,7 @@ function InProgress({progress} : Pick<I_FileUploaderProps, "progress">){
                 <StyledDivHeading>
                     Downloading
                 </StyledDivHeading>
-                <StyledPMessage isError = {false}>
+                <StyledPMessage isError = {false} size={3}>
                     {getDefaultMessage()}
                 </StyledPMessage>
 

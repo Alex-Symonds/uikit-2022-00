@@ -2,6 +2,8 @@ import styled, {css} from 'styled-components';
 
 import { addOpacityToColor } from '../../../utils/utils';
 
+import Paragraph from '../../Paragraph';
+
 const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, isSuccess : boolean, readOnly : boolean}>`
     border-radius: ${ ({theme}) => theme.borderRadius };
     height: 3.5rem;
@@ -47,9 +49,8 @@ const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, 
     }}
 `;
 
-const StyledDescription = styled.p`
-    ${ ({theme}) => theme.typography.p2 }
-    color: ${({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+const StyledDescription = styled(Paragraph)`
+    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
     margin-top: 0.5rem;
 `;
 
@@ -78,7 +79,7 @@ export default function InputContainer({description, disabled, errorMsg, isSucce
         </StyledInputContainer>
         {
             description !== undefined ?
-                <StyledDescription>
+                <StyledDescription size={2}>
                     {description}
                 </StyledDescription>
                 : null

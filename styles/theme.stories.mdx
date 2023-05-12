@@ -1,0 +1,196 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
+
+import { theme } from './theme';
+import { addOpacityToColor } from '../utils/utils';
+
+<Meta title="Theme"/>
+
+# Theme
+
+## Utility Colours
+Usage: `theme.color.` then the name in the swatch label (remember to remove and replace underscores first).
+
+<ColorPalette>
+  <ColorItem 
+    title="Context Menu" 
+    subtitle="_ = contextMenu" 
+    colors={{ 
+        _HeadingBackground: theme.color.contextMenuHeadingBackground,
+        _Background: theme.color.contextMenuBackground,
+        _BackgroundHover: theme.color.contextMenuBackgroundHover,
+    }} 
+  />
+  <ColorItem 
+    title="Error" 
+    subtitle="" 
+    colors={{ 
+        error: theme.color.error,
+        errorEmphasis: theme.color.errorEmphasis,
+        errorBackground: theme.color.errorBackground,
+        errorBackgroundHover: theme.color.errorBackgroundHover,
+    }} 
+  />
+  <ColorItem 
+    title="Input (Background)" 
+    subtitle="_ = inputBackground" 
+    colors={{ 
+        _: theme.color.inputBackground,
+        _Active: theme.color.inputBackgroundActive,
+        _HoverDark: theme.color.inputBackgroundHoverDark,
+        _HoverLight: theme.color.inputBackgroundHoverLight,  
+    }} 
+  />
+    <ColorItem 
+    title="Input (Border)" 
+    subtitle="" 
+    colors={{ 
+        inputBorder: theme.color.inputBorder,
+    }} 
+  />
+  <ColorItem 
+    title="Main Background" 
+    subtitle="" 
+    colors={{ 
+        mainBackground: theme.color.mainBackground,
+        mainBackgroundBorder: theme.color.mainBackgroundBorder,
+    }} 
+  />
+  <ColorItem 
+    title="Main Text" 
+    subtitle="" 
+    colors={{ 
+        mainText: theme.color.mainText,
+        mainTextPaleDark: theme.color.mainTextPaleDark,
+        mainTextPaleLight: theme.color.mainTextPaleLight,
+    }} 
+  />
+  <ColorItem 
+    title="Primary (States)" 
+    subtitle="" 
+    colors={{ 
+        primaryDisabled: theme.color.primaryDisabled,
+        primaryActive: theme.color.primaryActive,
+        primaryHover: theme.color.primaryHover,
+    }} 
+  />
+  <ColorItem 
+    title="Primary (Text-Related)" 
+    subtitle="" 
+    colors={{ 
+        primaryTextOnWhite: theme.color.primaryTextOnWhite,
+        textOnPrimary: theme.color.textOnPrimary,
+    }} 
+  />
+  <ColorItem 
+    title="Primary (Other)" 
+    subtitle="" 
+    colors={{ 
+        progressOnPrimary: theme.color.progressOnPrimary,
+    }} 
+  />
+  <ColorItem 
+    title="Success" 
+    subtitle="" 
+    colors={{ 
+        success: theme.color.success,
+        successBackground: theme.color.successBackground,
+    }} 
+  />
+  <ColorItem 
+    title="Attention" 
+    subtitle="" 
+    colors={{ 
+        attention: theme.color.attention,
+    }} 
+  />
+  <ColorItem 
+    title="Autofill" 
+    subtitle="" 
+    colors={{ 
+        autofill: theme.color.autofill,
+    }} 
+  />
+  <ColorItem 
+    title="Avatar Background" 
+    subtitle="" 
+    colors={{ 
+        avatarBackground: theme.color.avatarBackground,
+    }} 
+  />
+  <ColorItem 
+    title="Code" 
+    subtitle="" 
+    colors={{ 
+        code: theme.color.code,
+    }} 
+  />
+  <ColorItem 
+    title="Focus Outline" 
+    subtitle="displayed with theme.opacity.focusOutline applied" 
+    colors={{ 
+        focusOutline: addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline),
+    }} 
+  />
+</ColorPalette>
+
+## Palette Colours
+Usage: `theme.color.` then the name in the swatch label.
+
+<ColorPalette>
+  <ColorItem 
+    title="Primary" 
+    subtitle="" 
+    colors={{ 
+        primaryPale: theme.color.primaryPale, 
+        primary: theme.color.primary, 
+        primaryDarker: theme.color.primaryDarker, 
+        primaryDarkest: theme.color.primaryDarkest 
+    }} 
+  />
+  <ColorItem 
+    title="Greyscale" 
+    subtitle="" 
+    colors={{ 
+        white: theme.color.white,
+        grayM: theme.color.grayM,
+        grayL: theme.color.grayL,
+        grayS: theme.color.grayS,
+        grayK: theme.color.grayK,
+        black: theme.color.black
+    }} 
+  />
+  <ColorItem 
+    title="Red" 
+    subtitle="" 
+    colors={{ 
+        redPalest: theme.color.redPalest,
+        redPale: theme.color.redPale,
+        red: theme.color.red,
+        redSuper: theme.color.redSuper,
+    }} 
+  />
+  <ColorItem 
+    title="Green" 
+    subtitle="" 
+    colors={{ 
+        greenPale: theme.color.greenPale,
+        green: theme.color.green,
+    }} 
+  />
+  <ColorItem 
+    title="Yellow" 
+    subtitle="" 
+    colors={{ 
+        yellowPale: theme.color.yellowPale,
+        yellow: theme.color.yellow,
+    }} 
+  />
+  <ColorItem 
+    title="Blue" 
+    subtitle="" 
+    colors={{ 
+        blue: theme.color.blue,
+    }} 
+  />
+</ColorPalette>
+

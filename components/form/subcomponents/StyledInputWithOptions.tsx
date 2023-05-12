@@ -21,11 +21,11 @@
 import styled, {css} from 'styled-components';
 
 import customCursorImg from '../../../public/cursorHand.svg';
-// import { PALETTE, LAYOUT, SHADOW } from '../../../utils/Theme';
 
 export const StyledInputAndOptionsContainer = styled.div`
     width: 30.125rem;
     max-width: 100%;
+    position: relative;
 `;
 
 export const StyledInputContainer = styled.div<{disabled : boolean, showOptions : boolean}>`
@@ -43,7 +43,7 @@ export const StyledInputContainer = styled.div<{disabled : boolean, showOptions 
         }
         return css`   
             &:hover {
-                box-shadow: ${ ({theme}) => theme.shadow.hover};
+                box-shadow: ${ props.theme.shadow.hover};
             }
         `;
     }}

@@ -49,7 +49,17 @@ export const parameters = {
       ...customViewports,
     },
   },
+  options: {
+    storySort: {
+        method: 'alphabetical',
+        order: ['Theme', '*', ],
+        locales: 'en-GB',
+    }
+},
 }
+
+//        order: ['Introduction', 'Styleguide', 'Atoms', ['Readme', '*'], 'Molecules', ['Readme', '*'], 'Organisms', ['Readme', '*']],
+
 
 import { ThemeProvider } from 'styled-components'
 import { theme } from '../styles/theme'

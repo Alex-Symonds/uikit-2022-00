@@ -1,9 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import styled from 'styled-components';
 
-// import { PALETTE, TYPOGRAPHY } from '../../utils/Theme';
-
-
 import { theme as themeObj } from '../../styles/theme';
 
 import TooltipWrapper from './Tooltip';

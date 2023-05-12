@@ -22,7 +22,7 @@ const PALETTE = {
     yellow: "#FFD912",
     yellowPale: "#FFF5C0",
 
-    code: "#428BF9",
+    blue: "#428BF9",
 }
 
 const SHADOWS = {
@@ -61,6 +61,8 @@ export const theme = {
         autofill: PALETTE.yellowPale,
         avatarBackground: PALETTE.grayL,
 
+        code: PALETTE.blue,
+
         contextMenuBackground: PALETTE.white,
         contextMenuBackgroundHover: PALETTE.grayL,
         contextMenuHeadingBackground: PALETTE.grayM,
@@ -88,10 +90,11 @@ export const theme = {
         primaryActive: PALETTE.primaryDarkest,
         primaryDisabled: PALETTE.primaryPale,
         primaryHover: PALETTE.primaryDarker,
-        primaryTextOnWhite: PALETTE.primary,
+        
         progressOnPrimary: PALETTE.green,
+        primaryTextOnWhite: PALETTE.primary,
         textOnPrimary: PALETTE.white,
-
+        
         success: PALETTE.green,
         successBackground: PALETTE.greenPale,
     },

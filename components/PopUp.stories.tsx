@@ -7,6 +7,8 @@ import { InputText as TextInput } from './form/';
 import PopUp from './PopUp';
 import Button, { ButtonStyle } from './Button';
 
+import SelectText from './form/SelectText';
+
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
     title: 'UI Kit/PopUp',
@@ -17,10 +19,18 @@ export default {
   TODO: switch the country to a select once that component is completed
 */
 
+//                <TextInput label="Your country" id="id_country" name="country" handleChange={(e) => setCountry(e.target.value)} value={country} />
+
+
 const Template: ComponentStory<typeof PopUp> = args => {
     const [name, setName] = React.useState<string | null>(null);
     const [phone, setPhone] = React.useState<string | null>(null);
     const [country, setCountry] = React.useState<string | null>(null);
+
+    function selectOption(data : string | null){
+        setCountry(data);
+      }
+
 
     return <PopUp {...args} >
         <StyledExampleLayout>
@@ -29,7 +39,7 @@ const Template: ComponentStory<typeof PopUp> = args => {
             <StyledFormContainer>
                 <TextInput label="Your name" id="id_name" name="name" handleChange={(e) => setName(e.target.value)} value={name} />
                 <TextInput label="Your phone" id="id_phone" name="phone" handleChange={(e) => setPhone(e.target.value)} value={phone} />
-                <TextInput label="Your country" id="id_country" name="country" handleChange={(e) => setCountry(e.target.value)} value={country} />
+                <SelectText label="Your country" id="id_country" options={["Russia", "USA", "Germany"]} selectedOption={country} setSelectedOption={selectOption} placeholder=""/>
                 <Button label="Send" style={ButtonStyle.primary} onClick={() => console.log("Send clicked")}/>
             </StyledFormContainer>
         </StyledExampleLayout>

@@ -13,22 +13,31 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
     border-width: 0.125rem;
     border-style: solid;
     border-radius: 1.5rem;
-    display: flex;
     ${props => props.hasLabel ? "grid-area: toggle;" : "" }
     height: 1.5rem;
-    justify-content: space-between;
     padding: 0.125rem;
     width: 3rem;
-    
+
+    position: relative;
+    min-height: 1.5rem;
+    min-width: 3rem;
+    display: block;
+    transition-property: background-color, border-color;
+    transition-duration: 0.2s;
+    transition-delay: 0;
+
     svg path{
         fill: ${ ({theme}) => theme.color.textOnPrimary };
     }
 
-    &:after{
+    &:after {
         aspect-ratio: 1/1;
         border-radius: 100%;
         content: '';
         display: block;  
+        position: absolute;
+        transition: left 0.2s ease, background-color 0.2s linear;
+        z-index: 4;
     }
 
     input:disabled + & {
@@ -46,6 +55,8 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
         &:after{
             background: ${ ({theme}) => theme.color.textOnPrimary };
             height: 1rem;
+            top: 2px;
+            left: calc(100% - 1rem - 2px);
         }
     }
 
@@ -58,29 +69,34 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
         background: ${ ({theme}) => theme.color.mainBackground };
         border-color: ${ ({theme}) => theme.color.primaryPale };
     
+        &:after{
+            background: ${ ({theme}) => theme.color.primary };
+            height: 1rem;
+            left: 2px;
+        }
+    
         &:before{
             aspect-ratio: 1/1;
-            background: ${ ({theme}) => theme.color.primary };
+            background: transparent;
+            border: 0.125rem solid ${ ({theme}) => theme.color.primaryPale };
             border-radius: 100%;
             content: '';
             display: block;
-            height: 1rem;
-        }
-    
-        &:after{
-            background: transparent;
-            border: 0.125rem solid ${ ({theme}) => theme.color.primaryPale };
             height: 0.75rem;
             margin-right: 0.25rem;
             opacity: 56%;
+            position: absolute;
+            top: calc(0.25rem / 2 + 2px);
+            right: calc(2px);
+            z-index: 3;
         }
     }
 
     input:not(:checked):not(:disabled) + &:hover {
-        &:before{
+        &:after{
             background: ${ ({theme}) => theme.color.primaryHover };
         }
-        &:after{
+        &:before{
             border-color: #BBACE2;
         }
     }

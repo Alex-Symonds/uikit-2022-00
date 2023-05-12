@@ -22,7 +22,7 @@ const StyledOptionsContainer = styled.div`
     margin: 0.25rem 0 0 0;
     overflow: hidden;
     padding: 0.5rem 0 0.4375rem 0;
-    position: relative;
+    position: absolute;
     width: 100%;  
     z-index: 3;
 `;

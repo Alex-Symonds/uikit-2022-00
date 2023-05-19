@@ -4,7 +4,7 @@ import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 import { CheckboxOptionDataType } from '../form/';
 
-import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
+import ContextMenuGroup, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
 
 interface I_CheckboxProps extends I_ContextMenuFieldset{
     onChange : (id : string, checked : boolean) => void, /* ID to find the element; checked to update based on what the user can see */
@@ -13,7 +13,7 @@ interface I_CheckboxProps extends I_ContextMenuFieldset{
 
 export default function ContextCheckboxGroup({hideLegendVisually, id, legend, onChange, options} : I_CheckboxProps){
     const optionPrefix = id + "-opt";
-    return  <ContextMenuFieldset    hideLegendVisually={hideLegendVisually}
+    return  <ContextMenuGroup    hideLegendVisually={hideLegendVisually}
                                     id={id}
                                     legend={legend}
                                     >
@@ -29,7 +29,7 @@ export default function ContextCheckboxGroup({hideLegendVisually, id, legend, on
                                             />
                     })
                 }
-            </ContextMenuFieldset>
+            </ContextMenuGroup>
 }
 
 type CheckboxOptionType = CheckboxOptionDataType & {
@@ -38,6 +38,7 @@ type CheckboxOptionType = CheckboxOptionDataType & {
 }
 function ContextCheckbox({checked, id, name, displayText, onChange, htmlId} : CheckboxOptionType){
     // isHighlighted is used when custom keyboard operation is applied. This is using native HTML, so no need.
+
     return  <StyledContextOption as={"label"} isHighlighted={false}>
                 {displayText}
 

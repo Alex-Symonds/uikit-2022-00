@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 
-import ContextMenuFieldset, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
+import ContextMenuGroup, { I_ContextMenuFieldset, StyledContextOption } from './ContextMenuFieldset';
 import { RadioOptionDataType } from '../form/';
 
 interface I_RadioProps extends I_ContextMenuFieldset{
@@ -14,7 +14,7 @@ interface I_RadioProps extends I_ContextMenuFieldset{
 
 export default function ContextRadioGroup({hideLegendVisually, id, legend, name, onChange, options} : I_RadioProps){
     const optionPrefix = id + "-opt";
-    return  <ContextMenuFieldset    hideLegendVisually={hideLegendVisually}
+    return  <ContextMenuGroup    hideLegendVisually={hideLegendVisually}
                                     id={id}
                                     legend={legend}
                                     >
@@ -30,7 +30,7 @@ export default function ContextRadioGroup({hideLegendVisually, id, legend, name,
                                             />
                     })
                 }
-            </ContextMenuFieldset>
+            </ContextMenuGroup>
 }
 
 
@@ -47,7 +47,7 @@ function ContextRadio({checked, id, displayText, onChange, name : groupName, htm
                     : null
                 }
                 <StyledScreenReaderOnly     as="input"
-                                            type="radio" 
+                                            type="radio"
                                             onChange={() => onChange()} 
                                             checked={checked} 
                                             id={htmlId}

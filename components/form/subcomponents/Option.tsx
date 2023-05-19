@@ -42,7 +42,7 @@ export const StyledOption = styled.div<{isHighlighted : boolean}>`
         text-overflow: ellipsis;
     }
 
-    &:hover{
+    &:hover {
         background: ${ ({theme}) => theme.color.inputBackgroundHoverDark };
         cursor: url(${customCursorImg}), auto;
     }

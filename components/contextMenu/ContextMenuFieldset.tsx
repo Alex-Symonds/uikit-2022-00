@@ -26,6 +26,10 @@ const StyledLegend = styled.legend`
 `;
 
 export const StyledContextOption = styled(StyledOptionWithCheck)`
+    &:focus-within {
+        background: ${ ({theme}) => theme.keyboardMode ? theme.color.inputBackgroundHoverLight : "auto" };
+    }
+
     svg{
         right: 0.5rem;
     }
@@ -45,7 +49,7 @@ export default function ContextMenuFieldset({hideLegendVisually, id, legend, chi
     hideLegendVisually = hideLegendVisually ?? false;
 
     return  <StyledFieldSet id={id}>
-
+    
                 { hideLegendVisually ?
                     <StyledScreenReaderOnly as="legend">
                         {legend}
@@ -60,3 +64,5 @@ export default function ContextMenuFieldset({hideLegendVisually, id, legend, chi
 
             </StyledFieldSet>
 }
+
+

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import useCloseOnOutsideClick from '../../../utils/UseCloseOnOutsideClick';
+import { moveWithinMenu } from './moveWithinMenu';
 
 import { SelectOptionDataType, I_SelectWrapperProps } from '../';
 
@@ -115,7 +116,7 @@ export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOp
             return;
         }
 
-        moveWithinMenu({e, options, activeId, setActiveId});
+        moveWithinMenu({e, menuItems: options, activeId, setActiveId});
     }
 
     if(e.key === 'Enter' || e.key === 'Space'){
@@ -132,33 +133,3 @@ export function selectMenuKeyDown({e, options, optionsVisible, activeId, closeOp
 }
 
 
-function moveWithinMenu({e, options, activeId, setActiveId} 
-    : Pick<T_SelectMenuKeydownProps, "e" | "activeId" | "options" | "setActiveId">
-    ){
-
-    if(options === null || options === undefined){
-        return;
-    }
-
-    let newId = activeId;
-
-    if(e.key === 'ArrowUp'){
-        if(newId === null || newId <= 0 ){ /* Loop from top to bottom */
-            newId = options.length - 1;
-        }
-        else{
-            newId--;
-        }
-    }
-    
-    if(e.key === 'ArrowDown'){
-        if(newId === null || newId >= options.length - 1 ){ /* Loop from bottom to top */
-            newId = 0;
-        }
-        else{
-            newId++;
-        }
-    }
-
-    setActiveId(newId);
-}

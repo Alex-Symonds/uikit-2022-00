@@ -26,6 +26,7 @@ export const ICON_ID = {
     check: "check",
     close: "close",
     closeBig: "closeBig",
+    contextMenu: "contextMenu",
     copy: "copy",
     default: "default",
     eyeClosed: "eyeClosed",
@@ -142,6 +143,9 @@ export const IconRecords : Record<keyof typeof ICON_ID, T_AnyIconSizeComboButNot
         [ICON_SIZES.small]: CheckS,
         [ICON_SIZES.medium]: CheckM,
         [ICON_SIZES.extraLarge]: CheckXL,
+    },
+    [ICON_ID.contextMenu]: {
+        [ICON_SIZES.small]: ContextMenuS,
     },
     [ICON_ID.close]: {
         [ICON_SIZES.small]: CloseS,
@@ -424,6 +428,11 @@ function CloseL(size : string) : JSX.Element {
 function CloseBigM(size : string) : JSX.Element {
     return  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path fillRule="evenodd" clipRule="evenodd" d="M3.50256 18.0692C2.83215 18.7396 2.83215 19.8265 3.50256 20.4969C4.17296 21.1673 5.2599 21.1673 5.93031 20.4969L11.9999 14.4273L18.0699 20.4972C18.7403 21.1676 19.8272 21.1676 20.4976 20.4972C21.168 19.8268 21.168 18.7399 20.4976 18.0695L14.4277 11.9995L20.4968 5.93043C21.1672 5.26002 21.1672 4.17309 20.4968 3.50268C19.8264 2.83228 18.7395 2.83228 18.0691 3.50268L11.9999 9.57179L5.93113 3.50299C5.26072 2.83258 4.17378 2.83258 3.50338 3.50299C2.83297 4.17339 2.83297 5.26033 3.50338 5.93074L9.57219 11.9995L3.50256 18.0692Z" fill="#111111"/>
+            </svg>
+}
+function ContextMenuS(size : string) : JSX.Element {
+    return  <svg width={size} height={size} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fillRule="evenodd" clipRule="evenodd" d="M8.5 16C12.6421 16 16 12.6421 16 8.5C16 4.35786 12.6421 1 8.5 1C4.35786 1 1 4.35786 1 8.5C1 12.6421 4.35786 16 8.5 16ZM4.5 10C5.32843 10 6 9.32843 6 8.5C6 7.67157 5.32843 7 4.5 7C3.67157 7 3 7.67157 3 8.5C3 9.32843 3.67157 10 4.5 10ZM14 8.5C14 9.32843 13.3284 10 12.5 10C11.6716 10 11 9.32843 11 8.5C11 7.67157 11.6716 7 12.5 7C13.3284 7 14 7.67157 14 8.5ZM8.5 10C9.32843 10 10 9.32843 10 8.5C10 7.67157 9.32843 7 8.5 7C7.67157 7 7 7.67157 7 8.5C7 9.32843 7.67157 10 8.5 10Z" fill="#D4D4D4"/>
             </svg>
 }
 function CopyS(size : string) : JSX.Element {

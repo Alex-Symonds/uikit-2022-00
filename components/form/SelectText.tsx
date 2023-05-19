@@ -24,7 +24,7 @@ const StyledSelectedInput = styled.div`
 `;
 
 const StyledPlaceholderSpan = styled.span`
-    opacity: 48%;
+    opacity: ${ ({theme}) => theme.opacity.placeholderText };
 `;
 
 const StyledFloatingLabel = styled(StyledLabel)<{floatUp : boolean}>`

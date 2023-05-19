@@ -11,13 +11,14 @@ const StyledH = styled.div<{level : number}>`
 `;
 
 interface I_Heading{
+    className?: string,
     level?: 1 | 2 | 3 | 4 | 5 | 6,
     children : React.ReactNode,
 }
 
-export default function Heading({level, children} : I_Heading){
+export default function Heading({className, level, children} : I_Heading){
     level = level ?? 1;
-    return  <StyledH as={`h${level}`} level={level}>
+    return  <StyledH as={`h${level}`} level={level} className={className}>
                 {children}
             </StyledH>
 }

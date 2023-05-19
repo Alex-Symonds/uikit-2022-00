@@ -186,7 +186,7 @@ interface I_IslandProps{
 export default function Island({progress, subject, text, heading, description, buttonLabel, studentReq, penReq, onClick} : I_IslandProps){
     const isInProgress = progress !== undefined;
     const theme = isInProgress ? InProgressTheme : DefaultTheme;
-    
+
     if(buttonLabel === undefined){
         buttonLabel = isInProgress ? "Continue" : "Begin";
     }

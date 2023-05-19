@@ -1,8 +1,6 @@
 import React from 'react';
 import styled, {ThemeProps, ThemeProvider} from 'styled-components';
 
-// import { LAYOUT, PALETTE, SHADOW } from '../../utils/Theme';
-
 import { theme as themeObj } from '../../styles/theme';
 
 import Paragraph from '../Paragraph';

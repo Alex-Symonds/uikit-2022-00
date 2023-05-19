@@ -123,6 +123,7 @@ const IdsInFigmaOrder = {
         ICON_ID.starEmpty,
         ICON_ID.starFilled,
         ICON_ID.close,
+        ICON_ID.contextMenu,
     ],
     [ICON_SIZES.medium]: [
         ICON_ID.copy,

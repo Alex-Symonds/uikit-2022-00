@@ -226,6 +226,7 @@ const StyledTooltip = styled(StyledTooltipBase)`
 
     &:after{
         background: ${props => props.backgroundColor};
+        height: 0.3125rem;
         width: 0.75rem;
         
         ${props => props.theme.xKey}: ${ props => props.theme.pos.x.fill};

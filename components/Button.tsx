@@ -342,7 +342,7 @@ interface I_ButtonProps{
     icon?: T_IconId | T_IconProps,
     label: string,                  /* Required because screenreaders need this even if the visual design doesn't */
     loader?: boolean,
-    style?: string,
+    style?: keyof typeof ButtonThemes,
     onClick: () => void,
 }
 
@@ -355,7 +355,10 @@ export default function Button({circle, disabled, hideLabelVisually, icon : argI
         hideLabelVisually : hideLabelVisually ?? false,
     });
 
-    style = style ?? ButtonStyle.primary;
+    if(!style || !(style in ButtonThemes)){
+        style = ButtonStyle.primary;
+    }
+
     const theme : ButtonThemeProps = ButtonThemes[style as keyof typeof ButtonThemes];
 
     return  <ThemeProvider theme = { theme }>

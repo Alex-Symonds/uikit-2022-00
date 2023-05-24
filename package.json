@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token=chpt_0910e1f0bf58d57"
   },
   "dependencies": {
     "@next/font": "13.0.7",
@@ -35,8 +36,11 @@
     "@storybook/testing-library": "^0.0.13",
     "@types/styled-components": "^5.1.26",
     "babel-loader": "^8.3.0",
+    "chromatic": "^6.17.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-storybook": "^0.6.8",
     "storybook-addon-pseudo-states": "^1.15.2"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "uikit-2022-00@0.1.0"
 }

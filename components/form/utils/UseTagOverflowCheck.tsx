@@ -1,11 +1,11 @@
 import React, {useLayoutEffect} from 'react';
 import styled, {css} from 'styled-components';
 
-import { addOpacityToColor } from '../../../utils/utils';
+import { rgba } from '../../../utils/utils';
 
 export const StyledTagsContainer = styled.div.attrs(props => ({
-    thumbColor: addOpacityToColor(props.theme.color.mainText, props.theme.opacity.alphaStrong),
-    trackColor: addOpacityToColor(props.theme.color.mainText, props.theme.opacity.alphaFainter),
+    thumbColor: rgba(props.theme.color.mainText, props.theme.opacity.alphaStrong),
+    trackColor: rgba(props.theme.color.mainText, props.theme.opacity.alphaFainter),
 }))<{readOnly : boolean, maxWidth : string, isOverflowing : boolean}>`
     align-items: center;
     display: flex;

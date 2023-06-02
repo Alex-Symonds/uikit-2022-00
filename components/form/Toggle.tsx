@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { getClassName, addOpacityToColor } from '../../utils/utils';
+import { getClassName, rgba } from '../../utils/utils';
 
 import { StyledScreenReaderOnly } from '../visuallyHidden';
 import { Icon, ICON_ID, ICON_SIZES } from '../icons';
@@ -45,7 +45,7 @@ const StyledToggleSpan = styled.span<{hasLabel : boolean }>`
     }
 
     input:not(:disabled) + &:focus {
-        border-color: ${ ({theme}) => addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline) };
+        border-color: ${ ({theme}) => rgba(theme.color.focusOutline, theme.opacity.focusOutline) };
     }
 
     input:checked + & {
@@ -124,7 +124,7 @@ const StyledHeading = styled.h3`
 
 const StyledParagraph = styled(Paragraph)`
     grid-area: description;
-    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+    color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.subtleMainText) };
 `;
 
 

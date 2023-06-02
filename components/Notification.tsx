@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { theme as themeObj } from '../styles/theme';
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
@@ -168,7 +168,7 @@ function getIconSettings(type : NotificationType) : { background : string, fillC
     switch(type){
         case NotificationType.success:
             return {
-                background: addOpacityToColor(themeObj.color.success, themeObj.opacity.translucentBackground),
+                background: rgba(themeObj.color.success, themeObj.opacity.translucentBackground),
                 fillColor: themeObj.color.success,
                 iconId: ICON_ID.check,
             }

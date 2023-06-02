@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-import { addOpacityToColor } from '../../utils/utils';
+import { rgba } from '../../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 
@@ -88,7 +88,7 @@ const StyledCheckbox = styled.input<Pick<CheckboxProps, "error">>`
     }
 
     &:focus{
-        border-color: ${ ({theme}) => addOpacityToColor(theme.color.inputBorder, theme.opacity.alphaStrong) };
+        border-color: ${ ({theme}) => rgba(theme.color.inputBorder, theme.opacity.alphaStrong) };
         border-width: 0.125rem; 
 
         &:checked::before,

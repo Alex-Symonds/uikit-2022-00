@@ -9,7 +9,7 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { theme as themeObj } from '../styles/theme';
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 import { StyledScreenReaderOnly } from './visuallyHidden';
@@ -56,7 +56,7 @@ const PrimaryWhiteTheme : ButtonThemeProps = {
     mainColor: themeObj.color.primaryTextOnWhite,
     mainBackground: themeObj.color.white,
     mainBorder: 'transparent',
-    hoverBackground: addOpacityToColor(themeObj.color.white, themeObj.opacity.alphaStrongest),
+    hoverBackground: rgba(themeObj.color.white, themeObj.opacity.alphaStrongest),
     fadeOnDisabled: true,
 
     disabledBackground: themeObj.color.white
@@ -67,10 +67,10 @@ const SecondaryTheme : ButtonThemeProps = {
     mainColor: themeObj.color.primary,
     mainBackground: 'transparent',
     mainBorder: themeObj.color.primary,
-    hoverBackground: addOpacityToColor(themeObj.color.primary, themeObj.opacity.alphaFaintest),
+    hoverBackground: rgba(themeObj.color.primary, themeObj.opacity.alphaFaintest),
     fadeOnDisabled: true,
 
-    activeBackground: addOpacityToColor(themeObj.color.primary, themeObj.opacity.alphaFainter),
+    activeBackground: rgba(themeObj.color.primary, themeObj.opacity.alphaFainter),
     disabledBorder: themeObj.color.primary,
     disabledColor: themeObj.color.primary
 }
@@ -80,10 +80,10 @@ const SecondaryWhiteTheme : ButtonThemeProps = {
     mainColor: themeObj.color.white,
     mainBackground: 'transparent',
     mainBorder: themeObj.color.white,
-    hoverBackground: addOpacityToColor(themeObj.color.white, themeObj.opacity.alphaFainter),
+    hoverBackground: rgba(themeObj.color.white, themeObj.opacity.alphaFainter),
     fadeOnDisabled: true,
 
-    activeBackground: addOpacityToColor(themeObj.color.white, themeObj.opacity.alphaFaint),
+    activeBackground: rgba(themeObj.color.white, themeObj.opacity.alphaFaint),
     disabledColor: themeObj.color.white
 }
 
@@ -106,10 +106,10 @@ const SecondaryDarkTheme : ButtonThemeProps = {
     mainColor: themeObj.color.black,
     mainBackground: 'transparent',
     mainBorder: themeObj.color.black,
-    hoverBackground: addOpacityToColor(themeObj.color.black, themeObj.opacity.alphaFaintest),
+    hoverBackground: rgba(themeObj.color.black, themeObj.opacity.alphaFaintest),
     fadeOnDisabled: true,
 
-    activeBackground: addOpacityToColor(themeObj.color.black, themeObj.opacity.alphaFainter),
+    activeBackground: rgba(themeObj.color.black, themeObj.opacity.alphaFainter),
     disabledBorder: themeObj.color.black,
     disabledColor: themeObj.color.black
 }
@@ -171,7 +171,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     }
 
     &:focus {
-        box-shadow: inset 0px 0px 0px 0.125rem ${ ({theme}) => addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline) };
+        box-shadow: inset 0px 0px 0px 0.125rem ${ ({theme}) => rgba(theme.color.focusOutline, theme.opacity.focusOutline) };
     }
 
     &:not(:disabled):hover {

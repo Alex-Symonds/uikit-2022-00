@@ -2,7 +2,7 @@ import React, {useState, useEffect, useLayoutEffect, useRef } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import useCloseOnOutsideClick from '../../utils/UseCloseOnOutsideClick';
-import { convertRemToPixels, addOpacityToColor } from '../../utils/utils';
+import { convertRemToPixels, rgba } from '../../utils/utils';
 
 import {Icon, ICON_ID, ICON_SIZES} from '../icons';
 import { StyledScreenReaderOnly } from '../visuallyHidden';
@@ -54,12 +54,12 @@ const StyledContextMenuButton = styled.button.attrs((props : { pos : null | {x: 
     }
 
     &:focus {
-        outline-color: ${ ({theme}) => addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline) };
+        outline-color: ${ ({theme}) => rgba(theme.color.focusOutline, theme.opacity.focusOutline) };
     }
 
     &:hover{
         svg path {
-            fill: ${ ({theme}) => addOpacityToColor(theme.color.primary, theme.opacity.alphaStrong) };
+            fill: ${ ({theme}) => rgba(theme.color.primary, theme.opacity.alphaStrong) };
         }
     }
 `;

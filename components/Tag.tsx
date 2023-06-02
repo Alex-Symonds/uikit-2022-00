@@ -16,7 +16,7 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
     color: ${ props => props.theme.text };
     display: flex;
     gap: 0.275rem;
-    max-width: max(90vw, 100%);
+    max-width: 100%;
     padding: 0.0625rem 0.45rem;
     width: fit-content;
 

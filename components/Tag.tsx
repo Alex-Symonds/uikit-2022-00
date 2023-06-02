@@ -16,6 +16,7 @@ const StyledTag = styled.div<{ size : TagSize, disabled : boolean, hasOnClick : 
     color: ${ props => props.theme.text };
     display: flex;
     gap: 0.275rem;
+    max-width: max(90vw, 100%);
     padding: 0.0625rem 0.45rem;
     width: fit-content;
 
@@ -59,6 +60,13 @@ const StyledButton = styled.button`
     position: relative;
     top: 0rem;
     width: ${ICON_SIZES.small};
+`;
+
+const StyledTextSpan = styled.span`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - ${ICON_SIZES.small});
 `;
 
 interface TagThemeProps{
@@ -122,7 +130,9 @@ export default function Tag({colour, disabled, screenreaderLabel, size, text, re
 
     return  <ThemeProvider theme = { theme }>
                 <StyledTag size={size} disabled={disabled} hasOnClick={showRemoveButton}>
-                    {text}
+                    <StyledTextSpan>
+                        {text}
+                    </StyledTextSpan>
                     {
                         showRemoveButton ?
                             <StyledButton aria-label={screenreaderLabel} onClick={removeTag} disabled={disabled}>

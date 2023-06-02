@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 import { ICON_ID, ICON_SIZES } from './icons';
 
 import Button, { ButtonStyle } from './Button';
@@ -42,7 +42,7 @@ const StyledStoryTable = styled.table.attrs((props) => ({
     ${ props => props.theme.typography.h6 }
     font-size: 0.75rem;
     font-weight: 400;
-    color: ${ props => addOpacityToColor(props.textColor, props.textOpacity) };
+    color: ${ props => rgba(props.textColor, props.textOpacity) };
     text-align: left;
     padding: 0.375rem;
   }
@@ -174,7 +174,7 @@ SecondaryDark.parameters = {
 
 const StyledStoryTableFallbacks = styled(StyledStoryTable)`
     th, td{
-        border: 2px solid ${ ({theme}) => addOpacityToColor(theme.color.black, theme.opacity.alphaStrong) };
+        border: 2px solid ${ ({theme}) => rgba(theme.color.black, theme.opacity.alphaStrong) };
         padding: 0.375rem 0.5rem;
     }
 

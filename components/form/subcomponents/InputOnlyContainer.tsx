@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components';
 
-import { addOpacityToColor } from '../../../utils/utils';
+import { rgba } from '../../../utils/utils';
 
 import Paragraph from '../../Paragraph';
 
@@ -50,7 +50,7 @@ const StyledInputContainer = styled.div<{disabled : boolean, isError : boolean, 
 `;
 
 const StyledDescription = styled(Paragraph)`
-    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+    color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.subtleMainText) };
     margin-top: 0.5rem;
 `;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css, ThemeProvider } from 'styled-components';
 
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 import { theme as themeObj } from '../styles/theme';
 
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
@@ -82,10 +82,10 @@ interface TagThemeProps{
 
 const PrimaryTheme : TagThemeProps = {
     background: themeObj.color.primary,
-    text: addOpacityToColor(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
-    close: addOpacityToColor(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
+    text: rgba(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
+    close: rgba(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
     hoverBackground: themeObj.color.primaryHover,
-    hoverClose: addOpacityToColor(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
+    hoverClose: rgba(themeObj.color.textOnPrimary, themeObj.opacity.subtleTextOnPrimary),
     border: themeObj.color.primary,
     disabledBackground: themeObj.color.primaryDisabled
 }
@@ -93,7 +93,7 @@ const PrimaryTheme : TagThemeProps = {
 const WhiteTheme : TagThemeProps = {
     background: themeObj.color.white,
     text: themeObj.color.primaryTextOnWhite,
-    close: addOpacityToColor(themeObj.color.black, themeObj.opacity.alphaStrong),
+    close: rgba(themeObj.color.black, themeObj.opacity.alphaStrong),
     hoverBackground: themeObj.color.grayL,
     hoverClose: themeObj.color.black,
     shadow: themeObj.shadow.default,

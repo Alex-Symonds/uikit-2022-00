@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 // import { PALETTE, TYPOGRAPHY } from '../utils/Theme';
 
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 
 export const enum TAB_TYPE{
     vtSmall = "vtSmall",
@@ -13,7 +13,7 @@ export const enum TAB_TYPE{
 }
 
 const StyledHorizontalLarge = styled.li.attrs(({theme}) => ({
-    subtleMainText: addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) 
+    subtleMainText: rgba(theme.color.mainText, theme.opacity.subtleMainText) 
 }))`
     ${ ({theme}) => theme.typography.p2 }
     align-items: center;
@@ -54,18 +54,18 @@ const StyledVertical = styled.li`
     }
 
     &:hover{
-        border-color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+        border-color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.subtleMainText) };
         color: ${ ({theme}) => theme.color.mainTextPaleDark };
     }
 `;
 
 const StyledVerticalLarge = styled(StyledVertical)`
     ${ ({theme}) => theme.typography.p2 }
-    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+    color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.subtleMainText) };
     padding: 1.3125rem 0.0625rem 1.4375rem 0;
 
     &:hover{
-        border-color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+        border-color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.subtleMainText) };
     }
 `;
 

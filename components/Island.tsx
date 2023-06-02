@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { SUBJECT } from '../utils/subjects';
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES, getIconIdFromSubject } from './icons/';
 
@@ -112,7 +112,7 @@ const StyledHead = styled(Heading)`
 `;
 
 const StyledDescription = styled(Paragraph)`
-    color: ${ ({theme}) => addOpacityToColor(theme.color.textOnPrimary, theme.opacity.subtleTextOnPrimary) };
+    color: ${ ({theme}) => rgba(theme.color.textOnPrimary, theme.opacity.subtleTextOnPrimary) };
     grid-area: desc;
     height: 100%;
     overflow: hidden;
@@ -124,7 +124,7 @@ const StyledButtonContainer = styled.div`
 `;
 
 const StyledReq = styled.div.attrs( props => ({
-    textColor: addOpacityToColor(props.theme.color.textOnPrimary, props.theme.opacity.subtleTextOnPrimary),
+    textColor: rgba(props.theme.color.textOnPrimary, props.theme.opacity.subtleTextOnPrimary),
 }))`
     ${ ({theme}) => theme.typography.p2 }
     align-items: center;

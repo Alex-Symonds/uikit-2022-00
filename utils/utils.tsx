@@ -8,7 +8,7 @@ export function getClassName(styledComponent : any){
 }
 
 // Convert hex or rgb CSS values into RGBA
-export function addOpacityToColor(colorStr : string, opacity: number | string){
+export function rgba(colorStr : string, opacity: number | string){
     /* Guide for if you haven't used regex in a while:
        ---------------------------------------------------------------------------------------------------
         Hex = /^#([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/

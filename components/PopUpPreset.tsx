@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, {ThemeProvider} from 'styled-components';
 
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 import { theme as themeObj } from '../styles/theme';
 import { Icon, ICON_ID, ICON_SIZES } from './icons/';
 
@@ -42,13 +42,13 @@ const successTheme : PresetThemeType = {
 }
 
 const errorTheme : PresetThemeType = {
-    background: addOpacityToColor(themeObj.color.error, themeObj.opacity.translucentBackground),
+    background: rgba(themeObj.color.error, themeObj.opacity.translucentBackground),
     colour: themeObj.color.errorEmphasis,
     iconId: ICON_ID.false,
 }
 
 const attentionTheme : PresetThemeType = {
-    background: addOpacityToColor(themeObj.color.attention, themeObj.opacity.translucentBackground),
+    background: rgba(themeObj.color.attention, themeObj.opacity.translucentBackground),
     colour: themeObj.color.attention,
     iconId: ICON_ID.attention,
 }

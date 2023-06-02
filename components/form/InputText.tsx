@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { addOpacityToColor } from '../../utils/utils';
+import { rgba } from '../../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 
@@ -55,7 +55,7 @@ const StyledPlaceholder = styled.span`
     position: absolute;
 
     ${StyledTextInput}:focus:placeholder-shown ~ &{
-        color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.placeholderText) };
+        color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.placeholderText) };
     }
 `;
 

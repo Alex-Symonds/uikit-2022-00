@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { addOpacityToColor } from '../../utils/utils';
+import { rgba } from '../../utils/utils';
 
 import { Icon, ICON_ID, ICON_SIZES } from '../icons/';
 import Avatar, { AvatarOptions } from '../Avatar';
@@ -111,7 +111,7 @@ const StyledDivHeading = styled.div`
 `;
 
 const StyledPMessage = styled(Paragraph)<{isError : boolean}>`
-    color: ${props => props.isError ? props.theme.color.error : addOpacityToColor(props.theme.color.mainText, props.theme.opacity.subtleMainText) };
+    color: ${props => props.isError ? props.theme.color.error : rgba(props.theme.color.mainText, props.theme.opacity.subtleMainText) };
     grid-area: message;
     pointer-events: none;
 `;
@@ -130,7 +130,7 @@ const StyledProgressPerc = styled.div`
 `;
 
 const StyledSpanFileSize = styled.span`
-    color: ${ ({theme}) => addOpacityToColor(theme.color.mainText, theme.opacity.subtleMainText) };
+    color: ${ ({theme}) => rgba(theme.color.mainText, theme.opacity.subtleMainText) };
     padding: 0 0 0 0.5rem;
     pointer-events: none;
 `;

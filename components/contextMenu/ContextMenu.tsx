@@ -46,7 +46,7 @@ const StyledContextMenuButton = styled.button.attrs((props : { pos : null | {x: 
     background: ${ ({theme}) => theme.color.textOnPrimary };
     border-radius: 50%;
     min-width: ${ ICON_SIZES.small };
-    padding: 0.0625rem 0.1875rem 0.1875rem 0.0625rem;
+    padding: 0.0625rem 0.125rem 0.125rem 0.0625rem;
     position: fixed;
 
     svg path {

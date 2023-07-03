@@ -1,7 +1,7 @@
 import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs';
 
 import { theme } from './theme';
-import { addOpacityToColor } from '../utils/utils';
+import { rgba } from '../utils/utils';
 
 <Meta title="Theme"/>
 
@@ -128,7 +128,7 @@ Usage: `theme.color.` then the name in the swatch label (remember to remove and 
     title="Focus Outline" 
     subtitle="displayed with theme.opacity.focusOutline applied" 
     colors={{ 
-        focusOutline: addOpacityToColor(theme.color.focusOutline, theme.opacity.focusOutline),
+        focusOutline: rgba(theme.color.focusOutline, theme.opacity.focusOutline),
     }} 
   />
 </ColorPalette>
